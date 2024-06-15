@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import EventPage from './EventPage';
+import EventPage from './EventPage.tsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

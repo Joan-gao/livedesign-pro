@@ -46,7 +46,6 @@ function EventPage() {
             type="text"
             placeholder="Enter your text here"
             value=""
-            onChange={(e) => console.log(e.target.value)}
           />
         </div>
       </div>
