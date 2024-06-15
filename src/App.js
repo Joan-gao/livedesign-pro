@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css';
 import VideoCard from './components/VideoCard';
 import BottomNavbar from './components/BottomNavbar';
@@ -101,25 +102,34 @@ function App() {
   return (
     <div className="app">
       <div className="container">
-        <TopNavbar className="top-navbar" />
-        {/* Here we map over the videos array and create VideoCard components */}
-        {videos.map((video, index) => (
-          <VideoCard
-            key={index}
-            username={video.username}
-            description={video.description}
-            song={video.song}
-            likes={video.likes}
-            saves={video.saves}
-            comments={video.comments}
-            shares={video.shares}
-            url={video.url}
-            profilePic={video.profilePic}
-            setVideoRef={handleVideoRef(index)}
-            autoplay={index === 0}
-          />
-        ))}
-        <BottomNavbar className="bottom-navbar" />
+        {/* <BrowserRouter> */}
+          {/* <Routes> */}
+            {/* <Route index element={<Index />} /> */}
+            {/* <Route path="NewEventPage" element={<NewEventPage />} /> */}
+            {/* <Route path="EventPageGenerator" element={<EventPageGenerator />} /> */}
+            {/* <Route path="DesignPage" element={<DesignPage />} /> */}
+          {/* </Routes> */}
+        {/* </BrowserRouter> */}
+
+          <TopNavbar className="top-navbar" />
+          {/* Here we map over the videos array and create VideoCard components */}
+          {videos.map((video, index) => (
+            <VideoCard
+              key={index}
+              username={video.username}
+              description={video.description}
+              song={video.song}
+              likes={video.likes}
+              saves={video.saves}
+              comments={video.comments}
+              shares={video.shares}
+              url={video.url}
+              profilePic={video.profilePic}
+              setVideoRef={handleVideoRef(index)}
+              autoplay={index === 0}
+            />
+          ))}
+          <BottomNavbar className="bottom-navbar" />
       </div>
     </div>
   );

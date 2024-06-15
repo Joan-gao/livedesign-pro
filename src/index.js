@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import EventPage from './EventPage.tsx';
+import EventPageGenerator from './EventPageGenerator';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -10,7 +10,7 @@ root.render(
     <App />
 
     {/* Chat Page */}
-    <EventPage /> 
+    <EventPageGenerator /> 
   </React.StrictMode>
 );
 
