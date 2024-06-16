@@ -6,7 +6,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {}
 
-const ChatPage: React.FC<Props> = () => {
+const DesignPage: React.FC<Props> = () => {
   return (
     <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
       <div className="w-375 h-667 relative top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">
@@ -45,8 +45,8 @@ const ChatPage: React.FC<Props> = () => {
 
           <div className="absolute flex flex-col w-full bottom-5 gap-3">
             <div className="flex flex-row w-4/5 gap-3">
-              <button className="bg-[#FC2B55] text-white w-1/2 border-none rounded-md py-1.5 px-6">Select</button>
-              <button className="bg-[#4A2129] text-white w-1/2 border-none rounded-md py-1.5 px-6">Regenerate</button>
+              <Link to="/DesignPage" className="bg-[#FC2B55] text-white text-center w-1/2 border-none rounded-md py-1.5 px-6">Select</Link>
+              <button className="bg-[#4A2129] text-white text-center w-1/2 border-none rounded-md py-1.5 px-6">Regenerate</button>
             </div>
             <input
               className="text-white text-base text-left bg-[#4A2129] border-none rounded-md w-4/5 h-24 py-1.5 px-3"
@@ -62,4 +62,4 @@ const ChatPage: React.FC<Props> = () => {
   );
 };
 
-export default ChatPage;
+export default DesignPage;

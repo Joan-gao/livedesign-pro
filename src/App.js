@@ -4,6 +4,7 @@ import './App.css';
 import Index from './pages/Index'
 import ChatPage from './pages/ChatPage';
 import FrontPage from './pages/FrontPage';
+import DesignPage from './pages/DesignPage';
 
 // This array holds information about different videos
 function App() {
@@ -14,7 +15,7 @@ function App() {
           <Route index element={<Index />} />
           <Route path="FrontPage" element={<FrontPage />} />
           <Route path="ChatPage" element={<ChatPage />} />
-          {/* <Route path="DesignPage" element={<DesignPage />} /> */}
+          <Route path="DesignPage" element={<DesignPage />} />
         </Routes>
       </BrowserRouter>
     </div>
