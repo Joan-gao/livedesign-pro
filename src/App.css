@@ -13,8 +13,8 @@ html {
 
 .container {
   position: relative;
-  height: 667px;
-  width: 375px;
+  height: 667px !important;
+  width: 375px !important;
   border-radius: 25px;
   overflow: scroll;
   scroll-snap-type: y mandatory;

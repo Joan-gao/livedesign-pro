@@ -14,7 +14,7 @@ module.exports = {
         101: '101',
       },
       borderRadius: {
-        '25': '25%',
+        '25': '25px',
       }
     },
   },
