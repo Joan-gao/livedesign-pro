@@ -81,7 +81,7 @@ html {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  z-index: 100;
+  z-index: 2;
 }
 
 .bottom-navbar .nav-item {
