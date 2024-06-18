@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faUserFriends, faPlus, faInbox, fa7,faUser } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,10 +14,10 @@ const BottomNavbar = ({ className }) => {
           <FontAwesomeIcon icon={faUserFriends} className="icon" />
           <span className="item-name">Friends</span>
         </div>
-        <div className="nav-item">
+        <Link to="/FrontPage"><div className="nav-item">
           <FontAwesomeIcon icon={faPlus} className="icon plus" />
           <span className="item-name">Create</span>
-        </div>
+        </div></Link>
         <div className="nav-item">
           <FontAwesomeIcon icon={fa7} className="notification" />
           <FontAwesomeIcon icon={faInbox} className="icon" />
