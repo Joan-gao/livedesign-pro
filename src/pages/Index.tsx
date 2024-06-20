@@ -4,6 +4,11 @@ import VideoCard from '../components/VideoCard';
 import BottomNavbar from '../components/BottomNavbar';
 import TopNavbar from '../components/TopNavbar';
 
+import { useLocation } from "react-router-dom";
+import DesignSection from '../components/DesignSection';
+import FooterLeft from '../components/FooterLeft';
+import FooterRight from '../components/FooterRight';
+
 // Define the structure of a video object
 interface Video {
   url: string;
@@ -69,6 +74,9 @@ const Index: React.FC = () => {
   const [videos, setVideos] = useState<Video[]>([]);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
+  const location = useLocation();
+  const imageData = location.state?.image;
+
   useEffect(() => {
     setVideos(videoUrls);
   }, []);
@@ -115,6 +123,26 @@ const Index: React.FC = () => {
   return (
     <div className="container">
       <TopNavbar className="top-navbar" />
+      
+      <div className="video">
+        <div className='player'>
+          {imageData ? (
+            <DesignSection imageData={imageData} />
+          ) : null}
+        </div>
+
+        <div className="bottom-controls">
+          <div className="footer-left">
+            {/* The left part of the container */}
+            <FooterLeft username={'Test'} description={'Test'}/>
+          </div>
+          <div className="footer-right">
+            {/* The right part of the container */}
+            <FooterRight likes={0} shares={0} comments={0} saves={0} profilePic={'https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/eace3ee69abac57c39178451800db9d5~c5_100x100.jpeg?x-expires=1688479200&x-signature=wAkVmwL7lej15%2B16ypSWQOqTP8s%3D'} />
+          </div>
+        </div>
+      </div>
+
       {/* Here we map over the videos array and create VideoCard components */}
       {videos.map((video, index) => (
         <VideoCard
@@ -130,6 +158,7 @@ const Index: React.FC = () => {
           profilePic={video.profilePic}
           setVideoRef={handleVideoRef(index)}
           autoplay={index === 0}
+          imageData={imageData}
         />
       ))}
       <BottomNavbar className="bottom-navbar" />
