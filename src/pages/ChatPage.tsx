@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {}
 
@@ -12,7 +12,7 @@ const DesignPage: React.FC<Props> = () => {
       <div className="w-375 h-667 relative top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">
         <div className="sticky top-0 left-0 w-full h-12 flex justify-around items-center">
           <div className='absolute w-4/5 top-0 h-12 flex items-center z-10 m-auto'>
-            <Link to="/"><FontAwesomeIcon icon={faTimes} className='text-base text-white cursor-pointer'/></Link>
+            <Link to="/FrontPage"><FontAwesomeIcon icon={faArrowLeft} className='text-base text-white cursor-pointer'/></Link>
           </div>
           <h2 className='text-sm font-medium text-white text-shadow px-10 py-0'>Event Page Generator</h2>
         </div>
