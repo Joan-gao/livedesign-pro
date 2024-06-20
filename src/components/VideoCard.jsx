@@ -4,7 +4,7 @@ import FooterRight from './FooterRight';
 import './VideoCard.css';
 
 const VideoCard = (props) => {
-  const { url, username, description, song, likes, shares, comments, saves, profilePic, setVideoRef, autoplay } = props;
+  const { url, username, description, song, likes, shares, comments, saves, profilePic, setVideoRef, autoplay , imageData } = props;
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const VideoCard = (props) => {
   };
 
   return (
-    <div className="video">
+    <div className="video">  
       {/* The video element */}
       <video
         className="player"

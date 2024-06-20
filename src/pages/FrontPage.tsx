@@ -85,8 +85,6 @@ const FrontPage: React.FC<Props> = () => {
               <p className="text-white text-center">Choose Generate</p>
             </Link>
           </div>
-
-          {/* <button className="absolute bottom-5 bg-[#FC2B55] text-white w-4/5 border-none rounded-md py-1.5 px-6">Select</button> */}
         </div>
       </div>
     </div>

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link, useLocation } from "react-router-dom";
-
+import { Link, useLocation , useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
+import DesignSection from '../components/DesignSection';
 
 interface Props {}
 
@@ -13,29 +14,38 @@ const DesignPage: React.FC<Props> = () => {
   const FilterIcon = <svg width="22" height="23" viewBox="0 0 22 23" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M17.0231 12.0994L12.1847 10.3181L10.4034 5.47594C10.1874 4.88898 9.62827 4.499 9.00281 4.499C8.37736 4.499 7.81824 4.88898 7.60219 5.47594L5.81906 10.3125L0.976875 12.0938C0.389921 12.3098 -6.13928e-05 12.8689 -6.13928e-05 13.4944C-6.13928e-05 14.1198 0.389921 14.6789 0.976875 14.895L5.8125 16.6875L7.59375 21.5269C7.8098 22.1138 8.36892 22.5038 8.99438 22.5038C9.61983 22.5038 10.1789 22.1138 10.395 21.5269L12.1763 16.6884L17.0184 14.9072C17.6054 14.6911 17.9954 14.132 17.9954 13.5066C17.9954 12.8811 17.6054 12.322 17.0184 12.1059L17.0231 12.0994ZM11.6616 15.2812C11.2513 15.4318 10.9281 15.7551 10.7775 16.1653L8.99625 20.9897L7.21875 16.1616C7.06809 15.7536 6.74644 15.4319 6.33844 15.2812V15.2812L1.51406 13.5L6.33844 11.7188C6.74644 11.5681 7.06809 11.2464 7.21875 10.8384L9 6.01406L10.7812 10.8384C10.9318 11.2487 11.2551 11.5719 11.6653 11.7225L16.4897 13.5037L11.6616 15.2812ZM12 3.75C12 3.33579 12.3358 3 12.75 3H14.25V1.5C14.25 1.08579 14.5858 0.75 15 0.75C15.4142 0.75 15.75 1.08579 15.75 1.5V3H17.25C17.6642 3 18 3.33579 18 3.75C18 4.16421 17.6642 4.5 17.25 4.5H15.75V6C15.75 6.41421 15.4142 6.75 15 6.75C14.5858 6.75 14.25 6.41421 14.25 6V4.5H12.75C12.3358 4.5 12 4.16421 12 3.75V3.75ZM21.75 8.25C21.75 8.66421 21.4142 9 21 9H20.25V9.75C20.25 10.1642 19.9142 10.5 19.5 10.5C19.0858 10.5 18.75 10.1642 18.75 9.75V9H18C17.5858 9 17.25 8.66421 17.25 8.25C17.25 7.83579 17.5858 7.5 18 7.5H18.75V6.75C18.75 6.33579 19.0858 6 19.5 6C19.9142 6 20.25 6.33579 20.25 6.75V7.5H21C21.4142 7.5 21.75 7.83579 21.75 8.25V8.25Z" fill="white"/></svg>
   const MoreIcon = <svg width="22" height="6" viewBox="0 0 22 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.1666 0C9.50977 0 8.16663 1.34315 8.16663 3C8.16663 4.65685 9.50977 6 11.1666 6C12.8235 6 14.1666 4.65685 14.1666 3C14.1666 1.34315 12.8235 0 11.1666 0V0ZM11.1666 4.5C10.3382 4.5 9.66663 3.82843 9.66663 3C9.66663 2.17157 10.3382 1.5 11.1666 1.5C11.9951 1.5 12.6666 2.17157 12.6666 3C12.6666 3.82843 11.9951 4.5 11.1666 4.5V4.5ZM3.66663 0C2.00977 0 0.666626 1.34315 0.666626 3C0.666626 4.65685 2.00977 6 3.66663 6C5.32348 6 6.66663 4.65685 6.66663 3C6.66663 1.34315 5.32348 0 3.66663 0V0ZM3.66663 4.5C2.8382 4.5 2.16663 3.82843 2.16663 3C2.16663 2.17157 2.8382 1.5 3.66663 1.5C4.49505 1.5 5.16663 2.17157 5.16663 3C5.16663 3.82843 4.49505 4.5 3.66663 4.5V4.5ZM18.6666 0C17.0098 0 15.6666 1.34315 15.6666 3C15.6666 4.65685 17.0098 6 18.6666 6C20.3235 6 21.6666 4.65685 21.6666 3C21.6666 1.34315 20.3235 0 18.6666 0V0ZM18.6666 4.5C17.8382 4.5 17.1666 3.82843 17.1666 3C17.1666 2.17157 17.8382 1.5 18.6666 1.5C19.4951 1.5 20.1666 2.17157 20.1666 3C20.1666 3.82843 19.4951 4.5 18.6666 4.5V4.5Z" fill="white"/></svg>
 
+  const navigate = useNavigate();
   const location = useLocation();
   const imageData = location.state?.image;
+
+  const handlePublish = () => {
+    if (imageData) {
+      navigate('/', { state: { image: imageData } });
+    } else {
+      alert('No image to publish.');
+    }
+  }
 
   return (
     <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
       <div className="w-375 h-667 relative top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">
         <div className="z-20 sticky top-0 left-0 w-full h-12 flex justify-around items-center">
-          <div className='flex flex-row w-4/5 justify-between items-center'>
-            <Link to="/ChatPage"><FontAwesomeIcon icon={faArrowLeft} className='text-base text-white cursor-pointer'/></Link>
-            {TextIcon}
-            {StickerIcon}
-            {AudioIcon}
-            {FilterIcon}
-            {MoreIcon}
+          <div className="flex flex-row w-4/5 justify-between items-center">
+            <Link to="/ChatPage"><FontAwesomeIcon icon={faArrowLeft} className="text-base text-white cursor-pointer"/></Link>
+            <button>{TextIcon}</button>
+            <button>{StickerIcon}</button>
+            <button>{AudioIcon}</button>
+            <button>{FilterIcon}</button>
+            <button>{MoreIcon}</button>
           </div>
         </div>
         
         {/* Include Image For Posting Below */}
-        <div className='w-full h-5/6 z-10'>
-          <img src={imageData} alt="Design Background" className="w-full h-full object-cover" />
-        </div>
+        {imageData ? (
+          <DesignSection imageData={imageData} />
+        ) : null}
 
-        <button className="z-20 absolute bottom-5 bg-[#FC2B55] text-white w-4/5 border-none rounded-md py-1.5 px-6">Publish</button>
+        <button onClick={handlePublish} className="z-20 absolute bottom-5 bg-[#FC2B55] text-white w-4/5 border-none rounded-md py-1.5 px-6">Publish</button>
       </div>
     </div>
   );
