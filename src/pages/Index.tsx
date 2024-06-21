@@ -127,9 +127,7 @@ const Index: React.FC = () => {
       {imageData ? (
         <div className="video">
           <div className='player'>
-            
-              <DesignSection imageData={imageData} />
-            
+              <DesignSection imageData={imageData} />           
           </div>
 
           <div className="bottom-controls">

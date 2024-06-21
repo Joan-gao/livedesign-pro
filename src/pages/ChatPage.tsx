@@ -14,10 +14,17 @@ const DesignPage: React.FC<Props> = () => {
 
   const handleEdit = (imageId: string) => {
     const imgElement = document.getElementById(imageId) as HTMLImageElement;
+    const userPrompt = document.getElementById("UserPrompt");
+
+    if (userPrompt) {
+      userPrompt.style.width = "100%";
+    }
+
     if (imgElement) {
       setPreviewImage(imgElement.src);
       setIsPreviewVisible(true);
     }
+    
   };
 
   const handleClosePreview = () => {
@@ -107,28 +114,33 @@ const DesignPage: React.FC<Props> = () => {
                 Regenerate
               </button>
             </div>
-            <textarea
-              className="text-white text-sm text-left bg-[#4A2129] border-none rounded-md w-4/5 h-24 py-1.5 px-3"
-              placeholder="Enter your text here"
-              value={inputValue}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                setInputValue(e.target.value)
-              }
-            />
-
-            {isPreviewVisible && (
-              <div className="absolute bottom-4 left-0 w-1/5 h-1/5 flex items-center justify-center bg-opacity-75">
-                <div className="relative rounded-lg p-4">
-                  <button
-                    className="absolute top-2 left-4 text-gray-500"
-                    onClick={handleClosePreview}
-                  >
-                    <FontAwesomeIcon icon={faTimes} />
-                  </button>
-                  <img src={previewImage!} alt="Preview" className="max-w-full max-h-full rounded-md" />
+            <div className='flex flex-row w-4/5 gap-3 items-center'>              
+              {/* User Prompt box */}
+              <textarea
+                id='UserPrompt'
+                className="text-white text-sm text-left bg-[#4A2129] border-none rounded-md w-full h-24 py-1.5 px-3"
+                placeholder="Enter your text here"
+                value={inputValue}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setInputValue(e.target.value)
+                }
+              />
+              
+              {/* Preview of Selected Image */}
+              {isPreviewVisible && (
+                <div className="w-2/5 h-2/5 flex items-center justify-center bg-opacity-75">
+                  <div className="flex relative rounded-lg">
+                    <button
+                      className="absolute top-[-6px] right-[6px] text-gray-500 z-20 bg-white rounded-sm rotate-90"
+                      onClick={handleClosePreview}
+                    >
+                      <FontAwesomeIcon icon={faTimes} />
+                    </button>
+                    <img src={previewImage!} alt="Preview" className="max-w-full max-h-full rounded-md z-10" />
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
