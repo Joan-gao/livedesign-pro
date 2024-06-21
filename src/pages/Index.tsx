@@ -124,24 +124,26 @@ const Index: React.FC = () => {
     <div className="container">
       <TopNavbar className="top-navbar" />
       
-      <div className="video">
-        <div className='player'>
-          {imageData ? (
-            <DesignSection imageData={imageData} />
-          ) : null}
-        </div>
+      {imageData ? (
+        <div className="video">
+          <div className='player'>
+            
+              <DesignSection imageData={imageData} />
+            
+          </div>
 
-        <div className="bottom-controls">
-          <div className="footer-left">
-            {/* The left part of the container */}
-            <FooterLeft username={'Test'} description={'Test'}/>
-          </div>
-          <div className="footer-right">
-            {/* The right part of the container */}
-            <FooterRight likes={0} shares={0} comments={0} saves={0} profilePic={'https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/eace3ee69abac57c39178451800db9d5~c5_100x100.jpeg?x-expires=1688479200&x-signature=wAkVmwL7lej15%2B16ypSWQOqTP8s%3D'} />
+          <div className="bottom-controls">
+            <div className="footer-left">
+              {/* The left part of the container */}
+              <FooterLeft username={'Test'} description={'Test'}/>
+            </div>
+            <div className="footer-right">
+              {/* The right part of the container */}
+              <FooterRight likes={0} shares={0} comments={0} saves={0} profilePic={'https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/eace3ee69abac57c39178451800db9d5~c5_100x100.jpeg?x-expires=1688479200&x-signature=wAkVmwL7lej15%2B16ypSWQOqTP8s%3D'} />
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
 
       {/* Here we map over the videos array and create VideoCard components */}
       {videos.map((video, index) => (
