@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faTimes} from '@fortawesome/free-solid-svg-icons';
@@ -11,13 +11,17 @@ const DesignPage: React.FC<Props> = () => {
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const placeholderIMG = "https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/AUDbh5NsUMK82HcC6F60.jpg";
+  const navigate = useNavigate();
 
+  // Show Image Preview and Enable 'Select' Button 
   const handleEdit = (imageId: string) => {
     const imgElement = document.getElementById(imageId) as HTMLImageElement;
-    const userPrompt = document.getElementById("UserPrompt");
+    const selectDesign = document.getElementById("selectDesign");
 
-    if (userPrompt) {
-      userPrompt.style.width = "100%";
+    if (selectDesign) {
+      selectDesign.style.opacity = "1";
+      selectDesign.style.cursor = "pointer";
+      selectDesign.setAttribute('aria-disabled', 'false');
     }
 
     if (imgElement) {
@@ -27,14 +31,30 @@ const DesignPage: React.FC<Props> = () => {
     
   };
 
+  // Closing Preview and Disabling 'Select' Button
   const handleClosePreview = () => {
     setIsPreviewVisible(false);
     setPreviewImage(null);
+    const selectDesign = document.getElementById("selectDesign");
+
+    if (selectDesign) {
+      selectDesign.style.opacity = "0.6";
+      selectDesign.style.cursor = "default";
+      selectDesign.setAttribute('aria-disabled', 'true');
+    }
+  };
+
+  // Bring Selected Images to the Final Design Page
+  const handleSelectDesign = () => {
+    if (previewImage) {
+      navigate('/DesignPage', { state: { image: previewImage } });
+    }
   };
 
   return (
     <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
       <div className="w-375 h-667 relative top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">
+        {/* Navigation to previous page and Page Title */}
         <div className="sticky top-0 left-0 w-full h-12 flex justify-around items-center">
           <div className="absolute w-4/5 top-0 h-12 flex items-center z-10 m-auto">
             <Link to="/FrontPage">
@@ -59,7 +79,7 @@ const DesignPage: React.FC<Props> = () => {
             </p>
           </div>
 
-          {/* Ai Design Output */}
+          {/* Ai Design Output (4 designs) */}
           <div className="grid grid-cols-2 gap-3 mt-3.5">
             <div className="relative bg-[#4A2129] h-32 rounded-xl overflow-hidden">
               <img id='Design1' className="w-full h-full overflow-hidden" src={placeholderIMG} alt='Generated Design'></img>
@@ -102,14 +122,19 @@ const DesignPage: React.FC<Props> = () => {
             </div>
           </div>
 
+          {/* User Interaction Section */}
           <div className="absolute flex flex-col w-full bottom-5 gap-3">
             <div className="flex flex-row w-4/5 gap-3">
-              <Link
-                to="/DesignPage"
-                className="bg-[#FC2B55] text-white text-center w-1/2 border-none rounded-md py-1.5 px-6"
+              {/* Select and Regenerate Buttons */}
+              <button
+                id='selectDesign'
+                onClick={handleSelectDesign}
+                className="bg-[#FC2B55] text-white text-center w-1/2 border-none rounded-md py-1.5 px-6 opacity-60 cursor-default"
+                aria-disabled="true"
               >
                 Select
-              </Link>
+              </button>
+
               <button className="bg-[#4A2129] text-white text-center w-1/2 border-none rounded-md py-1.5 px-6">
                 Regenerate
               </button>
@@ -117,7 +142,7 @@ const DesignPage: React.FC<Props> = () => {
             <div className='flex flex-row w-4/5 gap-3 items-center'>              
               {/* User Prompt box */}
               <textarea
-                id='UserPrompt'
+                id='userPrompt'
                 className="text-white text-sm text-left bg-[#4A2129] border-none rounded-md w-full h-24 py-1.5 px-3"
                 placeholder="Enter your text here"
                 value={inputValue}
@@ -136,7 +161,7 @@ const DesignPage: React.FC<Props> = () => {
                     >
                       <FontAwesomeIcon icon={faTimes} />
                     </button>
-                    <img src={previewImage!} alt="Preview" className="max-w-full max-h-full rounded-md z-10" />
+                    <img id='previewImage' src={previewImage!} alt="Preview" className="max-w-full max-h-full rounded-md z-10" />
                   </div>
                 </div>
               )}
