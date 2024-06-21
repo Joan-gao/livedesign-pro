@@ -2,12 +2,28 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faTimes} from '@fortawesome/free-solid-svg-icons';
 
 interface Props {}
 
 const DesignPage: React.FC<Props> = () => {
   const [inputValue, setInputValue] = useState('');
+  const [isPreviewVisible, setIsPreviewVisible] = useState(false);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const placeholderIMG = "https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/AUDbh5NsUMK82HcC6F60.jpg";
+
+  const handleEdit = (imageId: string) => {
+    const imgElement = document.getElementById(imageId) as HTMLImageElement;
+    if (imgElement) {
+      setPreviewImage(imgElement.src);
+      setIsPreviewVisible(true);
+    }
+  };
+
+  const handleClosePreview = () => {
+    setIsPreviewVisible(false);
+    setPreviewImage(null);
+  };
 
   return (
     <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
@@ -38,26 +54,42 @@ const DesignPage: React.FC<Props> = () => {
 
           {/* Ai Design Output */}
           <div className="grid grid-cols-2 gap-3 mt-3.5">
-            <div className="relative bg-[#4A2129] h-32 rounded-xl">
-              <button className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5">
+            <div className="relative bg-[#4A2129] h-32 rounded-xl overflow-hidden">
+              <img id='Design1' className="w-full h-full overflow-hidden" src={placeholderIMG} alt='Generated Design'></img>
+              <button 
+                className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
+                onClick={() => handleEdit("Design1")}
+              >
                 Edit
               </button>
             </div>
 
-            <div className="relative bg-[#4A2129] h-32 rounded-xl">
-              <button className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5">
+            <div className="relative bg-[#4A2129] h-32 rounded-xl overflow-hidden">
+              <img id='Design2' className="w-full h-full overflow-hidden" src={placeholderIMG} alt='Generated Design'></img>
+              <button 
+                className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
+                onClick={() => handleEdit("Design2")}
+              >
                 Edit
               </button>
             </div>
 
-            <div className="relative bg-[#4A2129] h-32 rounded-xl">
-              <button className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5">
+            <div className="relative bg-[#4A2129] h-32 rounded-xl overflow-hidden">
+              <img id='Design3' className="w-full h-full overflow-hidden" src={placeholderIMG} alt='Generated Design'></img>
+              <button 
+                className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
+                onClick={() => handleEdit("Design3")}
+              >
                 Edit
               </button>
             </div>
 
-            <div className="relative bg-[#4A2129] h-32 rounded-xl">
-              <button className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5">
+            <div className="relative bg-[#4A2129] h-32 rounded-xl overflow-hidden">
+              <img id='Design4' className="w-full h-full overflow-hidden" src={placeholderIMG} alt='Generated Design'></img>
+              <button 
+                className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
+                onClick={() => handleEdit("Design4")}
+              >
                 Edit
               </button>
             </div>
@@ -83,6 +115,20 @@ const DesignPage: React.FC<Props> = () => {
                 setInputValue(e.target.value)
               }
             />
+
+            {isPreviewVisible && (
+              <div className="absolute bottom-4 left-0 w-1/5 h-1/5 flex items-center justify-center bg-opacity-75">
+                <div className="relative rounded-lg p-4">
+                  <button
+                    className="absolute top-2 left-4 text-gray-500"
+                    onClick={handleClosePreview}
+                  >
+                    <FontAwesomeIcon icon={faTimes} />
+                  </button>
+                  <img src={previewImage!} alt="Preview" className="max-w-full max-h-full rounded-md" />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
