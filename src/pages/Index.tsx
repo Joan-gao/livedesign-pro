@@ -5,7 +5,7 @@ import BottomNavbar from '../components/BottomNavbar';
 import TopNavbar from '../components/TopNavbar';
 
 import { useLocation } from "react-router-dom";
-import DesignSection from '../components/DesignSection';
+import DesignSection from '../components/DesignPage/DesignSection';
 import FooterLeft from '../components/FooterLeft';
 import FooterRight from '../components/FooterRight';
 
@@ -76,6 +76,7 @@ const Index: React.FC = () => {
 
   const location = useLocation();
   const imageData = location.state?.image;
+  const audio = location.state?.audio;
 
   useEffect(() => {
     setVideos(videoUrls);
@@ -133,7 +134,7 @@ const Index: React.FC = () => {
           <div className="bottom-controls">
             <div className="footer-left">
               {/* The left part of the container */}
-              <FooterLeft username={'Test'} description={'Test'}/>
+              <FooterLeft username={'Test'} description={'Test'} song={audio}/>
             </div>
             <div className="footer-right">
               {/* The right part of the container */}

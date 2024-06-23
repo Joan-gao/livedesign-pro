@@ -10,7 +10,11 @@ const DesignPage: React.FC<Props> = () => {
   const [inputValue, setInputValue] = useState('');
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const placeholderIMG = "https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/AUDbh5NsUMK82HcC6F60.jpg";
+  const placeholderIMG1 = "https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/5lVaoQAxDn9e55u7qNF5.jpg";
+  const placeholderIMG2 = "https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/oXqKXlvxZSqV9ivfWZ21.jpg";
+  const placeholderIMG3 = "https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/u8LhInJHbwuu5DntvP5Z.jpg";
+  const placeholderIMG4 = "https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/AUDbh5NsUMK82HcC6F60.jpg";
+
   const navigate = useNavigate();
 
   // Show Image Preview and Enable 'Select' Button 
@@ -82,7 +86,7 @@ const DesignPage: React.FC<Props> = () => {
           {/* Ai Design Output (4 designs) */}
           <div className="grid grid-cols-2 gap-3 mt-3.5">
             <div className="relative bg-[#4A2129] h-32 rounded-xl overflow-hidden">
-              <img id='Design1' className="w-full h-full overflow-hidden" src={placeholderIMG} alt='Generated Design'></img>
+              <img id='Design1' className="w-full h-full overflow-hidden" src={placeholderIMG1} alt='Generated Design'></img>
               <button 
                 className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
                 onClick={() => handleEdit("Design1")}
@@ -92,7 +96,7 @@ const DesignPage: React.FC<Props> = () => {
             </div>
 
             <div className="relative bg-[#4A2129] h-32 rounded-xl overflow-hidden">
-              <img id='Design2' className="w-full h-full overflow-hidden" src={placeholderIMG} alt='Generated Design'></img>
+              <img id='Design2' className="w-full h-full overflow-hidden" src={placeholderIMG2} alt='Generated Design'></img>
               <button 
                 className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
                 onClick={() => handleEdit("Design2")}
@@ -102,7 +106,7 @@ const DesignPage: React.FC<Props> = () => {
             </div>
 
             <div className="relative bg-[#4A2129] h-32 rounded-xl overflow-hidden">
-              <img id='Design3' className="w-full h-full overflow-hidden" src={placeholderIMG} alt='Generated Design'></img>
+              <img id='Design3' className="w-full h-full overflow-hidden" src={placeholderIMG3} alt='Generated Design'></img>
               <button 
                 className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
                 onClick={() => handleEdit("Design3")}
@@ -112,7 +116,7 @@ const DesignPage: React.FC<Props> = () => {
             </div>
 
             <div className="relative bg-[#4A2129] h-32 rounded-xl overflow-hidden">
-              <img id='Design4' className="w-full h-full overflow-hidden" src={placeholderIMG} alt='Generated Design'></img>
+              <img id='Design4' className="w-full h-full overflow-hidden" src={placeholderIMG4} alt='Generated Design'></img>
               <button 
                 className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
                 onClick={() => handleEdit("Design4")}

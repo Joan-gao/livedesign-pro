@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation , useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft , faTimes } from '@fortawesome/free-solid-svg-icons';
 
-import DesignSection from '../components/DesignSection';
+import DesignSection from '../components/DesignPage/DesignSection';
+import EmojiPicker from 'react-emoji-picker'; // Import react-emoji-picker
 
 interface Props {}
 
@@ -18,13 +19,43 @@ const DesignPage: React.FC<Props> = () => {
   const location = useLocation();
   const imageData = location.state?.image;
 
+  const [inputValue, setInputValue] = useState('');
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [selectedEmoji, setSelectedEmoji] = useState('');
+
+  const [isAudioPopupVisible, setAudioPopupVisible] = useState(false); // State for popup visibility
+  const [InputAudio, setInputAudio] = useState('');
+
   const handlePublish = () => {
     if (imageData) {
-      navigate('/', { state: { image: imageData } });
+      navigate('/', { state: { image: imageData, audio: InputAudio} });
     } else {
       alert('No image to publish.');
     }
   }
+
+  const handleEmojiClick = (emoji: string) => {
+    setSelectedEmoji(emoji);
+    setShowEmojiPicker(false); // Close emoji picker after selecting
+  };
+
+  const handleAddAudio = (audio: string) => {
+    setInputAudio(audio);
+    ToggleAudioPopup();
+  };
+
+  const ToggleAudioPopup = () => {
+    const popupDiv = document.getElementById('popup');
+    setAudioPopupVisible(!isAudioPopupVisible);
+    
+    if (popupDiv) {
+      if (popupDiv.style.display === 'none' || popupDiv.style.display === '') {
+        popupDiv.style.display = 'block';
+      } else {
+        popupDiv.style.display = 'none';
+      }
+    }
+  };
 
   return (
     <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
@@ -33,19 +64,59 @@ const DesignPage: React.FC<Props> = () => {
           <div className="flex flex-row w-4/5 justify-between items-center">
             <Link to="/ChatPage"><FontAwesomeIcon icon={faArrowLeft} className="text-base text-white cursor-pointer"/></Link>
             <button>{TextIcon}</button>
-            <button>{StickerIcon}</button>
-            <button>{AudioIcon}</button>
+            <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>{StickerIcon}</button>
+            <button onClick={() => ToggleAudioPopup()}>{AudioIcon}</button>
             <button>{FilterIcon}</button>
             <button>{MoreIcon}</button>
           </div>
         </div>
+
+          {/* Render emoji picker */}
+          {showEmojiPicker && (
+          <div className="absolute w-full h-4/5 bottom-0">
+            <EmojiPicker onSelect={handleEmojiClick} />
+          </div>
+        )}
         
         {/* Include Image For Posting Below */}
         {imageData ? (
           <DesignSection imageData={imageData} />
         ) : null}
 
-        <button onClick={handlePublish} className="z-20 absolute bottom-5 bg-[#FC2B55] text-white w-4/5 border-none rounded-md py-1.5 px-6">Publish</button>
+
+        <div id="popup" className="hidden absolute w-375 h-667 rounded-[25px] z-20">
+          <div className="hidden absolute w-375 h-667 rounded-[25px] bg-black opacity-40"></div>
+    
+          <div className="absolute bottom-0 w-full h-2/5 rounded-b-[25px] bg-[#240F14] opacity-100 z-40">
+            <button onClick={ToggleAudioPopup} className='absolute top-0 right-0 p-2 text-white'>
+              <FontAwesomeIcon icon={faTimes} size="lg" />
+            </button>
+
+            {/* Popups */}
+            {isAudioPopupVisible && (
+              // User Prompt box
+              <div className='flex flex-col gap-5 w-full h-full place-items-center justify-center  place-content-center items-center'>
+                <textarea
+                  id='userPrompt'
+                  className="text-white text-sm text-left bg-[#4A2129] border-none rounded-md w-4/5 h-20 py-1.5 px-3 resize-none"
+                  placeholder="Enter your Audio Name - Audio Artist"
+                  value={inputValue}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                    setInputValue(e.target.value)
+                  }
+                />
+                <button 
+                  onClick={() => handleAddAudio(inputValue)}
+                  className="z-10 bottom-5 bg-[#FC2B55] text-white w-4/5 border-none rounded-md py-1.5 px-6">
+                  Add Audio
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+        
+
+        <button onClick={handlePublish} className="z-10 absolute bottom-5 bg-[#FC2B55] text-white w-4/5 border-none rounded-md py-1.5 px-6">Publish</button>
       </div>
     </div>
   );
