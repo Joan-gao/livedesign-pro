@@ -57,26 +57,27 @@ def dellGenerate(prompt):
 
 
 def dellEdit(imageUrl, prompt):
-    ssl._create_default_https_context = ssl._create_unverified_context
-    urllib.request.urlretrieve(imageUrl, "edited-image.png")
-    input_image_path = "edited-image.png"
-    image = Image.open(input_image_path)
-    rgba_image = image.convert("RGBA")
-    output_image_path = "output_rgba.png"
-    rgba_image.save(output_image_path)
+    default_img = "https://www.adorama.com/alc/wp-content/uploads/2017/11/shutterstock_114802408-825x465.jpg"
+    # ssl._create_default_https_context = ssl._create_unverified_context
+    # urllib.request.urlretrieve(imageUrl, "edited-image.png")
+    # input_image_path = "edited-image.png"
+    # image = Image.open(input_image_path)
+    # rgba_image = image.convert("RGBA")
+    # output_image_path = "output_rgba.png"
+    # rgba_image.save(output_image_path)
 
-    client = OpenAI(api_key=openapi_key)
+    # client = OpenAI(api_key=openapi_key)
     try:
 
-        imageResponse = client.images.edit(
-            model="dall-e-2",
-            image=open(output_image_path, "rb"),
-            prompt=prompt,
-            n=1,
-            size="256x256"
-        )
-
-        response["images"] = imageResponse.data[0].url
+        # imageResponse = client.images.edit(
+        #     model="dall-e-2",
+        #     image=open(output_image_path, "rb"),
+        #     prompt=prompt,
+        #     n=1,
+        #     size="256x256"
+        # )
+        response["images"] = default_img
+        # response["images"] = imageResponse.data[0].url
     except:
         response["error"] = "Generation failed"
     finally:

@@ -74,13 +74,13 @@ const DesignPage: React.FC<Props> = () => {
         if (data.response.images) {
           setBotMessage("Selected Image is re-generated");
           if (previewImage!.id == "Design1") {
-            setPlaceholderIMG1(data.response.images[0]);
+            setPlaceholderIMG1(data.response.images);
           } else if (previewImage!.id == "Design2") {
-            setPlaceholderIMG2(data.response.images[0]);
+            setPlaceholderIMG2(data.response.images);
           } else if (previewImage!.id == "Design3") {
-            setPlaceholderIMG3(data.response.images[0]);
+            setPlaceholderIMG3(data.response.images);
           } else {
-            setPlaceholderIMG4(data.response.images[0]);
+            setPlaceholderIMG4(data.response.images);
           }
         } else {
           setBotMessage(data.response.error);
