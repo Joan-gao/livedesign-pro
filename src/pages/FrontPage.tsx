@@ -15,7 +15,9 @@ const FrontPage: React.FC<Props> = () => {
     if (file) {
       const fileName = file.name.toLowerCase();
       const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff'];
-      const isValidFile = validExtensions.some(ext => fileName.endsWith(`.${ext}`));
+      const isValidFile = validExtensions.some((ext) =>
+        fileName.endsWith(`.${ext}`)
+      );
 
       if (isValidFile) {
         setSelectedFile(file);
@@ -25,7 +27,9 @@ const FrontPage: React.FC<Props> = () => {
         };
         reader.readAsDataURL(file);
       } else {
-        alert('Please upload a valid image file (jpg, jpeg, png, gif, bmp, tiff).');
+        alert(
+          'Please upload a valid image file (jpg, jpeg, png, gif, bmp, tiff).'
+        );
       }
     }
   };
@@ -62,10 +66,9 @@ const FrontPage: React.FC<Props> = () => {
           {/* Ai Text Responses */}
           <h2 className="text-white">How do you want to create this?</h2>
           <div className="text-white text-base text-center bg-[#4A2129] border-none rounded-xl h-fit px-3 py-3">
-            <button
-              className="cursor-pointer"
-              onClick={handleChooseExisting}
-            >Choose Existing</button>
+            <button className="cursor-pointer" onClick={handleChooseExisting}>
+              Choose Existing
+            </button>
 
             <input
               type="file"
