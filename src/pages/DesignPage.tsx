@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft , faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import DesignSection from '../components/DesignPage/DesignSection';
-import EmojiPicker from 'react-emoji-picker'; // Import react-emoji-picker
 
 interface Props {}
 
@@ -20,8 +19,6 @@ const DesignPage: React.FC<Props> = () => {
   const imageData = location.state?.image;
 
   const [inputValue, setInputValue] = useState('');
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [selectedEmoji, setSelectedEmoji] = useState('');
 
   const [isAudioPopupVisible, setAudioPopupVisible] = useState(false); // State for popup visibility
   const [InputAudio, setInputAudio] = useState('');
@@ -33,11 +30,6 @@ const DesignPage: React.FC<Props> = () => {
       alert('No image to publish.');
     }
   }
-
-  const handleEmojiClick = (emoji: string) => {
-    setSelectedEmoji(emoji);
-    setShowEmojiPicker(false); // Close emoji picker after selecting
-  };
 
   const handleAddAudio = (audio: string) => {
     setInputAudio(audio);
@@ -64,20 +56,13 @@ const DesignPage: React.FC<Props> = () => {
           <div className="flex flex-row w-4/5 justify-between items-center">
             <Link to="/ChatPage"><FontAwesomeIcon icon={faArrowLeft} className="text-base text-white cursor-pointer"/></Link>
             <button>{TextIcon}</button>
-            <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>{StickerIcon}</button>
+            <button>{StickerIcon}</button>
             <button onClick={() => ToggleAudioPopup()}>{AudioIcon}</button>
             <button>{FilterIcon}</button>
             <button>{MoreIcon}</button>
           </div>
         </div>
 
-          {/* Render emoji picker */}
-          {showEmojiPicker && (
-          <div className="absolute w-full h-4/5 bottom-0">
-            <EmojiPicker onSelect={handleEmojiClick} />
-          </div>
-        )}
-        
         {/* Include Image For Posting Below */}
         {imageData ? (
           <DesignSection imageData={imageData} />
