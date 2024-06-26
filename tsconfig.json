@@ -15,5 +15,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "Test/EventPage.js"]
+  "include": ["src/**/*", "Test/EventPage.js"]
 }
