@@ -4,10 +4,11 @@ import VideoCard from '../components/VideoCard';
 import BottomNavbar from '../components/BottomNavbar';
 import TopNavbar from '../components/TopNavbar';
 
-import { useLocation } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 import DesignSection from '../components/DesignPage/DesignSection';
 import FooterLeft from '../components/FooterLeft';
 import FooterRight from '../components/FooterRight';
+import DraggableResizable from '../components/DesignPage/DraggableResizable';
 
 // Define the structure of a video object
 interface Video {
@@ -26,7 +27,8 @@ interface Video {
 const videoUrls: Video[] = [
   {
     url: require('../videos/video1.mp4'),
-    profilePic: 'https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-avt-0068-giso/9d429ac49d6d18de6ebd2a3fb1f39269~c5_100x100.jpeg?x-expires=1688479200&x-signature=pjH5pwSS8Sg1dJqbB1GdCLXH6ew%3D',
+    profilePic:
+      'https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-avt-0068-giso/9d429ac49d6d18de6ebd2a3fb1f39269~c5_100x100.jpeg?x-expires=1688479200&x-signature=pjH5pwSS8Sg1dJqbB1GdCLXH6ew%3D',
     username: 'csjackie',
     description: 'Lol nvm #compsci #chatgpt #ai #openai #techtok',
     song: 'Original sound - Famed Flames',
@@ -37,9 +39,11 @@ const videoUrls: Video[] = [
   },
   {
     url: require('../videos/video2.mp4'),
-    profilePic: 'https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/eace3ee69abac57c39178451800db9d5~c5_100x100.jpeg?x-expires=1688479200&x-signature=wAkVmwL7lej15%2B16ypSWQOqTP8s%3D',
+    profilePic:
+      'https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/eace3ee69abac57c39178451800db9d5~c5_100x100.jpeg?x-expires=1688479200&x-signature=wAkVmwL7lej15%2B16ypSWQOqTP8s%3D',
     username: 'dailydotdev',
-    description: 'Every developer brain @francesco.ciulla #developerjokes #programming #programminghumor #programmingmemes',
+    description:
+      'Every developer brain @francesco.ciulla #developerjokes #programming #programminghumor #programmingmemes',
     song: 'tarawarolin wants you to know this isnt my sound - Chaplain J Rob',
     likes: '13.4K',
     comments: 3121,
@@ -48,9 +52,11 @@ const videoUrls: Video[] = [
   },
   {
     url: require('../videos/video3.mp4'),
-    profilePic: 'https://p77-sign-va.tiktokcdn.com/tos-maliva-avt-0068/4e6698b235eadcd5d989a665704daf68~c5_100x100.jpeg?x-expires=1688479200&x-signature=wkwHDKfNuIDqIVHNm29%2FRf40R3w%3D',
+    profilePic:
+      'https://p77-sign-va.tiktokcdn.com/tos-maliva-avt-0068/4e6698b235eadcd5d989a665704daf68~c5_100x100.jpeg?x-expires=1688479200&x-signature=wkwHDKfNuIDqIVHNm29%2FRf40R3w%3D',
     username: 'wojciechtrefon',
-    description: '#programming #softwareengineer #vscode #programmerhumor #programmingmemes',
+    description:
+      '#programming #softwareengineer #vscode #programmerhumor #programmingmemes',
     song: 'help so many people are using my sound - Ezra',
     likes: 5438,
     comments: 238,
@@ -59,9 +65,11 @@ const videoUrls: Video[] = [
   },
   {
     url: require('../videos/video4.mp4'),
-    profilePic: 'https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/4bda52cf3ad31c728153859262c329db~c5_100x100.jpeg?x-expires=1688486400&x-signature=ssUbbCpZFJj6uj33D%2BgtcqxMvgQ%3D',
+    profilePic:
+      'https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/4bda52cf3ad31c728153859262c329db~c5_100x100.jpeg?x-expires=1688486400&x-signature=ssUbbCpZFJj6uj33D%2BgtcqxMvgQ%3D',
     username: 'faruktutkus',
-    description: 'Wait for the end | Im RTX 4090 TI | #softwareengineer #softwareengineer #coding #codinglife #codingmemes ',
+    description:
+      'Wait for the end | Im RTX 4090 TI | #softwareengineer #softwareengineer #coding #codinglife #codingmemes ',
     song: 'orijinal ses - Computer Science',
     likes: 9689,
     comments: 230,
@@ -77,6 +85,7 @@ const Index: React.FC = () => {
   const location = useLocation();
   const imageData = location.state?.image;
   const audio = location.state?.audio;
+  const pageData = location.state?.pageData;
 
   useEffect(() => {
     setVideos(videoUrls);
@@ -101,7 +110,10 @@ const Index: React.FC = () => {
       });
     };
 
-    const observer = new IntersectionObserver(handleIntersection, observerOptions);
+    const observer = new IntersectionObserver(
+      handleIntersection,
+      observerOptions
+    );
 
     // We observe each video reference to trigger play/pause
     videoRefs.current.forEach((videoRef) => {
@@ -124,27 +136,58 @@ const Index: React.FC = () => {
   return (
     <div className="container">
       <TopNavbar className="top-navbar" />
-      
-      {imageData ? (
+
+      {pageData ? (
         <div className="video">
-          <div className='player'>
-              <DesignSection imageData={imageData} />           
+          <div className="player">
+            <DesignSection imageData={pageData.image} />
+            <h1>{pageData.caption}</h1>
+            {pageData.stickers.map((item: any) => (
+              <DraggableResizable
+                key={item.id}
+                id={item.id}
+                x={item.x}
+                y={item.y}
+                width={item.width}
+                height={item.height}
+                type={item.type}
+                src={item.src}
+                text={item.text}
+                link={item.link}
+                textStyles={item.text ? item.textStyles : {}}
+                onDragStop={() => {}} // Disable dragging in the published view
+                onResizeStop={() => {}} // Disable resizing in the published view
+                onSelect={() => {}} // Disable selection in the published view
+                selected={false} // No selection in the published view
+                onUpdate={() => {}} // No updates in the published view
+                setIsEditing={() => {}} // No editing in the published view
+              />
+            ))}
           </div>
 
           <div className="bottom-controls">
             <div className="footer-left">
-              {/* The left part of the container */}
-              <FooterLeft username={'Test'} description={'Test'} song={audio}/>
+              <FooterLeft
+                username={'Test'}
+                description={'Test'}
+                song={pageData.audio}
+              />
             </div>
             <div className="footer-right">
-              {/* The right part of the container */}
-              <FooterRight likes={0} shares={0} comments={0} saves={0} profilePic={'https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/eace3ee69abac57c39178451800db9d5~c5_100x100.jpeg?x-expires=1688479200&x-signature=wAkVmwL7lej15%2B16ypSWQOqTP8s%3D'} />
+              <FooterRight
+                likes={0}
+                shares={0}
+                comments={0}
+                saves={0}
+                profilePic={
+                  'https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/eace3ee69abac57c39178451800db9d5~c5_100x100.jpeg?x-expires=1688479200&x-signature=wAkVmwL7lej15%2B16ypSWQOqTP8s%3D'
+                }
+              />
             </div>
           </div>
         </div>
       ) : null}
 
-      {/* Here we map over the videos array and create VideoCard components */}
       {videos.map((video, index) => (
         <VideoCard
           key={index}
@@ -159,12 +202,11 @@ const Index: React.FC = () => {
           profilePic={video.profilePic}
           setVideoRef={handleVideoRef(index)}
           autoplay={index === 0}
-          imageData={imageData}
         />
       ))}
       <BottomNavbar className="bottom-navbar" />
     </div>
   );
-}
+};
 
 export default Index;
