@@ -6,7 +6,7 @@ import { faArrowLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {}
 
-const DesignPage: React.FC<Props> = () => {
+const ChatPage: React.FC<Props> = () => {
   const [inputValue, setInputValue] = useState('');
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -205,4 +205,4 @@ const DesignPage: React.FC<Props> = () => {
   );
 };
 
-export default DesignPage;
+export default ChatPage;
