@@ -7,14 +7,16 @@ const CreationTab: React.FC<Props> = () => {
   const [selectedModel, setSelectedModel] = useState<string | null>(null);
   const [selectedAspectRatio, setSelectedAspectRatio] = useState<string | null>(null);
 
-  const placeholderIMG1 =
-    'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/5lVaoQAxDn9e55u7qNF5.jpg';
-  const placeholderIMG2 =
-    'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/oXqKXlvxZSqV9ivfWZ21.jpg';
-  const placeholderIMG3 =
-    'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/u8LhInJHbwuu5DntvP5Z.jpg';
-  const placeholderIMG4 =
-    'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/AUDbh5NsUMK82HcC6F60.jpg';
+  const models = [
+    {
+      name: 'Animated',
+      imgSrc: 'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/5lVaoQAxDn9e55u7qNF5.jpg',
+    },
+    {
+      name: 'Realistic',
+      imgSrc: 'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/oXqKXlvxZSqV9ivfWZ21.jpg',
+    },
+  ];
 
   // Handle Model Selection
   const handleModelSelect = (model: string) => {
@@ -45,17 +47,17 @@ const CreationTab: React.FC<Props> = () => {
         </div>
 
         <p className="text-[#CC8F99]">Select Model</p>
-        <div className='grid justify-center grid-rows-[auto] grid-cols-4 gap-2'>
-          {[placeholderIMG1, placeholderIMG2, placeholderIMG3, placeholderIMG4].map((imgSrc, index) => (
+        <div className='grid justify-center grid-rows-[auto] grid-cols-3 gap-2'>
+          {models.map((model, index) => (
             <div
               key={index}
               className={`flex flex-col items-center cursor-pointer border-2 ${
-                selectedModel === imgSrc ? 'border-[#4A2129] border-[4px] rounded-md' : 'border-transparent'
+                selectedModel === model.imgSrc ? 'border-[#4A2129] border-[4px] rounded-md' : 'border-transparent'
               }`}
-              onClick={() => handleModelSelect(imgSrc)}
+              onClick={() => handleModelSelect(model.imgSrc)}
             >
-              <img className="w-full h-full overflow-hidden" src={imgSrc} alt={`Model ${index + 1}`} />
-              <p className='text-white'>{`Model ${index + 1}`}</p>
+              <img className="w-full h-full overflow-hidden" src={model.imgSrc} alt={model.name} />
+              <p className='text-white'>{model.name}</p>
             </div>
           ))}
         </div>
