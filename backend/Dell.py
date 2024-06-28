@@ -28,26 +28,48 @@ Returns:
 config_data = read_yaml("setting.yaml")
 app.config.update(config_data)
 openapi_key = app.config['COMMON']['OPENAI_API_KEY']
+client = OpenAI(api_key=openapi_key)
 
 response = {}
 
 
+def promptOptimize(prompt):
+    prefix_reqiurement = 'Please help me optimize this prompt so that it meets the requirements of DALL-E 2 for generating images，please only return the prompt content, I do not need any other content cause this prompt will be passed to dall-e-2 directly '
+    final_prompt = prefix_reqiurement+prompt
+
+    completion = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": final_prompt}
+        ]
+    )
+
+    message = completion.choices[0].message.content
+
+    return message
+
+
 def dellGenerate(prompt):
 
+    message = promptOptimize(prompt)
+    print(message)
     images = []
-    client = OpenAI(api_key=openapi_key)
+
     try:
 
         imageResponse = client.images.generate(
             model="dall-e-2",
-            prompt=prompt,
+            prompt=message,
             quality="standard",
-            n=4,
+            n=1,
             size="256x256"
         )
 
-        for item in imageResponse.data:
-            images.append(item.url)
+        # for item in imageResponse.data:
+        #     images.append(item.url)
+        print("imageResponse: ", imageResponse.data[0].url)
+        images.append(imageResponse.data[0].url)
         response["images"] = images
     except:
         response["error"] = "Generation failed"
