@@ -256,6 +256,7 @@ const DesignPage: React.FC<Props> = () => {
     setOpenFilter(false);
   };
 
+
   const handleOpenChangeSticker = (newOpen: boolean) => {
     setOpenSticker(newOpen);
   };
@@ -391,26 +392,6 @@ const DesignPage: React.FC<Props> = () => {
       })
     );
   };
-
-  // useEffect(() => {
-  //   const handleKeyDown = (event: KeyboardEvent) => {
-  //     if (
-  //       event.key === 'Backspace' &&
-  //       selectedStickerId !== null &&
-  //       !isEditing
-  //     ) {
-  //       setStickerList(
-  //         stickerList.filter((sticker) => sticker.id !== selectedStickerId)
-  //       );
-  //       setSelectedStickerId(null);
-  //     }
-  //   };
-
-  //   window.addEventListener('keydown', handleKeyDown);
-  //   return () => {
-  //     window.removeEventListener('keydown', handleKeyDown);
-  //   };
-  // }, [selectedStickerId, stickerList, isEditing]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -847,6 +828,7 @@ const DesignPage: React.FC<Props> = () => {
             }
             selected={selectedStickerId === item.id}
             setIsEditing={setIsEditing}
+            
           />
         ))}
 
