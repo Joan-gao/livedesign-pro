@@ -161,6 +161,7 @@ const Index: React.FC = () => {
                 selected={false} // No selection in the published view
                 onUpdate={() => {}} // No updates in the published view
                 setIsEditing={() => {}} // No editing in the published view
+                published={true} // 确保传递 published 属性
               />
             ))}
           </div>

@@ -34,6 +34,7 @@ interface DraggableResizableProps {
   onUpdate: (id: number, text: string, link: string) => void;
   selected: boolean;
   setIsEditing: (isEditing: boolean) => void;
+  published: boolean; // 新增的发布状态
 }
 
 const colors2 = ['#fc6076', '#ff9a44', '#ef9d43', '#e75516'];
@@ -59,6 +60,7 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
   onUpdate,
   selected,
   setIsEditing,
+  published, // 新增的发布状态
 }) => {
   const textStyle = {
     fontWeight: textStyles.bold ? 'bold' : 'normal',
@@ -93,10 +95,20 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
   // 局部变量来同步锁定状态
   let stickerLocked = false;
 
+  // const handleButtonClick = () => {
+  //   stickerLocked = true; // 使用局部变量锁定sticker
+  //   setIsModalVisible(true);
+  //   form.setFieldsValue({ text, link });
+  // };
+
   const handleButtonClick = () => {
-    stickerLocked = true; // 使用局部变量锁定sticker
-    setIsModalVisible(true);
-    form.setFieldsValue({ text, link });
+    if (published && link) {
+      window.open(link, '_blank'); // 页面已发布，跳转到链接
+    } else {
+      stickerLocked = true; // 使用局部变量锁定sticker
+      setIsModalVisible(true); // 页面未发布，弹出modal
+      form.setFieldsValue({ text, link });
+    }
   };
 
   const handleModalOk = async () => {

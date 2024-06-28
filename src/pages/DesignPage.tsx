@@ -222,6 +222,8 @@ const DesignPage: React.FC<Props> = () => {
   const [openMore, setOpenMore] = useState(false);
   const [caption, setCaption] = useState('');
 
+  const [published, setPublished] = useState(false); // 新增的发布状态
+
   const [stickerList, setStickerList] = useState<Sticker[]>([]);
   const [nextId, setNextId] = useState(1);
   const [selectedStickerId, setSelectedStickerId] = useState<number | null>(
@@ -255,7 +257,6 @@ const DesignPage: React.FC<Props> = () => {
     setCaption(inputValue);
     setOpenFilter(false);
   };
-
 
   const handleOpenChangeSticker = (newOpen: boolean) => {
     setOpenSticker(newOpen);
@@ -828,7 +829,7 @@ const DesignPage: React.FC<Props> = () => {
             }
             selected={selectedStickerId === item.id}
             setIsEditing={setIsEditing}
-            
+            published={published} // 新增的 published 属性
           />
         ))}
 
