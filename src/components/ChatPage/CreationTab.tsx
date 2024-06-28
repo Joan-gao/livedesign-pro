@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {}
 
 const CreationTab: React.FC<Props> = () => {
   const [inputValue, setInputValue] = useState('');
-  const [isPreviewVisible, setIsPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [selectedModel, setSelectedModel] = useState<string | null>(null);
+  const [selectedAspectRatio, setSelectedAspectRatio] = useState<string | null>(null);
+
   const placeholderIMG1 =
     'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/5lVaoQAxDn9e55u7qNF5.jpg';
   const placeholderIMG2 =
@@ -19,43 +16,14 @@ const CreationTab: React.FC<Props> = () => {
   const placeholderIMG4 =
     'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/AUDbh5NsUMK82HcC6F60.jpg';
 
-  const navigate = useNavigate();
-
-  // Show Image Preview and Enable 'Select' Button
-  const handleEdit = (imageId: string) => {
-    const imgElement = document.getElementById(imageId) as HTMLImageElement;
-    const selectDesign = document.getElementById('selectDesign');
-
-    if (selectDesign) {
-      selectDesign.style.opacity = '1';
-      selectDesign.style.cursor = 'pointer';
-      selectDesign.setAttribute('aria-disabled', 'false');
-    }
-
-    if (imgElement) {
-      setPreviewImage(imgElement.src);
-      setIsPreviewVisible(true);
-    }
+  // Handle Model Selection
+  const handleModelSelect = (model: string) => {
+    setSelectedModel(model);
   };
 
-  // Closing Preview and Disabling 'Select' Button
-  const handleClosePreview = () => {
-    setIsPreviewVisible(false);
-    setPreviewImage(null);
-    const selectDesign = document.getElementById('selectDesign');
-
-    if (selectDesign) {
-      selectDesign.style.opacity = '0.6';
-      selectDesign.style.cursor = 'default';
-      selectDesign.setAttribute('aria-disabled', 'true');
-    }
-  };
-
-  // Bring Selected Images to the Final Design Page
-  const handleSelectDesign = () => {
-    if (previewImage) {
-      navigate('/DesignPage', { state: { image: previewImage } });
-    }
+  // Handle Aspect Ratio Selection
+  const handleAspectRatioSelect = (aspectRatio: string) => {
+    setSelectedAspectRatio(aspectRatio);
   };
 
   return (
@@ -63,7 +31,7 @@ const CreationTab: React.FC<Props> = () => {
       <div className="flex flex-col w-[90%] mx-auto gap-4">
         {/* Ai Text Responses */}
         <p className="text-[#CC8F99]">Descriptions</p>
-        <div className="w-ful gap-3">
+        <div className="w-full gap-3">
           {/* User Prompt box */}
           <textarea
             id="userPrompt"
@@ -78,37 +46,43 @@ const CreationTab: React.FC<Props> = () => {
 
         <p className="text-[#CC8F99]">Select Model</p>
         <div className='grid justify-center grid-rows-[auto] grid-cols-4 gap-2'>
-          <div className='flex flex-col items-center'>
-            <img className="w-full h-full overflow-hidden" src={placeholderIMG1} alt="Model 1"></img>
-            <p className='text-white'>Model 1</p>
-          </div>
-          <div className='flex flex-col items-center'>
-            <img className="w-full h-full overflow-hidden" src={placeholderIMG2} alt="Model 2"></img>
-            <p className='text-white'>Model 2</p>
-          </div>
-          <div className='flex flex-col items-center'>
-            <img className="w-full h-full overflow-hidden" src={placeholderIMG3} alt="Model 3"></img>
-            <p className='text-white'>Model 3</p>
-          </div>
-          <div className='flex flex-col items-center'>
-            <img className="w-full h-full overflow-hidden" src={placeholderIMG4} alt="Model 4"></img>
-            <p className='text-white'>Model 4</p>
-          </div>
+          {[placeholderIMG1, placeholderIMG2, placeholderIMG3, placeholderIMG4].map((imgSrc, index) => (
+            <div
+              key={index}
+              className={`flex flex-col items-center cursor-pointer border-2 ${
+                selectedModel === imgSrc ? 'border-[#4A2129] border-[4px] rounded-md' : 'border-transparent'
+              }`}
+              onClick={() => handleModelSelect(imgSrc)}
+            >
+              <img className="w-full h-full overflow-hidden" src={imgSrc} alt={`Model ${index + 1}`} />
+              <p className='text-white'>{`Model ${index + 1}`}</p>
+            </div>
+          ))}
         </div>
 
         <p className="text-[#CC8F99]">Aspect Ratio</p>
         <div className='flex flex-row items-center gap-4'>
-          <button className='bg-[#4A2129] rounded-md w-[100px] h-[100px] flex flex-col items-center justify-center'>
+          <button
+            className={`rounded-md w-[100px] h-[100px] flex flex-col items-center justify-center border-4 ${
+              selectedAspectRatio === '1:1' ? 'border-[#4A2129] bg-[#4A2129]' : 'border-[#4A2129] bg-transparent'
+            }`}
+            onClick={() => handleAspectRatioSelect('1:1')}
+          >
             <div className='border-2 border-white border-solid w-[40px] h-[40px]'></div>
             <p className='text-white'>1:1</p>
           </button>
-          <button className='bg-[#4A2129] rounded-md w-[100px] h-[100px] flex flex-col items-center justify-center'>
+          <button
+            className={`rounded-md w-[100px] h-[100px] flex flex-col items-center justify-center border-4 ${
+              selectedAspectRatio === '9:16' ? 'border-[#4A2129] bg-[#4A2129]' : 'border-[#4A2129] bg-transparent'
+            }`}
+            onClick={() => handleAspectRatioSelect('9:16')}
+          >
             <div className='border-2 border-white border-solid w-[32px] h-[64px]'></div>
             <p className='text-white'>9:16</p>
           </button>
         </div>
 
-        <button className="5 bg-[#FC2B55] text-white w-full border-none rounded-md py-1.5 px-6">
+        <button className="bg-[#FC2B55] text-white w-full border-none rounded-md py-1.5 px-6">
           Generate
         </button>
       </div>

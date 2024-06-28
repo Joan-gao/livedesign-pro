@@ -713,6 +713,10 @@ html {
   height: 40px;
 }
 
+.h-\[579px\] {
+  height: 579px;
+}
+
 .h-\[64px\] {
   height: 64px;
 }
@@ -919,12 +923,29 @@ html {
   border-width: 2px;
 }
 
+.border-4 {
+  border-width: 4px;
+}
+
+.border-\[4px\] {
+  border-width: 4px;
+}
+
 .border-solid {
   border-style: solid;
 }
 
 .border-none {
   border-style: none;
+}
+
+.border-\[\#4A2129\] {
+  --tw-border-opacity: 1;
+  border-color: rgb(74 33 41 / var(--tw-border-opacity));
+}
+
+.border-transparent {
+  border-color: transparent;
 }
 
 .border-white {
