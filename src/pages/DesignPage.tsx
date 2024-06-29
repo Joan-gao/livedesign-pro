@@ -1,11 +1,85 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {
+  Button,
+  Popover,
+  Row,
+  Col,
+  Card,
+  Input,
+  Switch,
+  notification,
+} from 'antd';
+import {
+  BoldOutlined,
+  HighlightOutlined,
+  UnderlineOutlined,
+  ItalicOutlined,
+  BgColorsOutlined,
+  ZoomInOutlined,
+  ZoomOutOutlined,
+  PauseCircleOutlined,
+  UploadOutlined,
+} from '@ant-design/icons';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
-
+import { Rnd } from 'react-rnd';
+// Design Sections
 import DesignSection from '../components/DesignPage/DesignSection';
+import DraggableResizable from '../components/DesignPage/DraggableResizable'; // 导入你的组件
+
+import sticker1 from '../components/stickers/pics/discount.png';
+import sticker2 from '../components/stickers/pics/discount1.png';
+import sticker3 from '../components/stickers/pics/discount2.png';
+import sticker4 from '../components/stickers/pics/discount3.png';
+import sticker5 from '../components/stickers/pics/discount4.gif';
+import sticker6 from '../components/stickers/pics/discount5.png';
+import sticker7 from '../components/stickers/pics/discount6.png';
+import sticker8 from '../components/stickers/pics/discount7.gif';
+import sticker9 from '../components/stickers/pics/discount8.gif';
+import sticker10 from '../components/stickers/pics/discount9.gif';
+import sticker11 from '../components/stickers/pics/discount10.gif';
+import sticker12 from '../components/stickers/pics/discount11.gif';
+import sticker13 from '../components/stickers/pics/discount12.gif';
+import sticker14 from '../components/stickers/pics/discount14.gif';
+
+import buttonSticker from '../components/stickers/pics/button.png';
+import linkSticker from '../components/stickers/pics/link.png';
+
+import cover1 from '../components/songs/covers/jocelin.jpg';
+import cover2 from '../components/songs/covers/ocean_eyes.jpg';
+import cover3 from '../components/songs/covers/Into_the_new_word_girls_generation.jpg';
+import cover4 from '../components/songs/covers/les_champs_elysees_helene_segara.jpg';
+import cover5 from '../components/songs/covers/Unstoppable_Sia.jpg';
+
+import song1 from '../components/songs/mp3/jocelin.mp3';
+import song2 from '../components/songs/mp3/ocean_eyes.mp3';
+import song3 from '../components/songs/mp3/Into_the_new_word_girls_generation.mp3';
+import song4 from '../components/songs/mp3/les_champs_elysees_helene_segara.mp3';
+import song5 from '../components/songs/mp3/Unstoppable_Sia.mp3';
 
 interface Props {}
+
+interface Sticker {
+  id: number;
+  src?: string;
+  text?: string;
+  link?: string; // 可选属性
+  advanced?: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  type: 'sticker' | 'button' | 'link'; // 添加 'image' 类型
+  textStyles?: {
+    bold?: boolean;
+    underline?: boolean;
+    bgColor?: string;
+    textColor?: string;
+    italic?: boolean;
+    fontSize?: number;
+  };
+}
 
 const DesignPage: React.FC<Props> = () => {
   const StickerIcon = (
@@ -89,43 +163,610 @@ const DesignPage: React.FC<Props> = () => {
     </svg>
   );
 
+  // import all stickers
+  const stickers: {
+    default: string;
+    type: 'sticker' | 'button' | 'link';
+  }[] = [
+    { default: sticker1, type: 'sticker' },
+    { default: sticker2, type: 'sticker' },
+    { default: sticker3, type: 'sticker' },
+    { default: sticker4, type: 'sticker' },
+    { default: sticker5, type: 'sticker' },
+    { default: sticker6, type: 'sticker' },
+    { default: sticker7, type: 'sticker' },
+    { default: sticker8, type: 'sticker' },
+    { default: sticker9, type: 'sticker' },
+    { default: sticker10, type: 'sticker' },
+    { default: sticker11, type: 'sticker' },
+    { default: sticker12, type: 'sticker' },
+    { default: sticker13, type: 'sticker' },
+    { default: sticker14, type: 'sticker' },
+    { default: buttonSticker, type: 'button' },
+  ];
+
+  // import musicData
+  const musicData = [
+    {
+      image: cover1,
+      artist: 'Leddra Chapman',
+      title: 'Jocelin',
+      song: song1,
+    },
+    {
+      image: cover2,
+      artist: 'Billie Elish',
+      title: 'Ocean Eyes',
+      song: song2,
+    },
+    {
+      image: cover3,
+      artist: 'Girls Generation',
+      title: 'Into the new word',
+      song: song3,
+    },
+    {
+      image: cover4,
+      artist: 'Helene Segara',
+      title: 'Les Champs-Élysées',
+      song: song4,
+    },
+    {
+      image: cover5,
+      artist: 'Sia',
+      title: 'Unstoppable',
+      song: song5,
+    },
+  ];
+
   const navigate = useNavigate();
   const location = useLocation();
   const imageData = location.state?.image;
 
   const [inputValue, setInputValue] = useState('');
+  // popover
+  const [openSticker, setOpenSticker] = useState(false);
+  const [openMusic, setOpenMusic] = useState(false);
+  const [openText, setOpenText] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false);
+  const [openMore, setOpenMore] = useState(false);
+  const [caption, setCaption] = useState('');
 
-  const [isAudioPopupVisible, setAudioPopupVisible] = useState(false); // State for popup visibility
-  const [InputAudio, setInputAudio] = useState('');
+  const [published, setPublished] = useState(false); // 新增的发布状态
+
+  const [stickerList, setStickerList] = useState<Sticker[]>([]);
+  const [nextId, setNextId] = useState(1);
+  const [selectedStickerId, setSelectedStickerId] = useState<number | null>(
+    null
+  );
+  // Text create
+  const [showInput, setShowInput] = useState(false);
+  const [inputPosition, setInputPosition] = useState({ x: 0, y: 0 });
+  // Text style organize
+  const [textStyles, setTextStyles] = useState({
+    bold: false,
+    underline: false,
+    italic: false, // 新增的属性
+    bgColor: '',
+    textColor: '',
+    fontSize: 16, // 新增的属性，默认字体大小
+  });
+  // Music play
+  const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(
+    null
+  );
+
+  const [isEditing, setIsEditing] = useState(false); // 全局编辑状态
+
+  // sticker popover
+  const hideSticker = () => {
+    setOpenSticker(false);
+  };
+
+  const handleSubmit = () => {
+      console.log('Input Value:', inputValue); // 检查 inputValue 的值
+      setCaption(inputValue);
+      console.log('Caption set:', inputValue); // 检查 caption 设置后的值
+      setOpenFilter(false);
+  };
+
+  const handleOpenChangeSticker = (newOpen: boolean) => {
+    setOpenSticker(newOpen);
+  };
+
+  // text popover
+  const hideText = () => {
+    setOpenText(false);
+  };
+
+  const handleOpenChangeText = (newOpen: boolean) => {
+    setOpenText(newOpen);
+  };
+
+  // music popover
+  const handleMusicClick = (music: any) => {
+    if (currentAudio) {
+      currentAudio.pause();
+      console.log('Pausing current audio:', currentAudio.src);
+    }
+    const newAudio = new Audio(music.song);
+    newAudio.play().catch((error) => console.error('Audio play error:', error));
+    setCurrentAudio(newAudio);
+    console.log('Playing new audio:', newAudio.src);
+  };
+
+  const hideMusic = () => {
+    setOpenMusic(false);
+  };
+
+  const handleOpenChangeMusic = (newOpen: boolean) => {
+    setOpenMusic(newOpen);
+  };
+
+  // filter popover
+  const hideFilter = () => {
+    setOpenFilter(false);
+  };
+
+  const handleOpenChangeFilter = (newOpen: boolean) => {
+    setOpenFilter(newOpen);
+  };
+
+  // more popover
+  const hideMore = () => {
+    setOpenMore(false);
+  };
+
+  const handleOpenChangeMore = (newOpen: boolean) => {
+    setOpenMore(newOpen);
+  };
+
+  // Text style Change
+  const toggleBold = () => {
+    setTextStyles({ ...textStyles, bold: !textStyles.bold });
+  };
+
+  const toggleItalic = () => {
+    setTextStyles({ ...textStyles, italic: !textStyles.italic });
+  };
+
+  const increaseFontSize = () => {
+    setTextStyles({ ...textStyles, fontSize: textStyles.fontSize + 2 });
+  };
+
+  const decreaseFontSize = () => {
+    setTextStyles({
+      ...textStyles,
+      fontSize: Math.max(textStyles.fontSize - 2, 10),
+    }); // 保证最小字体大小为10
+  };
+
+  const toggleUnderline = () => {
+    setTextStyles({ ...textStyles, underline: !textStyles.underline });
+  };
+
+  const setBgColor = (color: string) => {
+    setTextStyles({ ...textStyles, bgColor: color });
+  };
+
+  const setTextColor = (color: string) => {
+    setTextStyles({ ...textStyles, textColor: color });
+  };
+
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    const { clientX, clientY } = event;
+    setInputPosition({ x: clientX, y: clientY });
+    setShowInput(true);
+  };
+
+  const handleDragStop = (id: number, x: number, y: number) => {
+    setStickerList((prevList) =>
+      prevList.map((item) => (item.id === id ? { ...item, x, y } : item))
+    );
+  };
+
+  const handleResizeStop = (
+    id: number,
+    width: number,
+    height: number,
+    x: number,
+    y: number
+  ) => {
+    setStickerList((prevList) =>
+      prevList.map((item) =>
+        item.id === id ? { ...item, width, height, x, y } : item
+      )
+    );
+  };
 
   const handlePublish = () => {
     if (imageData) {
-      navigate('/', { state: { image: imageData, audio: InputAudio } });
+      const pageData = {
+        image: imageData,
+        caption,
+        stickers: stickerList.map((sticker) => ({
+          ...sticker,
+          advanced: sticker.advanced, // 确保 advanced 属性被包含
+        })),
+        // You can add other elements like text, button, music if they have their own state
+      };
+
+      console.log('Publishing page data:', pageData);
+      navigate('/', { state: { pageData } });
     } else {
       alert('No image to publish.');
     }
   };
 
-  const handleAddAudio = (audio: string) => {
-    setInputAudio(audio);
-    ToggleAudioPopup();
+  const handleUpdateSticker = (
+    id: number,
+    text: string,
+    link: string,
+    advanced: string
+  ) => {
+    setStickerList((prevList) =>
+      prevList.map((item) => {
+        if (item.id === id) {
+          return { ...item, text, link, advanced };
+        }
+        return item;
+      })
+    );
   };
 
-  const ToggleAudioPopup = () => {
-    const popupDiv = document.getElementById('popup');
-    setAudioPopupVisible(!isAudioPopupVisible);
-
-    if (popupDiv) {
-      if (popupDiv.style.display === 'none' || popupDiv.style.display === '') {
-        popupDiv.style.display = 'block';
-      } else {
-        popupDiv.style.display = 'none';
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.key === 'Backspace' &&
+        selectedStickerId !== null &&
+        !isEditing
+      ) {
+        setStickerList(
+          stickerList.filter((sticker) => sticker.id !== selectedStickerId)
+        );
+        setSelectedStickerId(null);
       }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    // 添加监听 textStyles 的变化
+    if (selectedStickerId !== null) {
+      setStickerList((prevList) =>
+        prevList.map((item) =>
+          item.id === selectedStickerId
+            ? { ...item, textStyles: { ...item.textStyles, ...textStyles } }
+            : item
+        )
+      );
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedStickerId, stickerList, isEditing, textStyles]); // 确保 textStyles 也在依赖项中
+
+  const handleImageUpload = (id: number, src: string) => {
+    setStickerList((prevList) =>
+      prevList.map((item) => (item.id === id ? { ...item, src } : item))
+    );
+  };
+
+  const handleStickerClick = (
+    src: string,
+    type: 'sticker' | 'button' | 'link'
+  ) => {
+    const newSticker: Sticker = {
+      id: nextId,
+      src: type === 'sticker' ? src : undefined,
+      type,
+      x: 50,
+      y: 50,
+      width: 100,
+      height: 100,
+      text: type === 'button' || type === 'link' ? 'Click Me' : undefined,
+    };
+
+    setStickerList((prevList) => [...prevList, newSticker]);
+    setNextId((prevId) => prevId + 1);
+    setOpenSticker(false); // 关闭Popover
+  };
+
+  const handleTextSubmit = (value: string) => {
+    if (value.trim() !== '') {
+      const newTextItem: Sticker = {
+        id: nextId,
+        text: value,
+        x: 100,
+        y: 100,
+        width: 200,
+        height: 50,
+        type: 'sticker',
+        textStyles: { ...textStyles },
+      };
+      console.log('Adding new text item:', newTextItem);
+      setStickerList([...stickerList, newTextItem]);
+      setNextId(nextId + 1);
     }
   };
 
+  const renderStickerContent = () => (
+    <div style={{ width: 300, height: 200, overflowY: 'scroll' }}>
+      <Row gutter={[16, 16]}>
+        {stickers.map((sticker, index) => (
+          <Col span={8} key={index}>
+            <img
+              src={sticker.default}
+              alt={`sticker-${index}`}
+              style={{ width: '100%', cursor: 'pointer' }}
+              onClick={() => handleStickerClick(sticker.default, sticker.type)}
+            />
+          </Col>
+        ))}
+      </Row>
+    </div>
+  );
+
+  // text style popover format
+  const renderTextContent = () => (
+    <Row gutter={[8, 0]} justify="center" align="middle">
+      <Col>
+        <ZoomInOutlined
+          style={{ fontSize: '24px', cursor: 'pointer' }}
+          onClick={() => {
+            console.log('Increasing font size');
+            increaseFontSize();
+          }}
+        />
+      </Col>
+      <Col>
+        <ZoomOutOutlined
+          style={{ fontSize: '24px', cursor: 'pointer' }}
+          onClick={decreaseFontSize}
+        />
+      </Col>
+      <Col>
+        <BoldOutlined
+          style={{
+            fontSize: '24px',
+            cursor: 'pointer',
+            fontWeight: textStyles.bold ? 'bold' : 'normal',
+          }}
+          onClick={toggleBold}
+        />
+      </Col>
+      <Col>
+        <ItalicOutlined
+          style={{
+            fontSize: '24px',
+            cursor: 'pointer',
+            fontStyle: textStyles.italic ? 'italic' : 'normal',
+          }}
+          onClick={toggleItalic}
+        />
+      </Col>
+      <Col>
+        <UnderlineOutlined
+          style={{
+            fontSize: '24px',
+            cursor: 'pointer',
+            textDecoration: textStyles.underline ? 'underline' : 'none',
+          }}
+          onClick={toggleUnderline}
+        />
+      </Col>
+      <Col>
+        <Popover
+          content={renderTextColorOptions()}
+          trigger="click"
+          placement="bottom"
+        >
+          <BgColorsOutlined style={{ fontSize: '24px', cursor: 'pointer' }} />
+        </Popover>
+      </Col>
+      <Col>
+        <Popover
+          content={renderBgColorOptions()}
+          trigger="click"
+          placement="bottom"
+        >
+          <HighlightOutlined style={{ fontSize: '24px', cursor: 'pointer' }} />
+        </Popover>
+      </Col>
+    </Row>
+  );
+
+  const renderBgColorOptions = () => (
+    <div style={{ display: 'flex', flexDirection: 'row' }}>
+      {['red', 'white', 'black', 'yellow'].map((color) => (
+        <div
+          key={color}
+          onClick={() => setBgColor(color)}
+          style={{
+            backgroundColor: color,
+            width: '20px',
+            height: '20px',
+            margin: '5px',
+            borderRadius: '50%',
+            cursor: 'pointer',
+          }}
+        />
+      ))}
+    </div>
+  );
+
+  const renderTextColorOptions = () => (
+    <div style={{ display: 'flex', flexDirection: 'row' }}>
+      {['red', 'white', 'black', 'yellow'].map((color) => (
+        <div
+          key={color}
+          onClick={() => setTextColor(color)}
+          style={{
+            backgroundColor: color,
+            width: '20px',
+            height: '20px',
+            margin: '5px',
+            borderRadius: '50%',
+            cursor: 'pointer',
+          }}
+        />
+      ))}
+    </div>
+  );
+
+  const renderPopoverContent = () => (
+    <div>
+      <div>
+        <div style={{ marginBottom: 8, fontWeight: 500 }}>write text here</div>
+        <Input
+          placeholder="Enter text"
+          onPressEnter={(e) => {
+            console.log('Text entered:', e.currentTarget.value);
+            handleTextSubmit(e.currentTarget.value);
+            e.currentTarget.value = ''; // 清空输入框
+            setOpenText(false); // 关闭Popover
+          }}
+        />
+      </div>
+      <div style={{ marginTop: 16 }}>
+        <div style={{ marginBottom: 8, fontWeight: 500 }}>
+          choose text style
+        </div>
+        {renderTextContent()}
+      </div>
+    </div>
+  );
+
+  // Custom title component
+  const renderPopoverTitle = () => (
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <span style={{ marginRight: 10 }}>choose music</span>
+      <PauseCircleOutlined
+        style={{ fontSize: '24px', cursor: 'pointer' }}
+        onClick={pauseMusic}
+      />
+    </div>
+  );
+
+  const uploadImg = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = (event: any) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const imgSrc = e.target?.result as string;
+          handleStickerClick(imgSrc, 'sticker');
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    input.click();
+  };
+
+  const renderPopoverStickerTitle = () => {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <span style={{ marginRight: 10 }}>choose sticker</span>
+        <UploadOutlined
+          style={{ fontSize: '24px', cursor: 'pointer' }}
+          onClick={uploadImg}
+        />
+      </div>
+    );
+  };
+
+  const pauseMusic = () => {
+    if (currentAudio) {
+      currentAudio.pause();
+      console.log('Pausing current audio:', currentAudio.src);
+      setCurrentAudio(null);
+    }
+  };
+
+  const renderMusicContent = () => (
+    <div style={{ width: 300, height: 300, overflowY: 'scroll' }}>
+      {musicData.map((music, index) => (
+        <Card
+          key={index}
+          hoverable
+          style={{ marginBottom: 0, padding: 0 }}
+          onClick={() => handleMusicClick(music)}
+        >
+          <Row gutter={[6, 6]} align="middle">
+            <Col span={8}>
+              <img
+                alt="music cover"
+                src={music.image}
+                style={{ width: '100%' }}
+              />
+            </Col>
+            <Col span={16}>
+              <Card.Meta
+                title={
+                  <div style={{ fontSize: '18px', marginBottom: '0px' }}>
+                    {music.title}
+                  </div>
+                }
+                description={
+                  <div style={{ fontSize: '15px', margin: 0 }}>
+                    {music.artist}
+                  </div>
+                }
+              />
+            </Col>
+          </Row>
+        </Card>
+      ))}
+    </div>
+  );
+
+  const renderPopoverFilterTitle = () => {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <span style={{ marginRight: 10 }}>choose caption</span>
+        <Switch
+          checkedChildren={<span style={{ fontWeight: 'bold' }}>Use AI</span>}
+          unCheckedChildren={
+            <span style={{ fontWeight: 'bold' }}>Disable</span>
+          }
+          defaultChecked
+        />
+      </div>
+    );
+  };
+
+  const renderFilterContent = () => {
+    return (
+      <div style={{ width: 200, height: 130, padding: '10px' }}>
+        <Input.TextArea
+          defaultValue="Write your caption and tags here..."
+          onChange={(e) => setInputValue(e.target.value)}
+          style={{ width: '100%', height: '80px', overflowY: 'scroll' }}
+        />
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '10px',
+          }}
+        >
+          <Button type="primary" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
+    <div
+      className="z-101 absolute top-0 h-screen w-screen grid place-items-center"
+      onClick={handleClick}
+      style={{ position: 'relative' }}
+    >
       <div className="w-375 h-667 relative top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">
         <div className="z-20 sticky top-0 left-0 w-full h-12 flex justify-around items-center">
           <div className="flex flex-row w-4/5 justify-between items-center">
@@ -135,54 +776,76 @@ const DesignPage: React.FC<Props> = () => {
                 className="text-base text-white cursor-pointer"
               />
             </Link>
-            <button>{TextIcon}</button>
-            <button>{StickerIcon}</button>
-            <button onClick={() => ToggleAudioPopup()}>{AudioIcon}</button>
-            <button>{FilterIcon}</button>
-            <button>{MoreIcon}</button>
+            <Popover
+              content={renderPopoverContent()}
+              trigger="click"
+              open={openText}
+              onOpenChange={handleOpenChangeText}
+            >
+              <button>{TextIcon}</button>
+            </Popover>
+            <Popover
+              content={renderStickerContent()}
+              title={renderPopoverStickerTitle()}
+              trigger="click"
+              open={openSticker}
+              onOpenChange={handleOpenChangeSticker}
+            >
+              <button>{StickerIcon}</button>
+            </Popover>
+            <Popover
+              content={renderMusicContent()}
+              title={renderPopoverTitle()}
+              trigger="click"
+              open={openMusic}
+              onOpenChange={handleOpenChangeMusic}
+            >
+              <button>{AudioIcon}</button>
+            </Popover>
+            <Popover
+              content={renderFilterContent()}
+              title={renderPopoverFilterTitle()}
+              trigger="click"
+              open={openFilter}
+              onOpenChange={handleOpenChangeFilter}
+            >
+              <button>{FilterIcon}</button>
+            </Popover>
+            <Popover
+              title="choose more"
+              trigger="click"
+              open={openMore}
+              onOpenChange={handleOpenChangeMore}
+            >
+              <button>{MoreIcon}</button>
+            </Popover>
           </div>
         </div>
 
         {/* Include Image For Posting Below */}
         {imageData ? <DesignSection imageData={imageData} /> : null}
 
-        <div
-          id="popup"
-          className="hidden absolute w-375 h-667 rounded-[25px] z-20"
-        >
-          <div className="hidden absolute w-375 h-667 rounded-[25px] bg-black opacity-40"></div>
-
-          <div className="absolute bottom-0 w-full h-2/5 rounded-b-[25px] bg-[#240F14] opacity-100 z-40">
-            <button
-              onClick={ToggleAudioPopup}
-              className="absolute top-0 right-0 p-2 text-white"
-            >
-              <FontAwesomeIcon icon={faTimes} size="lg" />
-            </button>
-
-            {/* Popups */}
-            {isAudioPopupVisible && (
-              // User Prompt box
-              <div className="flex flex-col gap-5 w-full h-full place-items-center justify-center  place-content-center items-center">
-                <textarea
-                  id="userPrompt"
-                  className="text-white text-sm text-left bg-[#4A2129] border-none rounded-md w-4/5 h-20 py-1.5 px-3 resize-none"
-                  placeholder="Enter your Audio Name - Audio Artist"
-                  value={inputValue}
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                    setInputValue(e.target.value)
-                  }
-                />
-                <button
-                  onClick={() => handleAddAudio(inputValue)}
-                  className="z-10 bottom-5 bg-[#FC2B55] text-white w-4/5 border-none rounded-md py-1.5 px-6"
-                >
-                  Add Audio
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
+        {stickerList.map((item) => (
+          <DraggableResizable
+            key={item.id}
+            id={item.id}
+            x={item.x}
+            y={item.y}
+            width={item.width}
+            height={item.height}
+            type={item.type}
+            src={item.src}
+            text={item.text}
+            textStyles={item.textStyles} // 确保 textStyles 被传递
+            onDragStop={handleDragStop}
+            onResizeStop={handleResizeStop}
+            onSelect={(id) => setSelectedStickerId(id)}
+            onUpdate={handleUpdateSticker} // 绑定 handleUpdateSticker
+            selected={selectedStickerId === item.id}
+            setIsEditing={setIsEditing}
+            published={published} // 新增的 published 属性
+          />
+        ))}
 
         <button
           onClick={handlePublish}
