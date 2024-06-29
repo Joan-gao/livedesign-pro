@@ -1,8 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Rnd } from 'react-rnd';
-import { Button, ConfigProvider, Modal, Form, Input, Menu } from 'antd';
+import {
+  Button,
+  ConfigProvider,
+  Modal,
+  Form,
+  Input,
+  Menu,
+  notification,
+  QRCode,
+  Space,
+} from 'antd';
 import { TinyColor } from '@ctrl/tinycolor';
 import type { MenuProps } from 'antd';
+import type { NotificationArgsProps } from 'antd';
+import tiktokIcon from '../stickers/pics/tiktok.svg';
 
 interface DraggableResizableProps {
   id: number;
@@ -14,6 +26,7 @@ interface DraggableResizableProps {
   src?: string;
   text?: string;
   link?: string;
+  advanced?: string;
   textStyles?: {
     bold?: boolean;
     underline?: boolean;
@@ -31,7 +44,7 @@ interface DraggableResizableProps {
     y: number
   ) => void;
   onSelect: (id: number) => void;
-  onUpdate: (id: number, text: string, link: string) => void;
+  onUpdate: (id: number, text: string, link: string, advanced: string) => void;
   selected: boolean;
   setIsEditing: (isEditing: boolean) => void;
   published: boolean; // 新增的发布状态
@@ -53,6 +66,7 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
   src,
   text,
   link,
+  advanced,
   textStyles = {},
   onDragStop,
   onResizeStop,
@@ -60,7 +74,7 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
   onUpdate,
   selected,
   setIsEditing,
-  published, // 新增的发布状态
+  published,
 }) => {
   const textStyle = {
     fontWeight: textStyles.bold ? 'bold' : 'normal',
@@ -83,51 +97,100 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
       children: [
         { key: 'generateQRCode', label: 'Generate QR Code and Link' },
         { key: 'couponMessage', label: 'Coupon Received Message' },
-        { key: 'liveStreamMessage', label: 'Live Stream Subscribed Message' },
+        {
+          key: 'liveStreamMessage',
+          label: 'Live Stream Subscribed Message',
+        },
       ],
     },
   ];
 
+  type NotificationPlacement = NotificationArgsProps['placement'];
+
+  const Context = React.createContext({ name: 'Default' });
+
+  const [api, contextHolder] = notification.useNotification();
+
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isQRModalVisible, setIsQRModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [selectedMenuItem, setSelectedMenuItem] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [textLink, setTextLink] = React.useState(
+    'https://www.tiktok.com/explore'
+  );
 
-  // 局部变量来同步锁定状态
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   let stickerLocked = false;
 
-  // const handleButtonClick = () => {
-  //   stickerLocked = true; // 使用局部变量锁定sticker
-  //   setIsModalVisible(true);
-  //   form.setFieldsValue({ text, link });
-  // };
-
   const handleButtonClick = () => {
-    if (published && link) {
-      window.open(link, '_blank'); // 页面已发布，跳转到链接
+    if (published) {
+      setTimeout(() => {
+        if (link) {
+          console.log('Opening link:', link);
+          window.open(link, '_blank');
+        } else if (advanced === 'liveStreamMessage') {
+          console.log('Showing live notification');
+          // 显示liveStreamMessage通知的逻辑
+        } else if (advanced === 'couponMessage') {
+          console.log('Showing coupon notification');
+          // 显示couponMessage通知的逻辑
+        } else if (advanced === 'generateQRCode') {
+          console.log('Showing QR code');
+          showModal(); // 使用 showModal 函数
+          // 显示QR code的逻辑
+        }
+      }, 100); // 延迟100毫秒
     } else {
-      stickerLocked = true; // 使用局部变量锁定sticker
-      setIsModalVisible(true); // 页面未发布，弹出modal
-      form.setFieldsValue({ text, link });
+      console.log('Showing modal');
+      stickerLocked = true;
+      setIsModalVisible(true);
+      form.setFieldsValue({ text, link, advanced: selectedMenuItem });
     }
   };
 
   const handleModalOk = async () => {
     try {
       const values = await form.validateFields();
-      onUpdate(id, values.text, values.link);
-      stickerLocked = false; // 使用局部变量解锁sticker
+
+      // 更新状态
+      onUpdate(id, values.text, values.link, values.advanced);
+      setSelectedMenuItem(values.advanced); // 更新 selectedMenuItem 状态
+
+      stickerLocked = false;
       setIsModalVisible(false);
-      // console.log('Updated Button text:', values.text); // 添加检查 title 的 console.log
-      // console.log('Updated Button link:', values.link); // 添加检查 link 的 console.log
+      console.log('Form values:', values);
     } catch (info) {
       console.log('Validate Failed:', info);
     }
   };
 
   const handleModalCancel = () => {
-    stickerLocked = false; // 使用局部变量解锁sticker
+    stickerLocked = false;
     setIsModalVisible(false);
   };
+
+  const onClick: MenuProps['onClick'] = (e) => {
+    console.log('Menu item clicked:', e.key);
+    setSelectedMenuItem(e.key);
+    // console.log('Selected menu item updated to:', e.key);
+    form.setFieldsValue({ advanced: e.key }); // 实时更新表单的 advanced 字段
+  };
+
+  useEffect(() => {
+    console.log('Selected menu item updated to:', selectedMenuItem);
+  }, [selectedMenuItem]);
 
   const handleLinkDoubleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -144,12 +207,9 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
     }
   };
 
-  const onClick: MenuProps['onClick'] = (e) => {
-    console.log('click ', e);
-  };
-
   return (
     <>
+      {contextHolder}
       <Rnd
         size={{ width, height }}
         position={{ x, y }}
@@ -164,10 +224,8 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
           )
         }
         bounds="parent"
-        onClick={handleClick} // 在sticker未被锁定时才允许选择
-        style={{
-          border: selected ? '1px dashed red' : 'none',
-        }}
+        onClick={handleClick}
+        style={{ border: selected ? '1px dashed red' : 'none' }}
       >
         <div style={{ position: 'relative', width: '100%', height: '100%' }}>
           {type === 'sticker' && src && (
@@ -280,6 +338,32 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
           </Form.Item>
         </Form>
       </Modal>
+      <Modal
+        title="Share QRcode to Get Coupon!"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={[]}
+        width={300}
+      >
+        <Space direction="vertical" align="center">
+          <QRCode
+            errorLevel="H"
+            value="https://www.tiktok.com/explore"
+            icon={tiktokIcon}
+          />
+          <Space.Compact style={{ width: '100%' }}>
+            <Input
+              placeholder="-"
+              maxLength={60}
+              value={textLink}
+              onChange={(e) => setTextLink(e.target.value)}
+            />
+            <Button type="primary">Copy</Button>
+          </Space.Compact>
+        </Space>
+      </Modal>
+      ;
     </>
   );
 };

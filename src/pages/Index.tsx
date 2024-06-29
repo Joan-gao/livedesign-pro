@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import '../App.css';
 import VideoCard from '../components/VideoCard';
 import BottomNavbar from '../components/BottomNavbar';
@@ -9,6 +9,10 @@ import DesignSection from '../components/DesignPage/DesignSection';
 import FooterLeft from '../components/FooterLeft';
 import FooterRight from '../components/FooterRight';
 import DraggableResizable from '../components/DesignPage/DraggableResizable';
+
+import { Button, Space, notification } from 'antd';
+import type { NotificationArgsProps } from 'antd';
+type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 // Define the structure of a video object
 interface Video {
@@ -78,6 +82,10 @@ const videoUrls: Video[] = [
   },
 ];
 
+type NotificationPlacement = NotificationArgsProps['placement'];
+
+const Context = React.createContext({ name: 'Default' });
+
 const Index: React.FC = () => {
   const [videos, setVideos] = useState<Video[]>([]);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
@@ -133,6 +141,17 @@ const Index: React.FC = () => {
     videoRefs.current[index] = ref;
   };
 
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotificationWithIcon = (type: NotificationType) => {
+    console.log('Notification type:', type); // Add this line for debugging
+    api[type]({
+      message: 'Notification Title',
+      description:
+        'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+    });
+  };
+
   return (
     <div className="container">
       <TopNavbar className="top-navbar" />
@@ -154,6 +173,7 @@ const Index: React.FC = () => {
                 src={item.src}
                 text={item.text}
                 link={item.link}
+                advanced={item.advanced}
                 textStyles={item.text ? item.textStyles : {}}
                 onDragStop={() => {}} // Disable dragging in the published view
                 onResizeStop={() => {}} // Disable resizing in the published view
@@ -164,6 +184,17 @@ const Index: React.FC = () => {
                 published={true} // 确保传递 published 属性
               />
             ))}
+            {/* <>
+              {contextHolder}
+              <Button
+                onClick={() => {
+                  console.log('click');
+                  openNotificationWithIcon('success');
+                }}
+              >
+                Success
+              </Button>
+            </> */}
           </div>
 
           <div className="bottom-controls">

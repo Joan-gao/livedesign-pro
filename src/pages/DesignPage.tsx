@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Popover, Row, Col, Card, Input, Switch, Space } from 'antd';
+import {
+  Button,
+  Popover,
+  Row,
+  Col,
+  Card,
+  Input,
+  Switch,
+  notification,
+} from 'antd';
 import {
   BoldOutlined,
   HighlightOutlined,
@@ -55,12 +64,13 @@ interface Sticker {
   id: number;
   src?: string;
   text?: string;
+  link?: string; // 可选属性
+  advanced?: string;
   x: number;
   y: number;
   width: number;
   height: number;
   type: 'sticker' | 'button' | 'link'; // 添加 'image' 类型
-  link?: string; // 可选属性
   textStyles?: {
     bold?: boolean;
     underline?: boolean;
@@ -372,7 +382,10 @@ const DesignPage: React.FC<Props> = () => {
       const pageData = {
         image: imageData,
         caption,
-        stickers: stickerList,
+        stickers: stickerList.map((sticker) => ({
+          ...sticker,
+          advanced: sticker.advanced, // 确保 advanced 属性被包含
+        })),
         // You can add other elements like text, button, music if they have their own state
       };
 
@@ -383,11 +396,16 @@ const DesignPage: React.FC<Props> = () => {
     }
   };
 
-  const handleUpdateSticker = (id: number, text: string, link: string) => {
+  const handleUpdateSticker = (
+    id: number,
+    text: string,
+    link: string,
+    advanced: string
+  ) => {
     setStickerList((prevList) =>
       prevList.map((item) => {
         if (item.id === id) {
-          return { ...item, text, link };
+          return { ...item, text, link, advanced };
         }
         return item;
       })
@@ -820,13 +838,7 @@ const DesignPage: React.FC<Props> = () => {
             onDragStop={handleDragStop}
             onResizeStop={handleResizeStop}
             onSelect={(id) => setSelectedStickerId(id)}
-            onUpdate={(id, text, link) =>
-              setStickerList((prevList) =>
-                prevList.map((item) =>
-                  item.id === id ? { ...item, text, link } : item
-                )
-              )
-            }
+            onUpdate={handleUpdateSticker} // 绑定 handleUpdateSticker
             selected={selectedStickerId === item.id}
             setIsEditing={setIsEditing}
             published={published} // 新增的 published 属性
