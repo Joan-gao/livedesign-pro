@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 
-interface Props {}
+interface Props {
+  inputValue: string;
+  setInputValue: (value: string) => void;
+}
 
-const CreationTab: React.FC<Props> = () => {
-  const [inputValue, setInputValue] = useState('');
+const CreationTab: React.FC<Props> = ({ inputValue, setInputValue }) => {
   const [selectedModel, setSelectedModel] = useState<string | null>(null);
   const [selectedAspectRatio, setSelectedAspectRatio] = useState<string | null>(null);
 
@@ -83,10 +85,6 @@ const CreationTab: React.FC<Props> = () => {
             <p className='text-white'>9:16</p>
           </button>
         </div>
-
-        <button className="bg-[#FC2B55] text-white w-full border-none rounded-md py-1.5 px-6">
-          Generate
-        </button>
       </div>
     </div>
   );

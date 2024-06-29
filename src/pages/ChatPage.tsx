@@ -1,28 +1,23 @@
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom/client';
 import { Link } from 'react-router-dom';
-import { Button, Tabs } from "antd";
-import GeneratedTab from '../components/ChatPage/GeneratedTab';
-import CreationTab from '../components/ChatPage/CreationTab';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import GeneratedTab from '../components/ChatPage/GeneratedTab';
+import CreationTab from '../components/ChatPage/CreationTab';
 import "../css/main.css";
-
-const { TabPane } = Tabs;
 
 const ChatPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('1');
+  const [inputValue, setInputValue] = useState<string>('');
 
   const handleSwitchToTab1 = () => {
     const btn1 = document.getElementById('Button1');
     const btn2 = document.getElementById('Button2');
+    const GenerateBtn = document.getElementById('GenerateBtn');
 
-    if (btn1) {
-      btn1.style.color = "white"
-    }
-    if (btn2) {
-      btn2.style.color = "#240F14"
-    }
+    if (btn1) btn1.style.color = "white";
+    if (btn2) btn2.style.color = "#240F14";
+    if (GenerateBtn) GenerateBtn.style.display = "block";
 
     setActiveTab('1');
   };
@@ -30,17 +25,14 @@ const ChatPage: React.FC = () => {
   const handleSwitchToTab2 = () => {
     const btn1 = document.getElementById('Button1');
     const btn2 = document.getElementById('Button2');
+    const GenerateBtn = document.getElementById('GenerateBtn');
 
-    if (btn2) {
-      btn2.style.color = "white"
-    }
-    if (btn1) {
-      btn1.style.color = "#240F14"
-    }
+    if (btn2) btn2.style.color = "white";
+    if (btn1) btn1.style.color = "#240F14";
+    if (GenerateBtn) GenerateBtn.style.display = "none";
 
     setActiveTab('2');
   };
-
 
   return (
     <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
@@ -78,9 +70,20 @@ const ChatPage: React.FC = () => {
           </button>
         </div>
 
-        <div id='tabSection' className='w-full h-[579px]'>
-          {activeTab === '1' && <CreationTab />}
-          {activeTab === '2' && <GeneratedTab />}
+        <div id='tabSection' className='flex flex-col gap-4 place-items-center w-full h-[579px]'>
+          {activeTab === '1' && (
+            <div>
+              <CreationTab inputValue={inputValue} setInputValue={setInputValue} />
+            </div>
+          )}
+          {activeTab === '2' && <GeneratedTab inputText={inputValue} />}
+          <button
+            id='GenerateBtn'
+            onClick={handleSwitchToTab2}
+            className="bg-[#FC2B55] text-white w-[90%] border-none rounded-md py-1.5 px-6"
+          >
+            Generate
+          </button>
         </div>
       </div>
     </div>
