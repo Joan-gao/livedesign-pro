@@ -160,7 +160,6 @@ const Index: React.FC = () => {
         <div className="video">
           <div className="player">
             <DesignSection imageData={pageData.image} />
-            <h1>{pageData.caption}</h1>
             {pageData.stickers.map((item: any) => (
               <DraggableResizable
                 key={item.id}
@@ -184,24 +183,13 @@ const Index: React.FC = () => {
                 published={true} // 确保传递 published 属性
               />
             ))}
-            {/* <>
-              {contextHolder}
-              <Button
-                onClick={() => {
-                  console.log('click');
-                  openNotificationWithIcon('success');
-                }}
-              >
-                Success
-              </Button>
-            </> */}
           </div>
 
           <div className="bottom-controls">
             <div className="footer-left">
               <FooterLeft
                 username={'Test'}
-                description={'Test'}
+                description={pageData.caption}
                 song={pageData.audio}
               />
             </div>

@@ -264,8 +264,10 @@ const DesignPage: React.FC<Props> = () => {
   };
 
   const handleSubmit = () => {
-    setCaption(inputValue);
-    setOpenFilter(false);
+      console.log('Input Value:', inputValue); // 检查 inputValue 的值
+      setCaption(inputValue);
+      console.log('Caption set:', inputValue); // 检查 caption 设置后的值
+      setOpenFilter(false);
   };
 
   const handleOpenChangeSticker = (newOpen: boolean) => {
