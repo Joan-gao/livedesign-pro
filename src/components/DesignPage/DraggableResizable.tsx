@@ -86,6 +86,7 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
   };
 
   type MenuItem = Required<MenuProps>['items'][number];
+  type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
   const items: MenuItem[] = [
     {
@@ -143,9 +144,19 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
         } else if (advanced === 'liveStreamMessage') {
           console.log('Showing live notification');
           // 显示liveStreamMessage通知的逻辑
+          api.success({
+            message: 'Live Stream Subscribed!',
+            description:
+              'You have successfully subscribed to the live stream. Stay tuned for updates!',
+          });
         } else if (advanced === 'couponMessage') {
           console.log('Showing coupon notification');
           // 显示couponMessage通知的逻辑
+          api.success({
+            message: 'Coupon Received!',
+            description:
+              'You have successfully received a coupon. Enjoy your discount!',
+          });
         } else if (advanced === 'generateQRCode') {
           console.log('Showing QR code');
           showModal(); // 使用 showModal 函数
