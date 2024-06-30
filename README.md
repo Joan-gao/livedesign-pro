@@ -43,9 +43,9 @@ We have developed an EventPage design platform that streamlines the entire proce
 
 ## Contributors
 
-- [Xinyi Gao](www.linkedin.com/in/kahshinang): Product Design, UI/UX Design, Front-end Development
+- [Xinyi Gao](https://www.linkedin.com/in/xinyi-gao-cn/): Product Design, UI/UX Design, Front-end Development
 - [Viet Doan](https://www.linkedin.com/in/viet-doan-vqd/): UI/UX Design, Front-end Development
-- [Li Cui](www.linkedin.com/in/li-cui-73809027b): AI Integration, Backend Development
+- [Li Cui](https://www.linkedin.com/in/li-cui-73809027b): AI Integration, Backend Development
 
 ## Credits
 
