@@ -77,13 +77,13 @@ const GenerationPage: React.FC = () => {
             </div>
           )}
           {activeTab === '2' && <ExamplesTab />}
-          <button
+          <Link to="/ChatPage"
             id='GenerateBtn'
             onClick={handleSwitchToTab2}
-            className="bg-[#FC2B55] text-white w-[90%] border-none rounded-md py-1.5 px-6"
+            className="bg-[#FC2B55] text-center text-white w-[90%] border-none rounded-md py-1.5 px-6"
           >
             Generate
-          </button>
+          </Link>
         </div>
       </div>
     </div>

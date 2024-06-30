@@ -64,7 +64,7 @@ const ChatPage: React.FC<Props> = () => {
         {/* Navigation to previous page and Page Title */}
         <div className="sticky top-0 left-0 w-full h-12 flex justify-around items-center">
           <div className="absolute w-4/5 top-0 h-12 flex items-center z-10 m-auto">
-            <Link to="/FrontPage">
+            <Link to="/GenerationPage">
               <FontAwesomeIcon
                 icon={faArrowLeft}
                 className="text-base text-white cursor-pointer"

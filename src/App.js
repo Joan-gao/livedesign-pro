@@ -3,6 +3,7 @@ import './App.css';
 
 import Index from './pages/Index'
 import GenerationPage from './pages/GenerationPage';
+import ChatPage from './pages/ChatPage';
 import FrontPage from './pages/FrontPage';
 import DesignPage from './pages/DesignPage';
 
@@ -15,6 +16,7 @@ function App() {
           <Route index element={<Index />} />
           <Route path="FrontPage" element={<FrontPage />} />
           <Route path="GenerationPage" element={<GenerationPage />} />
+          <Route path="ChatPage" element={<ChatPage />} />
           <Route path="DesignPage" element={<DesignPage />} />
         </Routes>
       </BrowserRouter>
