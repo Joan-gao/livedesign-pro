@@ -1,0 +1,19 @@
+/* Custom Popover styles */
+.custom-popover .ant-popover-inner {
+  background-color: #f0f0f0 !important; /* Custom background color */
+  color: #333 !important; /* Custom font color */
+  border-radius: 8px !important; /* Add border radius if needed */
+}
+
+.custom-popover .ant-popover-arrow {
+  border-color: #f0f0f0 !important; /* Custom arrow color */
+}
+
+/* Remove default white border */
+.custom-popover .ant-popover {
+  border: none !important; /* Remove border */
+}
+
+.custom-popover .ant-popover-content {
+  border: none !important; /* Remove content border */
+}

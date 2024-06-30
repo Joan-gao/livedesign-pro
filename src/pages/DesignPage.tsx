@@ -58,6 +58,9 @@ import song3 from '../components/songs/mp3/Into_the_new_word_girls_generation.mp
 import song4 from '../components/songs/mp3/les_champs_elysees_helene_segara.mp3';
 import song5 from '../components/songs/mp3/Unstoppable_Sia.mp3';
 
+import './CustomPopover.css'
+
+
 interface Props {}
 
 interface Sticker {
@@ -472,6 +475,11 @@ const DesignPage: React.FC<Props> = () => {
     setOpenSticker(false); // 关闭Popover
   };
 
+  const customPopoverStyle = {
+    backgroundColor: '#f0f0f0', // 自定义背景色
+    color: '#333', // 自定义字体颜色
+  };
+
   const handleTextSubmit = (value: string) => {
     if (value.trim() !== '') {
       const newTextItem: Sticker = {
@@ -781,6 +789,7 @@ const DesignPage: React.FC<Props> = () => {
               trigger="click"
               open={openText}
               onOpenChange={handleOpenChangeText}
+              overlayClassName="custom-popover" // customized
             >
               <button>{TextIcon}</button>
             </Popover>
@@ -790,6 +799,7 @@ const DesignPage: React.FC<Props> = () => {
               trigger="click"
               open={openSticker}
               onOpenChange={handleOpenChangeSticker}
+              overlayClassName="custom-popover" // customized
             >
               <button>{StickerIcon}</button>
             </Popover>
@@ -799,6 +809,7 @@ const DesignPage: React.FC<Props> = () => {
               trigger="click"
               open={openMusic}
               onOpenChange={handleOpenChangeMusic}
+              overlayClassName="custom-popover" // customized
             >
               <button>{AudioIcon}</button>
             </Popover>
@@ -808,6 +819,7 @@ const DesignPage: React.FC<Props> = () => {
               trigger="click"
               open={openFilter}
               onOpenChange={handleOpenChangeFilter}
+              overlayClassName="custom-popover" // customized
             >
               <button>{FilterIcon}</button>
             </Popover>
@@ -816,6 +828,7 @@ const DesignPage: React.FC<Props> = () => {
               trigger="click"
               open={openMore}
               onOpenChange={handleOpenChangeMore}
+              overlayClassName="custom-popover" // customized
             >
               <button>{MoreIcon}</button>
             </Popover>
@@ -836,14 +849,14 @@ const DesignPage: React.FC<Props> = () => {
             type={item.type}
             src={item.src}
             text={item.text}
-            textStyles={item.textStyles} // 确保 textStyles 被传递
+            textStyles={item.textStyles} // textStyles
             onDragStop={handleDragStop}
             onResizeStop={handleResizeStop}
             onSelect={(id) => setSelectedStickerId(id)}
-            onUpdate={handleUpdateSticker} // 绑定 handleUpdateSticker
+            onUpdate={handleUpdateSticker} // handleUpdateSticker
             selected={selectedStickerId === item.id}
             setIsEditing={setIsEditing}
-            published={published} // 新增的 published 属性
+            published={published} // published
           />
         ))}
 
