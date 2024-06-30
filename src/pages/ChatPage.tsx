@@ -60,7 +60,7 @@ const ChatPage: React.FC<Props> = () => {
 
   return (
     <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
-      <div className="w-375 h-667 relative top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">
+      <div className="w-375 h-667 max-h-full relative top-0 flex flex-col gap-3 place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10 overflow-scroll no-scrollbar">
         {/* Navigation to previous page and Page Title */}
         <div className="sticky top-0 left-0 w-full h-12 flex justify-around items-center">
           <div className="absolute w-4/5 top-0 h-12 flex items-center z-10 m-auto">
