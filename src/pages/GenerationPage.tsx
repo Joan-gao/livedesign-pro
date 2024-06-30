@@ -38,8 +38,8 @@ const GenerationPage: React.FC = () => {
     <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
       <div className="w-375 h-667 max-h-full relative top-0 flex flex-col gap-3 place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10 overflow-scroll no-scrollbar">
         {/* Navigation to previous page and Page Title */}
-        <div className="sticky top-0 left-0 w-full h-12 flex justify-around items-center gap">
-          <div className="absolute w-4/5 top-0 h-12 flex items-center z-10 m-auto">
+        <div className=" w-4/5 h-[48px] flex items-center gap">
+          <div className="relative top-0 left-0 h-[48px] flex items-center z-10 z-10">
             <Link to="/FrontPage">
               <FontAwesomeIcon
                 icon={faArrowLeft}
@@ -47,7 +47,7 @@ const GenerationPage: React.FC = () => {
               />
             </Link>
           </div>
-          <h2 className="text-sm font-medium text-white text-shadow px-10 py-0">
+          <h2 className="flex m-auto relative text-left text-sm font-medium text-white text-shadow py-0">
             Event Page Generator
           </h2>
         </div>
@@ -66,7 +66,7 @@ const GenerationPage: React.FC = () => {
             id="Button2"
             className={`${activeTab === '2' ? 'text-white' : 'text-[#240F14]'}`}
           >
-            Generated
+            Examples
           </button>
         </div>
 
@@ -76,7 +76,7 @@ const GenerationPage: React.FC = () => {
               <CreationTab inputValue={inputValue} setInputValue={setInputValue} />
             </div>
           )}
-          {activeTab === '2' && <ExamplesTab inputText={inputValue} />}
+          {activeTab === '2' && <ExamplesTab />}
           <button
             id='GenerateBtn'
             onClick={handleSwitchToTab2}
