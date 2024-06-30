@@ -84,7 +84,7 @@ const FrontPage: React.FC<Props> = () => {
             />
           </div>
           <div className="text-white text-base text-center bg-[#4A2129] border-none rounded-xl h-fit px-3 py-3 margin-auto">
-            <Link to="/ChatPage">
+            <Link to="/GenerationPage">
               <p className="text-white text-center">Choose Generate</p>
             </Link>
           </div>
