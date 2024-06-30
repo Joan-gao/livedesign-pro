@@ -249,17 +249,17 @@ const DesignPage: React.FC<Props> = () => {
   const [textStyles, setTextStyles] = useState({
     bold: false,
     underline: false,
-    italic: false, // 新增的属性
+    italic: false, 
     bgColor: '',
     textColor: '',
-    fontSize: 16, // 新增的属性，默认字体大小
+    fontSize: 16,
   });
   // Music play
   const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(
     null
   );
 
-  const [isEditing, setIsEditing] = useState(false); // 全局编辑状态
+  const [isEditing, setIsEditing] = useState(false); // global edit
 
   // sticker popover
   const hideSticker = () => {
@@ -267,10 +267,9 @@ const DesignPage: React.FC<Props> = () => {
   };
 
   const handleSubmit = () => {
-      console.log('Input Value:', inputValue); // 检查 inputValue 的值
+      console.log('Input Value:', inputValue);
       setCaption(inputValue);
-      console.log('Caption set:', inputValue); // 检查 caption 设置后的值
-      setOpenFilter(false);
+      console.log('Caption set:', inputValue); 
   };
 
   const handleOpenChangeSticker = (newOpen: boolean) => {
@@ -447,7 +446,7 @@ const DesignPage: React.FC<Props> = () => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [selectedStickerId, stickerList, isEditing, textStyles]); // 确保 textStyles 也在依赖项中
+  }, [selectedStickerId, stickerList, isEditing, textStyles]); // textStyles
 
   const handleImageUpload = (id: number, src: string) => {
     setStickerList((prevList) =>
