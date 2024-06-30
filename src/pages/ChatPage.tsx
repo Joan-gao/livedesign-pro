@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -10,16 +10,10 @@ const ChatPage: React.FC<Props> = () => {
   const [inputValue, setInputValue] = useState('');
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const placeholderIMG1 =
-    'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/5lVaoQAxDn9e55u7qNF5.jpg';
-  const placeholderIMG2 =
-    'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/oXqKXlvxZSqV9ivfWZ21.jpg';
-  const placeholderIMG3 =
-    'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/u8LhInJHbwuu5DntvP5Z.jpg';
-  const placeholderIMG4 =
-    'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/AUDbh5NsUMK82HcC6F60.jpg';
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const previewData = location.state?.data;
 
   // Show Image Preview and Enable 'Select' Button
   const handleEdit = (imageId: string) => {
@@ -60,10 +54,10 @@ const ChatPage: React.FC<Props> = () => {
 
   return (
     <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
-      <div className="w-375 h-667 max-h-full relative top-0 flex flex-col gap-3 place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10 overflow-scroll no-scrollbar">
+      <div className="w-375 h-667 max-h-full relative top-0 flex flex-col pb-6 gap-3 place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10 overflow-x-hidden overflow-scroll no-scrollbar">
         {/* Navigation to previous page and Page Title */}
-        <div className="sticky top-0 left-0 w-full h-12 flex justify-around items-center">
-          <div className="absolute w-4/5 top-0 h-12 flex items-center z-10 m-auto">
+        <div className=" w-4/5 h-[48px] flex items-center gap">
+          <div className="relative top-0 left-0 h-[48px] flex items-center z-10 z-10">
             <Link to="/GenerationPage">
               <FontAwesomeIcon
                 icon={faArrowLeft}
@@ -71,8 +65,8 @@ const ChatPage: React.FC<Props> = () => {
               />
             </Link>
           </div>
-          <h2 className="text-sm font-medium text-white text-shadow px-10 py-0">
-            Event Page Generator
+          <h2 className="flex m-auto relative text-left text-sm font-medium text-white text-shadow py-0">
+            Event Chat Page
           </h2>
         </div>
 
@@ -80,19 +74,18 @@ const ChatPage: React.FC<Props> = () => {
           {/* Ai Text Responses */}
           <p className="text-[#CC8F99]">AI Bot</p>
           <div className="text-white text-base text-left bg-[#4A2129] border-none rounded-xl h-fit px-3 py-3">
-            <p className="text-white">
-              Rotogravure, Lola's mind is like a short stack of pancakes. 256
-              color radial laser ray bg --v 6.0 --s 250
+            <p className="text-white text-sm">
+              {previewData ? previewData.prompt : null}
             </p>
           </div>
 
           {/* Ai Design Output (4 designs) */}
           <div className="grid grid-cols-2 gap-3 mt-3.5">
-            <div className="relative bg-[#4A2129] h-32 rounded-xl overflow-hidden">
+            <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
               <img
                 id="Design1"
                 className="w-full h-full overflow-hidden"
-                src={placeholderIMG1}
+                src={previewData.img1}
                 alt="Generated Design"
               ></img>
               <button
@@ -103,11 +96,11 @@ const ChatPage: React.FC<Props> = () => {
               </button>
             </div>
 
-            <div className="relative bg-[#4A2129] h-32 rounded-xl overflow-hidden">
+            <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
               <img
                 id="Design2"
                 className="w-full h-full overflow-hidden"
-                src={placeholderIMG2}
+                src={previewData.img2}
                 alt="Generated Design"
               ></img>
               <button
@@ -118,11 +111,11 @@ const ChatPage: React.FC<Props> = () => {
               </button>
             </div>
 
-            <div className="relative bg-[#4A2129] h-32 rounded-xl overflow-hidden">
+            <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
               <img
                 id="Design3"
                 className="w-full h-full overflow-hidden"
-                src={placeholderIMG3}
+                src={previewData.img3}
                 alt="Generated Design"
               ></img>
               <button
@@ -133,11 +126,11 @@ const ChatPage: React.FC<Props> = () => {
               </button>
             </div>
 
-            <div className="relative bg-[#4A2129] h-32 rounded-xl overflow-hidden">
+            <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
               <img
                 id="Design4"
                 className="w-full h-full overflow-hidden"
-                src={placeholderIMG4}
+                src={previewData.img4}
                 alt="Generated Design"
               ></img>
               <button
@@ -148,9 +141,15 @@ const ChatPage: React.FC<Props> = () => {
               </button>
             </div>
           </div>
+        </div>
+
+
+
+
+
 
           {/* User Interaction Section */}
-          <div className="absolute flex flex-col w-full bottom-5 gap-3">
+          <div className="bg-[#240F14] items-center flex flex-col w-full gap-3 z-20 py-3 m-0">
             <div className="flex flex-row w-4/5 gap-3">
               {/* Select and Regenerate Buttons */}
               <button
@@ -170,7 +169,7 @@ const ChatPage: React.FC<Props> = () => {
               {/* User Prompt box */}
               <textarea
                 id="userPrompt"
-                className="text-white text-sm text-left bg-[#4A2129] border-none rounded-md w-full h-24 py-1.5 px-3"
+                className="text-white text-sm text-left bg-[#4A2129] border-none rounded-md w-full h-full min-h-24 py-1.5 px-3"
                 placeholder="Enter your text here"
                 value={inputValue}
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
@@ -199,7 +198,14 @@ const ChatPage: React.FC<Props> = () => {
               )}
             </div>
           </div>
-        </div>
+
+
+
+
+
+
+
+
       </div>
     </div>
   );

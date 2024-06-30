@@ -640,6 +640,10 @@ html {
   z-index: 20;
 }
 
+.m-0 {
+  margin: 0px;
+}
+
 .m-auto {
   margin: auto;
 }
@@ -689,10 +693,6 @@ html {
   height: 6rem;
 }
 
-.h-32 {
-  height: 8rem;
-}
-
 .h-667 {
   height: 667px;
 }
@@ -733,6 +733,10 @@ html {
 
 .max-h-full {
   max-height: 100%;
+}
+
+.min-h-24 {
+  min-height: 6rem;
 }
 
 .w-1\/2 {
@@ -880,6 +884,10 @@ html {
 
 .overflow-scroll {
   overflow: scroll;
+}
+
+.overflow-x-hidden {
+  overflow-x: hidden;
 }
 
 .rounded-25 {
