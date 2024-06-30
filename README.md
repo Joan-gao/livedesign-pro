@@ -2,7 +2,7 @@
 
 ## **Introduction**
 
-We have developed an EventPage design platform that streamlines the entire process from creation to publication. By integrating ChatGPT and MidJourney, the platform enables efficient image generation and smart copywriting, significantly lowering design barriers. It supports adding interactive elements like text, stickers, and buttons, enhancing live stream engagement and conversion rates. This platform is designed to optimize the TikTok live streaming experience by making event page creation quick and easy.
+This project developed an EventPage design platform that streamlines the entire process from creation to publication. By integrating ChatGPT and MidJourney, the platform enables efficient image generation and smart copywriting, significantly lowering design barriers. It supports adding interactive elements like text, stickers, and buttons, enhancing live stream engagement and conversion rates. This platform is designed to optimize the TikTok live streaming experience by making event page creation quick and easy.
 
 ## **Technologies Use**
 
