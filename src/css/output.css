@@ -759,6 +759,10 @@ html {
   width: 100px;
 }
 
+.w-\[320px\] {
+  width: 320px;
+}
+
 .w-\[32px\] {
   width: 32px;
 }
@@ -912,6 +916,11 @@ html {
 
 .rounded-xl {
   border-radius: 0.75rem;
+}
+
+.rounded-t-\[24px\] {
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
 }
 
 .border {
@@ -1086,6 +1095,10 @@ html {
 
 .underline {
   text-decoration-line: underline;
+}
+
+.opacity-50 {
+  opacity: 0.5;
 }
 
 .opacity-60 {
