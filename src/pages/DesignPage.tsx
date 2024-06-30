@@ -775,9 +775,9 @@ const DesignPage: React.FC<Props> = () => {
       style={{ position: 'relative' }}
     >
       <div className="w-375 h-667 relative top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">
-        <div className="z-20 sticky top-0 left-0 w-full h-12 flex justify-around items-center">
+        <div className="z-20 bg-[#240F14] opacity-50 rounded-t-[25px] sticky top-0 left-0 w-full h-12 flex justify-around items-center">
           <div className="flex flex-row w-4/5 justify-between items-center">
-            <Link to="/ChatPage">
+            <Link to="/GenerationPage">
               <FontAwesomeIcon
                 icon={faArrowLeft}
                 className="text-base text-white cursor-pointer"
