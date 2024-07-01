@@ -8,21 +8,34 @@ const VideoCard = (props) => {
   const videoRef = useRef(null);
 
   useEffect(() => {
-    if (autoplay) {
-      videoRef.current.play();
-    }
+    const handleUserInteraction = () => {
+      if (autoplay && videoRef.current) {
+        videoRef.current.play().catch((error) => {
+          console.error('Error attempting to play video:', error);
+        });
+      }
+      document.removeEventListener('click', handleUserInteraction);
+    };
+
+    document.addEventListener('click', handleUserInteraction);
+
+    return () => {
+      document.removeEventListener('click', handleUserInteraction);
+    };
   }, [autoplay]);
 
   const onVideoPress = () => {
     if (videoRef.current.paused) {
-      videoRef.current.play();
+      videoRef.current.play().catch((error) => {
+        console.error('Error attempting to play video:', error);
+      });
     } else {
       videoRef.current.pause();
     }
   };
 
   return (
-    <div className="video">
+    <div className="video">  
       {/* The video element */}
       <video
         className="player"
