@@ -1,14 +1,32 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import ExamplesTab from '../components/GenerationPage/ExamplesTab';
 import CreationTab from '../components/GenerationPage/CreationTab';
 import "../css/main.css";
+import "../css/scrollbar.css"
+
+import { Button, Divider, notification, Space } from 'antd';
+import type { NotificationArgsProps } from 'antd';
+
+type NotificationPlacement = NotificationArgsProps['placement'];
 
 const GenerationPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('1');
   const [inputValue, setInputValue] = useState<string>('');
+  const navigate = useNavigate();
+  let data = "";
+
+  const [api, contextHolder] = notification.useNotification();
+  const openNotification = (placement: NotificationPlacement) => {
+    api.info({
+      message: `Notification`,
+      description:
+        'Please Enter Prompt and Select Style before Generating',
+      placement,
+    });
+  };
 
   const handleSwitchToTab1 = () => {
     const btn1 = document.getElementById('Button1');
@@ -34,9 +52,17 @@ const GenerationPage: React.FC = () => {
     setActiveTab('2');
   };
 
+  const handleGenerate = () => {
+    if (data) {
+      navigate('/ChatPage', { state: {data: data} });
+    } else {
+      openNotification('top');
+    }
+  };
+
   return (
     <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
-      <div className="w-375 h-667 max-h-full relative top-0 flex flex-col gap-3 place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10 overflow-scroll no-scrollbar">
+      <div id='custom-scrollbar' className="w-375 h-667 max-h-full relative top-0 flex flex-col gap-3 place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10 overflow-x-hidden overflow-scroll">
         {/* Navigation to previous page and Page Title */}
         <div className=" w-4/5 h-[48px] flex items-center gap">
           <div className="relative top-0 left-0 h-[48px] flex items-center z-10 z-10">
@@ -77,13 +103,18 @@ const GenerationPage: React.FC = () => {
             </div>
           )}
           {activeTab === '2' && <ExamplesTab />}
-          <Link to="/ChatPage"
-            id='GenerateBtn'
-            className="bg-[#FC2B55] text-center text-white w-[90%] border-none rounded-md py-1.5 px-6"
-          >
-            Generate
-          </Link>
+          {contextHolder}
+          <Space>
+            <Button
+              onClick={handleGenerate}
+              className="absolute bottom-5 bg-[#FC2B55] left-[5%] text-center text-white w-[90%] border-none rounded-md py-1.5 px-6"
+            >
+              Generate
+            </Button>
+          </Space>
         </div>
+
+
       </div>
     </div>
   );

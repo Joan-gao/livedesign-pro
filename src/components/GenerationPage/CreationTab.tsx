@@ -33,7 +33,7 @@ const CreationTab: React.FC<Props> = ({ inputValue, setInputValue }) => {
   };
 
   return (
-    <div className="w-375 top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">
+    <div className="relative w-375 left-[12px] top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">
       <div className="flex flex-col w-[90%] mx-auto gap-4">
         {/* Ai Text Responses */}
         <p className="text-[#CC8F99]">Descriptions</p>

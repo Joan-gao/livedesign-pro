@@ -62,7 +62,7 @@ const FrontPage: React.FC<Props> = () => {
           </h2>
         </div>
 
-        <div className="absolute bottom-5 flex flex-col w-4/5 gap-2">
+        <div className="flex flex-col w-4/5 gap-2">
           {/* Ai Text Responses */}
           <h2 className="text-white">How do you want to create this?</h2>
           <div className="text-white text-base text-center bg-[#4A2129] border-none rounded-xl h-fit px-3 py-3">
