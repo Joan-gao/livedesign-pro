@@ -1,22 +1,31 @@
 import React, { useState } from 'react';
-import { Link , useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import ExamplesTab from '../components/GenerationPage/ExamplesTab';
 import CreationTab from '../components/GenerationPage/CreationTab';
 import "../css/main.css";
-import "../css/scrollbar.css"
+import "../css/scrollbar.css";
 
-import { Button, Divider, notification, Space } from 'antd';
+import { Button, notification, Space } from 'antd';
 import type { NotificationArgsProps } from 'antd';
 
 type NotificationPlacement = NotificationArgsProps['placement'];
+
+export interface ExampleProps {
+  prompt: string;
+  img1: string;
+  img2: string;
+  img3: string;
+  img4: string;
+  model: string | null; // Update type to allow null
+  aspectRatio: string | null; // Update type to allow null
+}
 
 const GenerationPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('1');
   const [inputValue, setInputValue] = useState<string>('');
   const navigate = useNavigate();
-  let data = "";
 
   const [api, contextHolder] = notification.useNotification();
   const openNotification = (placement: NotificationPlacement) => {
@@ -28,37 +37,34 @@ const GenerationPage: React.FC = () => {
     });
   };
 
+  // Initialize data object with default values
+  const [data, setData] = useState<ExampleProps>({
+    prompt: '',
+    img1: '',
+    img2: '',
+    img3: '',
+    img4: '',
+    model: null, // Initialize model as null
+    aspectRatio: null, // Initialize aspectRatio as null
+  });
+
   const handleSwitchToTab1 = () => {
-    const btn1 = document.getElementById('Button1');
-    const btn2 = document.getElementById('Button2');
-    const GenerateBtn = document.getElementById('GenerateBtn');
-
-    if (btn1) btn1.style.color = "white";
-    if (btn2) btn2.style.color = "#240F14";
-    if (GenerateBtn) GenerateBtn.style.display = "block";
-
     setActiveTab('1');
   };
 
   const handleSwitchToTab2 = () => {
-    const btn1 = document.getElementById('Button1');
-    const btn2 = document.getElementById('Button2');
-    const GenerateBtn = document.getElementById('GenerateBtn');
-
-    if (btn2) btn2.style.color = "white";
-    if (btn1) btn1.style.color = "#240F14";
-    if (GenerateBtn) GenerateBtn.style.display = "none";
-
     setActiveTab('2');
   };
 
   const handleGenerate = () => {
-    navigate('/ChatPage', { state: {data: data} });
-    // if (data) {
-    //   navigate('/ChatPage', { state: {data: data} });
-    // } else {
-    //   openNotification('top');
-    // }
+    // Check if inputValue, model, and aspectRatio are populated
+    if (!inputValue || !data.model || !data.aspectRatio) {
+      openNotification('top');
+      return;
+    }
+
+    // Navigate to ChatPage with updated data
+    navigate('/ChatPage', { state: { data } });
   };
 
   return (
@@ -83,14 +89,12 @@ const GenerationPage: React.FC = () => {
         <div className='flex flex-row gap-6 self-center w-fit h-fit px-6 py-2 bg-[#4A2129] rounded-md'>
           <button
             onClick={handleSwitchToTab1}
-            id="Button1"
             className={`text-white ${activeTab === '1' ? 'text-white' : 'text-[#240F14]'}`}
           >
             Creation
           </button>
           <button
             onClick={handleSwitchToTab2}
-            id="Button2"
             className={`${activeTab === '2' ? 'text-white' : 'text-[#240F14]'}`}
           >
             Examples
@@ -100,7 +104,7 @@ const GenerationPage: React.FC = () => {
         <div id='tabSection' className='flex flex-col gap-4 place-items-center w-full h-[579px]'>
           {activeTab === '1' && (
             <div>
-              <CreationTab inputValue={inputValue} setInputValue={setInputValue} />
+              <CreationTab inputValue={inputValue} setInputValue={setInputValue} setData={setData} />
             </div>
           )}
           {activeTab === '2' && <ExamplesTab />}
@@ -114,7 +118,6 @@ const GenerationPage: React.FC = () => {
             </Button>
           </Space>
         </div>
-
 
       </div>
     </div>

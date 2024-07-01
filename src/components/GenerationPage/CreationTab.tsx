@@ -1,20 +1,22 @@
-import React, { useState} from 'react';
-import animatedStyle from './Assets/animatedExample.jpg';
-import realisticStyle from './Assets/realisticExample.jpg';
+import React, { useState, useEffect } from 'react';
+import { ExampleProps } from '../../pages/GenerationPage';
+import realisticModel from './Assets/realisticExample.jpg'
+import animatedStyle from './Assets/animatedExample.jpg'
 
 interface Props {
   inputValue: string;
   setInputValue: (value: string) => void;
+  setData: React.Dispatch<React.SetStateAction<ExampleProps>>;
 }
 
-const CreationTab: React.FC<Props> = ({ inputValue, setInputValue }) => {
+const CreationTab: React.FC<Props> = ({ inputValue, setInputValue, setData }) => {
   const [selectedModel, setSelectedModel] = useState<string | null>(null);
   const [selectedAspectRatio, setSelectedAspectRatio] = useState<string | null>(null);
 
   const models = [
     {
       name: 'Realistic',
-      imgSrc: realisticStyle,
+      imgSrc: realisticModel,
     },
     {
       name: 'Animated',
@@ -25,12 +27,25 @@ const CreationTab: React.FC<Props> = ({ inputValue, setInputValue }) => {
   // Handle Model Selection
   const handleModelSelect = (model: string) => {
     setSelectedModel(model);
+    setData((prevData: ExampleProps) => ({
+      ...prevData,
+      model: model,
+    }));
   };
 
   // Handle Aspect Ratio Selection
   const handleAspectRatioSelect = (aspectRatio: string) => {
     setSelectedAspectRatio(aspectRatio);
+    setData((prevData: ExampleProps) => ({
+      ...prevData,
+      aspectRatio: aspectRatio,
+    }));
   };
+
+  useEffect(() => {
+    // Update input value on mount or whenever inputValue changes
+    setInputValue(inputValue);
+  }, [inputValue, setInputValue]);
 
   return (
     <div className="relative w-375 left-[12px] top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">
