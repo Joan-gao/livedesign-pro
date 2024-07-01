@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ExampleProps } from '../../pages/GenerationPage';
-import realisticModel from './Assets/realisticExample.jpg'
-import animatedStyle from './Assets/animatedExample.jpg'
+import realisticModel from './Assets/realisticExample.jpg';
+import animatedStyle from './Assets/animatedExample.jpg';
 
 interface Props {
   inputValue: string;
@@ -45,7 +45,11 @@ const CreationTab: React.FC<Props> = ({ inputValue, setInputValue, setData }) =>
   useEffect(() => {
     // Update input value on mount or whenever inputValue changes
     setInputValue(inputValue);
-  }, [inputValue, setInputValue]);
+    setData((prevData: ExampleProps) => ({
+      ...prevData,
+      prompt: inputValue, // Ensure prompt is updated with inputValue
+    }));
+  }, [inputValue, setInputValue, setData]);
 
   return (
     <div className="relative w-375 left-[12px] top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">

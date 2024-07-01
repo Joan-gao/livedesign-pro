@@ -63,6 +63,9 @@ const GenerationPage: React.FC = () => {
       return;
     }
 
+    console.log("test");
+    console.log(data.prompt); // Check if data.prompt is correctly set
+
     // Navigate to ChatPage with updated data
     navigate('/ChatPage', { state: { data } });
   };
