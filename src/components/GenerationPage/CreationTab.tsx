@@ -1,14 +1,18 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-interface Props {}
+interface Props {
+  inputValue: string;
+  setInputValue: (value: string) => void;
+}
 
-const CreationTab: React.FC<Props> = () => {
-  const [inputValue, setInputValue] = useState("");
+const CreationTab: React.FC<Props> = ({ inputValue, setInputValue }) => {
   const [selectedModel, setSelectedModel] = useState<string | null>(null);
   const [selectedAspectRatio, setSelectedAspectRatio] = useState<string | null>(
     null
   );
-
+  const navigate = useNavigate();
   const models = [
     {
       name: "Animated",
@@ -21,7 +25,55 @@ const CreationTab: React.FC<Props> = () => {
         "https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/oXqKXlvxZSqV9ivfWZ21.jpg",
     },
   ];
+  const checkAndConcatenate = () => {
+    if (inputValue && selectedModel && selectedAspectRatio) {
+      return {
+        isValid: true,
+        result: `${inputValue} ${selectedModel} ${selectedAspectRatio}`,
+      };
+    } else {
+      let missingValues = [];
+      if (!inputValue) missingValues.push("inputValue");
+      if (!selectedModel) missingValues.push("selectedModel");
+      if (!selectedAspectRatio) missingValues.push("selectedAspectRatio");
+      return {
+        isValid: false,
+        result: `The following variable(s) need a value: ${missingValues.join(
+          ", "
+        )}`,
+      };
+    }
+  };
+  const handleGenerate = async () => {
+    let result = checkAndConcatenate();
+    if (result.isValid) {
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:5000/generate",
+          { message: result.result },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
+        );
+        console.log(response.data.response.images[0]);
 
+        if (response.data.response.images[0]) {
+          navigate("/DesignPage", {
+            state: {
+              image: response.data.response.images[0],
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
+    } else {
+      console.error("Invalid Error:", result.result);
+    }
+  };
   // Handle Model Selection
   const handleModelSelect = (model: string) => {
     setSelectedModel(model);
@@ -56,11 +108,11 @@ const CreationTab: React.FC<Props> = () => {
             <div
               key={index}
               className={`flex flex-col items-center cursor-pointer border-2 ${
-                selectedModel === model.imgSrc
+                selectedModel === model.name
                   ? "border-[#4A2129] border-[4px] rounded-md"
                   : "border-transparent"
               }`}
-              onClick={() => handleModelSelect(model.imgSrc)}
+              onClick={() => handleModelSelect(model.name)}
             >
               <img
                 className="w-full h-full overflow-hidden"
@@ -97,10 +149,6 @@ const CreationTab: React.FC<Props> = () => {
             <p className="text-white">9:16</p>
           </button>
         </div>
-
-        <button className="bg-[#FC2B55] text-white w-full border-none rounded-md py-1.5 px-6">
-          Generate
-        </button>
       </div>
     </div>
   );
