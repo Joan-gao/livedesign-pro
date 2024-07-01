@@ -20,10 +20,22 @@ def generate():
     prompt = request.json.get('message')
     print(prompt)
     if prompt is not None:
-        response = dellGenerate(prompt)
+        response = dellGenerate(prompt, optimize=True)
     # response = midjourneyGenerate(prompt)
     else:
         response['error'] = 'Invalid Input,please check your  prompt'
+    return jsonify({'response': response})
+
+
+@app.route("/optimize/caption", methods=['POST'])
+def generateCaption():
+    description = request.json.get('des')
+    print(description)
+    if description is not None:
+        response = promptOptimizeForCaption(description)
+
+    else:
+        response['error'] = 'Invalid Input,please check your description'
     return jsonify({'response': response})
 
 
@@ -44,11 +56,17 @@ def edit():
 
 @app.route("/re-generate", methods=['POST'])
 def regenerate():
-    prompt = request.json.get('prompt')
+    prompt = request.json.get('message')
+    print(prompt)
     if prompt is not None:
-        response = dellGenerate(prompt)
-        # response = midjourneyGenerate(prompt)
+        # response = dellGenerate(prompt, optimize=False)
+
+        #  response = midjourneyGenerate(prompt)
+        response["images"] = ["https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",
+                              "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",
+                              "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",
+                              "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"]
+
     else:
         response['error'] = 'Invalid Input,please check your  prompt'
-
     return jsonify({'response': response})

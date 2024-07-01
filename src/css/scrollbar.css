@@ -1,0 +1,13 @@
+#custom-scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+#custom-scrollbar::-webkit-scrollbar-track {
+  margin-top: 25px;
+  margin-bottom: 25px;  
+}
+
+#custom-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(74, 33, 41);
+}

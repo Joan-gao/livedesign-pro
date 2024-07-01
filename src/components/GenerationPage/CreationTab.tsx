@@ -1,18 +1,23 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { ExampleProps } from "../../pages/GenerationPage";
+// import "axios" from axios;
 
 interface Props {
   inputValue: string;
   setInputValue: (value: string) => void;
+  setData: React.Dispatch<React.SetStateAction<ExampleProps>>;
 }
 
-const CreationTab: React.FC<Props> = ({ inputValue, setInputValue }) => {
+const CreationTab: React.FC<Props> = ({
+  inputValue,
+  setInputValue,
+  setData,
+}) => {
   const [selectedModel, setSelectedModel] = useState<string | null>(null);
   const [selectedAspectRatio, setSelectedAspectRatio] = useState<string | null>(
     null
   );
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const models = [
     {
       name: "Animated",
@@ -25,67 +30,36 @@ const CreationTab: React.FC<Props> = ({ inputValue, setInputValue }) => {
         "https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/oXqKXlvxZSqV9ivfWZ21.jpg",
     },
   ];
-  const checkAndConcatenate = () => {
-    if (inputValue && selectedModel && selectedAspectRatio) {
-      return {
-        isValid: true,
-        result: `${inputValue} ${selectedModel} ${selectedAspectRatio}`,
-      };
-    } else {
-      let missingValues = [];
-      if (!inputValue) missingValues.push("inputValue");
-      if (!selectedModel) missingValues.push("selectedModel");
-      if (!selectedAspectRatio) missingValues.push("selectedAspectRatio");
-      return {
-        isValid: false,
-        result: `The following variable(s) need a value: ${missingValues.join(
-          ", "
-        )}`,
-      };
-    }
-  };
-  const handleGenerate = async () => {
-    let result = checkAndConcatenate();
-    if (result.isValid) {
-      try {
-        const response = await axios.post(
-          "http://127.0.0.1:5000/generate",
-          { message: result.result },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-            },
-          }
-        );
-        console.log(response.data.response.images[0]);
 
-        if (response.data.response.images[0]) {
-          navigate("/DesignPage", {
-            state: {
-              image: response.data.response.images[0],
-            },
-          });
-        }
-      } catch (error) {
-        console.error("Error sending message:", error);
-      }
-    } else {
-      console.error("Invalid Error:", result.result);
-    }
-  };
   // Handle Model Selection
   const handleModelSelect = (model: string) => {
     setSelectedModel(model);
+    setData((prevData: ExampleProps) => ({
+      ...prevData,
+      model: model,
+    }));
   };
 
   // Handle Aspect Ratio Selection
   const handleAspectRatioSelect = (aspectRatio: string) => {
     setSelectedAspectRatio(aspectRatio);
+    setData((prevData: ExampleProps) => ({
+      ...prevData,
+      aspectRatio: aspectRatio,
+    }));
   };
 
+  useEffect(() => {
+    // Update input value on mount or whenever inputValue changes
+    setInputValue(inputValue);
+    setData((prevData: ExampleProps) => ({
+      ...prevData,
+      prompt: inputValue, // Ensure prompt is updated with inputValue
+    }));
+  }, [inputValue, setInputValue, setData]);
+
   return (
-    <div className="w-375 top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">
+    <div className="relative w-375 left-[12px] top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">
       <div className="flex flex-col w-[90%] mx-auto gap-4">
         {/* Ai Text Responses */}
         <p className="text-[#CC8F99]">Descriptions</p>

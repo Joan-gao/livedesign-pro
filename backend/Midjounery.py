@@ -41,7 +41,7 @@ def fetchImages(task_id, fetch_url):
     #         "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
     #     ]
     # }
-
+    imgResults = {}
     payload = json.dumps({
         "task_id": task_id
     })
@@ -56,12 +56,12 @@ def fetchImages(task_id, fetch_url):
     if "image_urls" in result_dict:
         images = result_dict["image_urls"]
 
-        result['images'] = images
-        result['prompt'] = result_dict['prompt']
+        imgResults['images'] = images
+        imgResults['prompt'] = result_dict['prompt']
     else:
-        result['error'] = "Generating Image Failed"
+        imgResults['error'] = "Generating Image Failed"
 
-    return result
+    return imgResults
 
 
 def midjourneyGenerate(prompt):
