@@ -82,65 +82,74 @@ const ChatPage: React.FC<Props> = () => {
 
           {/* Ai Design Output (4 designs) */}
           <div className="grid grid-cols-2 gap-3 mt-3.5">
-            <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
-              <img
-                id="Design1"
-                className="w-full h-full overflow-hidden"
-                src={previewData.img1}
-                alt="Generated Design"
-              ></img>
-              <button
-                className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
-                onClick={() => handleEdit('Design1')}
-              >
-                Edit
-              </button>
-            </div>
+            {previewData && previewData.img1 && (
+              <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
+                <img
+                  id="Design1"
+                  className="w-full h-full overflow-hidden"
+                  src={previewData.img1}
+                  alt="Generated Design"
+                />
+                <button
+                  className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
+                  onClick={() => handleEdit('Design1')}
+                >
+                  Edit
+                </button>
+              </div>
+            )}
 
-            <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
-              <img
-                id="Design2"
-                className="w-full h-full overflow-hidden"
-                src={previewData.img2}
-                alt="Generated Design"
-              ></img>
-              <button
-                className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
-                onClick={() => handleEdit('Design2')}
-              >
-                Edit
-              </button>
-            </div>
+            {previewData && previewData.img2 && (
+              <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
+                <img
+                  id="Design2"
+                  className="w-full h-full overflow-hidden"
+                  src={previewData.img2}
+                  alt="Generated Design"
+                />
+                <button
+                  className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
+                  onClick={() => handleEdit('Design2')}
+                >
+                  Edit
+                </button>
+              </div>
+            )}
 
-            <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
-              <img
-                id="Design3"
-                className="w-full h-full overflow-hidden"
-                src={previewData.img3}
-                alt="Generated Design"
-              ></img>
-              <button
-                className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
-                onClick={() => handleEdit('Design3')}
-              >
-                Edit
-              </button>
-            </div>
+            {previewData && previewData.img3 && (
+              <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
+                <img
+                  id="Design3"
+                  className="w-full h-full overflow-hidden"
+                  src={previewData.img3}
+                  alt="Generated Design"
+                />
+                <button
+                  className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
+                  onClick={() => handleEdit('Design3')}
+                >
+                  Edit
+                </button>
+              </div>
+            )}
 
-            <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
-              <img
-                id="Design4"
-                className="w-full h-full overflow-hidden"
-                src={previewData.img4}
-                alt="Generated Design"
-              ></img>
-              <button
-                className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
-                onClick={() => handleEdit('Design4')}
-              >
-                Edit
-              </button>
-            </div>
+            {previewData && previewData.img4 && (
+              <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
+                <img
+                  id="Design4"
+                  className="w-full h-full overflow-hidden"
+                  src={previewData.img4}
+                  alt="Generated Design"
+                />
+                <button
+                  className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
+                  onClick={() => handleEdit('Design4')}
+                >
+                  Edit
+                </button>
+              </div>
+            )}
+
           </div>
         </div>
 

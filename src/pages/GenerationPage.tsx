@@ -53,11 +53,12 @@ const GenerationPage: React.FC = () => {
   };
 
   const handleGenerate = () => {
-    if (data) {
-      navigate('/ChatPage', { state: {data: data} });
-    } else {
-      openNotification('top');
-    }
+    navigate('/ChatPage', { state: {data: data} });
+    // if (data) {
+    //   navigate('/ChatPage', { state: {data: data} });
+    // } else {
+    //   openNotification('top');
+    // }
   };
 
   return (
