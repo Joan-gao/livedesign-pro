@@ -1,37 +1,58 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
+import { ExampleProps } from '../../pages/GenerationPage';
+import realisticModel from './Assets/realisticExample.jpg';
+import animatedStyle from './Assets/animatedExample.jpg';
 
 interface Props {
   inputValue: string;
   setInputValue: (value: string) => void;
+  setData: React.Dispatch<React.SetStateAction<ExampleProps>>;
 }
 
-const CreationTab: React.FC<Props> = ({ inputValue, setInputValue }) => {
+const CreationTab: React.FC<Props> = ({ inputValue, setInputValue, setData }) => {
   const [selectedModel, setSelectedModel] = useState<string | null>(null);
   const [selectedAspectRatio, setSelectedAspectRatio] = useState<string | null>(null);
 
   const models = [
     {
-      name: 'Animated',
-      imgSrc: 'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/5lVaoQAxDn9e55u7qNF5.jpg',
+      name: 'Realistic',
+      imgSrc: realisticModel,
     },
     {
-      name: 'Realistic',
-      imgSrc: 'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/oXqKXlvxZSqV9ivfWZ21.jpg',
+      name: 'Animated',
+      imgSrc: animatedStyle,
     },
   ];
 
   // Handle Model Selection
   const handleModelSelect = (model: string) => {
     setSelectedModel(model);
+    setData((prevData: ExampleProps) => ({
+      ...prevData,
+      model: model,
+    }));
   };
 
   // Handle Aspect Ratio Selection
   const handleAspectRatioSelect = (aspectRatio: string) => {
     setSelectedAspectRatio(aspectRatio);
+    setData((prevData: ExampleProps) => ({
+      ...prevData,
+      aspectRatio: aspectRatio,
+    }));
   };
 
+  useEffect(() => {
+    // Update input value on mount or whenever inputValue changes
+    setInputValue(inputValue);
+    setData((prevData: ExampleProps) => ({
+      ...prevData,
+      prompt: inputValue, // Ensure prompt is updated with inputValue
+    }));
+  }, [inputValue, setInputValue, setData]);
+
   return (
-    <div className="w-375 top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">
+    <div className="relative w-375 left-[12px] top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">
       <div className="flex flex-col w-[90%] mx-auto gap-4">
         {/* Ai Text Responses */}
         <p className="text-[#CC8F99]">Descriptions</p>
@@ -58,7 +79,7 @@ const CreationTab: React.FC<Props> = ({ inputValue, setInputValue }) => {
               }`}
               onClick={() => handleModelSelect(model.imgSrc)}
             >
-              <img className="w-full h-full overflow-hidden" src={model.imgSrc} alt={model.name} />
+              <img className="w-full h-full object-cover" src={model.imgSrc} alt={model.name} />
               <p className='text-white'>{model.name}</p>
             </div>
           ))}

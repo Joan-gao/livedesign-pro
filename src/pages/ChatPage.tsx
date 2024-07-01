@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import "../css/scrollbar.css"
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -54,8 +55,8 @@ const ChatPage: React.FC<Props> = () => {
 
   return (
     <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
-      <div className="w-375 h-667 max-h-full relative top-0 flex flex-col pb-6 gap-3 place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10 overflow-x-hidden overflow-scroll no-scrollbar">
-        {/* Navigation to previous page and Page Title */}
+      <div id='custom-scrollbar' className="w-375 h-667 max-h-full relative top-0 flex flex-col gap-3 place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10 overflow-x-hidden overflow-scroll">
+      {/* Navigation to previous page and Page Title */}
         <div className=" w-4/5 h-[48px] flex items-center gap">
           <div className="relative top-0 left-0 h-[48px] flex items-center z-10 z-10">
             <Link to="/GenerationPage">
@@ -81,65 +82,74 @@ const ChatPage: React.FC<Props> = () => {
 
           {/* Ai Design Output (4 designs) */}
           <div className="grid grid-cols-2 gap-3 mt-3.5">
-            <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
-              <img
-                id="Design1"
-                className="w-full h-full overflow-hidden"
-                src={previewData.img1}
-                alt="Generated Design"
-              ></img>
-              <button
-                className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
-                onClick={() => handleEdit('Design1')}
-              >
-                Edit
-              </button>
-            </div>
+            {previewData && previewData.img1 && (
+              <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
+                <img
+                  id="Design1"
+                  className="w-full h-full overflow-hidden"
+                  src={previewData.img1}
+                  alt="Generated Design"
+                />
+                <button
+                  className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
+                  onClick={() => handleEdit('Design1')}
+                >
+                  Edit
+                </button>
+              </div>
+            )}
 
-            <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
-              <img
-                id="Design2"
-                className="w-full h-full overflow-hidden"
-                src={previewData.img2}
-                alt="Generated Design"
-              ></img>
-              <button
-                className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
-                onClick={() => handleEdit('Design2')}
-              >
-                Edit
-              </button>
-            </div>
+            {previewData && previewData.img2 && (
+              <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
+                <img
+                  id="Design2"
+                  className="w-full h-full overflow-hidden"
+                  src={previewData.img2}
+                  alt="Generated Design"
+                />
+                <button
+                  className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
+                  onClick={() => handleEdit('Design2')}
+                >
+                  Edit
+                </button>
+              </div>
+            )}
 
-            <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
-              <img
-                id="Design3"
-                className="w-full h-full overflow-hidden"
-                src={previewData.img3}
-                alt="Generated Design"
-              ></img>
-              <button
-                className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
-                onClick={() => handleEdit('Design3')}
-              >
-                Edit
-              </button>
-            </div>
+            {previewData && previewData.img3 && (
+              <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
+                <img
+                  id="Design3"
+                  className="w-full h-full overflow-hidden"
+                  src={previewData.img3}
+                  alt="Generated Design"
+                />
+                <button
+                  className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
+                  onClick={() => handleEdit('Design3')}
+                >
+                  Edit
+                </button>
+              </div>
+            )}
 
-            <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
-              <img
-                id="Design4"
-                className="w-full h-full overflow-hidden"
-                src={previewData.img4}
-                alt="Generated Design"
-              ></img>
-              <button
-                className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
-                onClick={() => handleEdit('Design4')}
-              >
-                Edit
-              </button>
-            </div>
+            {previewData && previewData.img4 && (
+              <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
+                <img
+                  id="Design4"
+                  className="w-full h-full overflow-hidden"
+                  src={previewData.img4}
+                  alt="Generated Design"
+                />
+                <button
+                  className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
+                  onClick={() => handleEdit('Design4')}
+                >
+                  Edit
+                </button>
+              </div>
+            )}
+
           </div>
         </div>
 

@@ -612,6 +612,14 @@ html {
   left: 0px;
 }
 
+.left-\[12px\] {
+  left: 12px;
+}
+
+.left-\[5\%\] {
+  left: 5%;
+}
+
 .right-2 {
   right: 0.5rem;
 }
@@ -757,10 +765,6 @@ html {
 
 .w-\[100px\] {
   width: 100px;
-}
-
-.w-\[320px\] {
-  width: 320px;
 }
 
 .w-\[32px\] {
@@ -918,9 +922,9 @@ html {
   border-radius: 0.75rem;
 }
 
-.rounded-t-\[24px\] {
-  border-top-left-radius: 24px;
-  border-top-right-radius: 24px;
+.rounded-t-\[25px\] {
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
 }
 
 .border {
