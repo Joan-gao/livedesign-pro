@@ -92,7 +92,7 @@ const GenerationPage: React.FC = () => {
         <div className='flex flex-row gap-6 self-center w-fit h-fit px-6 py-2 bg-[#4A2129] rounded-md'>
           <button
             onClick={handleSwitchToTab1}
-            className={`text-white ${activeTab === '1' ? 'text-white' : 'text-[#240F14]'}`}
+            className={`${activeTab === '1' ? 'text-white' : 'text-[#240F14]'}`}
           >
             Creation
           </button>
