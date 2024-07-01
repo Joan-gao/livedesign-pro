@@ -1,4 +1,6 @@
 import React, { useState} from 'react';
+import animatedStyle from './Assets/animatedExample.jpg';
+import realisticStyle from './Assets/realisticExample.jpg';
 
 interface Props {
   inputValue: string;
@@ -11,12 +13,12 @@ const CreationTab: React.FC<Props> = ({ inputValue, setInputValue }) => {
 
   const models = [
     {
-      name: 'Animated',
-      imgSrc: 'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/5lVaoQAxDn9e55u7qNF5.jpg',
+      name: 'Realistic',
+      imgSrc: realisticStyle,
     },
     {
-      name: 'Realistic',
-      imgSrc: 'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/oXqKXlvxZSqV9ivfWZ21.jpg',
+      name: 'Animated',
+      imgSrc: animatedStyle,
     },
   ];
 
@@ -58,7 +60,7 @@ const CreationTab: React.FC<Props> = ({ inputValue, setInputValue }) => {
               }`}
               onClick={() => handleModelSelect(model.imgSrc)}
             >
-              <img className="w-full h-full overflow-hidden" src={model.imgSrc} alt={model.name} />
+              <img className="w-full h-full object-cover" src={model.imgSrc} alt={model.name} />
               <p className='text-white'>{model.name}</p>
             </div>
           ))}

@@ -759,10 +759,6 @@ html {
   width: 100px;
 }
 
-.w-\[320px\] {
-  width: 320px;
-}
-
 .w-\[32px\] {
   width: 32px;
 }
@@ -918,9 +914,9 @@ html {
   border-radius: 0.75rem;
 }
 
-.rounded-t-\[24px\] {
-  border-top-left-radius: 24px;
-  border-top-right-radius: 24px;
+.rounded-t-\[25px\] {
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
 }
 
 .border {
