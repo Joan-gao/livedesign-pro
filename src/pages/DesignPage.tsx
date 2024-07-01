@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Popover,
@@ -8,7 +8,7 @@ import {
   Input,
   Switch,
   notification,
-} from 'antd';
+} from "antd";
 import {
   BoldOutlined,
   HighlightOutlined,
@@ -19,47 +19,46 @@ import {
   ZoomOutOutlined,
   PauseCircleOutlined,
   UploadOutlined,
-} from '@ant-design/icons';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { Rnd } from 'react-rnd';
+} from "@ant-design/icons";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { Rnd } from "react-rnd";
 // Design Sections
-import DesignSection from '../components/DesignPage/DesignSection';
-import DraggableResizable from '../components/DesignPage/DraggableResizable'; // 导入你的组件
+import DesignSection from "../components/DesignPage/DesignSection";
+import DraggableResizable from "../components/DesignPage/DraggableResizable"; // 导入你的组件
 
-import sticker1 from '../components/stickers/pics/discount.png';
-import sticker2 from '../components/stickers/pics/discount1.png';
-import sticker3 from '../components/stickers/pics/discount2.png';
-import sticker4 from '../components/stickers/pics/discount3.png';
-import sticker5 from '../components/stickers/pics/discount4.gif';
-import sticker6 from '../components/stickers/pics/discount5.png';
-import sticker7 from '../components/stickers/pics/discount6.png';
-import sticker8 from '../components/stickers/pics/discount7.gif';
-import sticker9 from '../components/stickers/pics/discount8.gif';
-import sticker10 from '../components/stickers/pics/discount9.gif';
-import sticker11 from '../components/stickers/pics/discount10.gif';
-import sticker12 from '../components/stickers/pics/discount11.gif';
-import sticker13 from '../components/stickers/pics/discount12.gif';
-import sticker14 from '../components/stickers/pics/discount14.gif';
+import sticker1 from "../components/stickers/pics/discount.png";
+import sticker2 from "../components/stickers/pics/discount1.png";
+import sticker3 from "../components/stickers/pics/discount2.png";
+import sticker4 from "../components/stickers/pics/discount3.png";
+import sticker5 from "../components/stickers/pics/discount4.gif";
+import sticker6 from "../components/stickers/pics/discount5.png";
+import sticker7 from "../components/stickers/pics/discount6.png";
+import sticker8 from "../components/stickers/pics/discount7.gif";
+import sticker9 from "../components/stickers/pics/discount8.gif";
+import sticker10 from "../components/stickers/pics/discount9.gif";
+import sticker11 from "../components/stickers/pics/discount10.gif";
+import sticker12 from "../components/stickers/pics/discount11.gif";
+import sticker13 from "../components/stickers/pics/discount12.gif";
+import sticker14 from "../components/stickers/pics/discount14.gif";
 
-import buttonSticker from '../components/stickers/pics/button.png';
-import linkSticker from '../components/stickers/pics/link.png';
+import buttonSticker from "../components/stickers/pics/button.png";
+import linkSticker from "../components/stickers/pics/link.png";
 
-import cover1 from '../components/songs/covers/jocelin.jpg';
-import cover2 from '../components/songs/covers/ocean_eyes.jpg';
-import cover3 from '../components/songs/covers/Into_the_new_word_girls_generation.jpg';
-import cover4 from '../components/songs/covers/les_champs_elysees_helene_segara.jpg';
-import cover5 from '../components/songs/covers/Unstoppable_Sia.jpg';
+import cover1 from "../components/songs/covers/jocelin.jpg";
+import cover2 from "../components/songs/covers/ocean_eyes.jpg";
+import cover3 from "../components/songs/covers/Into_the_new_word_girls_generation.jpg";
+import cover4 from "../components/songs/covers/les_champs_elysees_helene_segara.jpg";
+import cover5 from "../components/songs/covers/Unstoppable_Sia.jpg";
 
-import song1 from '../components/songs/mp3/jocelin.mp3';
-import song2 from '../components/songs/mp3/ocean_eyes.mp3';
-import song3 from '../components/songs/mp3/Into_the_new_word_girls_generation.mp3';
-import song4 from '../components/songs/mp3/les_champs_elysees_helene_segara.mp3';
-import song5 from '../components/songs/mp3/Unstoppable_Sia.mp3';
+import song1 from "../components/songs/mp3/jocelin.mp3";
+import song2 from "../components/songs/mp3/ocean_eyes.mp3";
+import song3 from "../components/songs/mp3/Into_the_new_word_girls_generation.mp3";
+import song4 from "../components/songs/mp3/les_champs_elysees_helene_segara.mp3";
+import song5 from "../components/songs/mp3/Unstoppable_Sia.mp3";
 
-import './CustomPopover.css'
-
+import "./CustomPopover.css";
 
 interface Props {}
 
@@ -73,7 +72,7 @@ interface Sticker {
   y: number;
   width: number;
   height: number;
-  type: 'sticker' | 'button' | 'link'; // 添加 'image' 类型
+  type: "sticker" | "button" | "link"; // 添加 'image' 类型
   textStyles?: {
     bold?: boolean;
     underline?: boolean;
@@ -169,55 +168,55 @@ const DesignPage: React.FC<Props> = () => {
   // import all stickers
   const stickers: {
     default: string;
-    type: 'sticker' | 'button' | 'link';
+    type: "sticker" | "button" | "link";
   }[] = [
-    { default: sticker1, type: 'sticker' },
-    { default: sticker2, type: 'sticker' },
-    { default: sticker3, type: 'sticker' },
-    { default: sticker4, type: 'sticker' },
-    { default: sticker5, type: 'sticker' },
-    { default: sticker6, type: 'sticker' },
-    { default: sticker7, type: 'sticker' },
-    { default: sticker8, type: 'sticker' },
-    { default: sticker9, type: 'sticker' },
-    { default: sticker10, type: 'sticker' },
-    { default: sticker11, type: 'sticker' },
-    { default: sticker12, type: 'sticker' },
-    { default: sticker13, type: 'sticker' },
-    { default: sticker14, type: 'sticker' },
-    { default: buttonSticker, type: 'button' },
+    { default: sticker1, type: "sticker" },
+    { default: sticker2, type: "sticker" },
+    { default: sticker3, type: "sticker" },
+    { default: sticker4, type: "sticker" },
+    { default: sticker5, type: "sticker" },
+    { default: sticker6, type: "sticker" },
+    { default: sticker7, type: "sticker" },
+    { default: sticker8, type: "sticker" },
+    { default: sticker9, type: "sticker" },
+    { default: sticker10, type: "sticker" },
+    { default: sticker11, type: "sticker" },
+    { default: sticker12, type: "sticker" },
+    { default: sticker13, type: "sticker" },
+    { default: sticker14, type: "sticker" },
+    { default: buttonSticker, type: "button" },
   ];
 
   // import musicData
   const musicData = [
     {
       image: cover1,
-      artist: 'Leddra Chapman',
-      title: 'Jocelin',
+      artist: "Leddra Chapman",
+      title: "Jocelin",
       song: song1,
     },
     {
       image: cover2,
-      artist: 'Billie Elish',
-      title: 'Ocean Eyes',
+      artist: "Billie Elish",
+      title: "Ocean Eyes",
       song: song2,
     },
     {
       image: cover3,
-      artist: 'Girls Generation',
-      title: 'Into the new word',
+      artist: "Girls Generation",
+      title: "Into the new word",
       song: song3,
     },
     {
       image: cover4,
-      artist: 'Helene Segara',
-      title: 'Les Champs-Élysées',
+      artist: "Helene Segara",
+      title: "Les Champs-Élysées",
       song: song4,
     },
     {
       image: cover5,
-      artist: 'Sia',
-      title: 'Unstoppable',
+      artist: "Sia",
+      title: "Unstoppable",
       song: song5,
     },
   ];
@@ -226,14 +225,14 @@ const DesignPage: React.FC<Props> = () => {
   const location = useLocation();
   const imageData = location.state?.image;
 
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   // popover
   const [openSticker, setOpenSticker] = useState(false);
   const [openMusic, setOpenMusic] = useState(false);
   const [openText, setOpenText] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const [openMore, setOpenMore] = useState(false);
-  const [caption, setCaption] = useState('');
+  const [caption, setCaption] = useState("");
 
   const [published, setPublished] = useState(false); // 新增的发布状态
 
@@ -249,9 +248,9 @@ const DesignPage: React.FC<Props> = () => {
   const [textStyles, setTextStyles] = useState({
     bold: false,
     underline: false,
-    italic: false, 
-    bgColor: '',
-    textColor: '',
+    italic: false,
+    bgColor: "",
+    textColor: "",
     fontSize: 16,
   });
   // Music play
@@ -267,9 +266,9 @@ const DesignPage: React.FC<Props> = () => {
   };
 
   const handleSubmit = () => {
-      console.log('Input Value:', inputValue);
-      setCaption(inputValue);
-      console.log('Caption set:', inputValue); 
+    console.log("Input Value:", inputValue);
+    setCaption(inputValue);
+    console.log("Caption set:", inputValue);
   };
 
   const handleOpenChangeSticker = (newOpen: boolean) => {
@@ -289,12 +288,12 @@ const DesignPage: React.FC<Props> = () => {
   const handleMusicClick = (music: any) => {
     if (currentAudio) {
       currentAudio.pause();
-      console.log('Pausing current audio:', currentAudio.src);
+      console.log("Pausing current audio:", currentAudio.src);
     }
     const newAudio = new Audio(music.song);
-    newAudio.play().catch((error) => console.error('Audio play error:', error));
+    newAudio.play().catch((error) => console.error("Audio play error:", error));
     setCurrentAudio(newAudio);
-    console.log('Playing new audio:', newAudio.src);
+    console.log("Playing new audio:", newAudio.src);
   };
 
   const hideMusic = () => {
@@ -393,10 +392,10 @@ const DesignPage: React.FC<Props> = () => {
         // You can add other elements like text, button, music if they have their own state
       };
 
-      console.log('Publishing page data:', pageData);
-      navigate('/', { state: { pageData } });
+      console.log("Publishing page data:", pageData);
+      navigate("/", { state: { pageData } });
     } else {
-      alert('No image to publish.');
+      alert("No image to publish.");
     }
   };
 
@@ -419,7 +418,7 @@ const DesignPage: React.FC<Props> = () => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (
-        event.key === 'Backspace' &&
+        event.key === "Backspace" &&
         selectedStickerId !== null &&
         !isEditing
       ) {
@@ -430,7 +429,7 @@ const DesignPage: React.FC<Props> = () => {
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
 
     // 添加监听 textStyles 的变化
     if (selectedStickerId !== null) {
@@ -444,7 +443,7 @@ const DesignPage: React.FC<Props> = () => {
     }
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [selectedStickerId, stickerList, isEditing, textStyles]); // textStyles
 
@@ -456,17 +455,17 @@ const DesignPage: React.FC<Props> = () => {
 
   const handleStickerClick = (
     src: string,
-    type: 'sticker' | 'button' | 'link'
+    type: "sticker" | "button" | "link"
   ) => {
     const newSticker: Sticker = {
       id: nextId,
-      src: type === 'sticker' ? src : undefined,
+      src: type === "sticker" ? src : undefined,
       type,
       x: 50,
       y: 50,
       width: 100,
       height: 100,
-      text: type === 'button' || type === 'link' ? 'Click Me' : undefined,
+      text: type === "button" || type === "link" ? "Click Me" : undefined,
     };
 
     setStickerList((prevList) => [...prevList, newSticker]);
@@ -475,12 +474,12 @@ const DesignPage: React.FC<Props> = () => {
   };
 
   const customPopoverStyle = {
-    backgroundColor: '#f0f0f0', // 自定义背景色
-    color: '#333', // 自定义字体颜色
+    backgroundColor: "#f0f0f0", // 自定义背景色
+    color: "#333", // 自定义字体颜色
   };
 
   const handleTextSubmit = (value: string) => {
-    if (value.trim() !== '') {
+    if (value.trim() !== "") {
       const newTextItem: Sticker = {
         id: nextId,
         text: value,
@@ -488,24 +487,24 @@ const DesignPage: React.FC<Props> = () => {
         y: 100,
         width: 200,
         height: 50,
-        type: 'sticker',
+        type: "sticker",
         textStyles: { ...textStyles },
       };
-      console.log('Adding new text item:', newTextItem);
+      console.log("Adding new text item:", newTextItem);
       setStickerList([...stickerList, newTextItem]);
       setNextId(nextId + 1);
     }
   };
 
   const renderStickerContent = () => (
-    <div style={{ width: 300, height: 200, overflowY: 'scroll' }}>
+    <div style={{ width: 300, height: 200, overflowY: "scroll" }}>
       <Row gutter={[16, 16]}>
         {stickers.map((sticker, index) => (
           <Col span={8} key={index}>
             <img
               src={sticker.default}
               alt={`sticker-${index}`}
-              style={{ width: '100%', cursor: 'pointer' }}
+              style={{ width: "100%", cursor: "pointer" }}
               onClick={() => handleStickerClick(sticker.default, sticker.type)}
             />
           </Col>
@@ -519,25 +518,25 @@ const DesignPage: React.FC<Props> = () => {
     <Row gutter={[8, 0]} justify="center" align="middle">
       <Col>
         <ZoomInOutlined
-          style={{ fontSize: '24px', cursor: 'pointer' }}
+          style={{ fontSize: "24px", cursor: "pointer" }}
           onClick={() => {
-            console.log('Increasing font size');
+            console.log("Increasing font size");
             increaseFontSize();
           }}
         />
       </Col>
       <Col>
         <ZoomOutOutlined
-          style={{ fontSize: '24px', cursor: 'pointer' }}
+          style={{ fontSize: "24px", cursor: "pointer" }}
           onClick={decreaseFontSize}
         />
       </Col>
       <Col>
         <BoldOutlined
           style={{
-            fontSize: '24px',
-            cursor: 'pointer',
-            fontWeight: textStyles.bold ? 'bold' : 'normal',
+            fontSize: "24px",
+            cursor: "pointer",
+            fontWeight: textStyles.bold ? "bold" : "normal",
           }}
           onClick={toggleBold}
         />
@@ -545,9 +544,9 @@ const DesignPage: React.FC<Props> = () => {
       <Col>
         <ItalicOutlined
           style={{
-            fontSize: '24px',
-            cursor: 'pointer',
-            fontStyle: textStyles.italic ? 'italic' : 'normal',
+            fontSize: "24px",
+            cursor: "pointer",
+            fontStyle: textStyles.italic ? "italic" : "normal",
           }}
           onClick={toggleItalic}
         />
@@ -555,9 +554,9 @@ const DesignPage: React.FC<Props> = () => {
       <Col>
         <UnderlineOutlined
           style={{
-            fontSize: '24px',
-            cursor: 'pointer',
-            textDecoration: textStyles.underline ? 'underline' : 'none',
+            fontSize: "24px",
+            cursor: "pointer",
+            textDecoration: textStyles.underline ? "underline" : "none",
           }}
           onClick={toggleUnderline}
         />
@@ -568,7 +567,7 @@ const DesignPage: React.FC<Props> = () => {
           trigger="click"
           placement="bottom"
         >
-          <BgColorsOutlined style={{ fontSize: '24px', cursor: 'pointer' }} />
+          <BgColorsOutlined style={{ fontSize: "24px", cursor: "pointer" }} />
         </Popover>
       </Col>
       <Col>
@@ -577,25 +576,25 @@ const DesignPage: React.FC<Props> = () => {
           trigger="click"
           placement="bottom"
         >
-          <HighlightOutlined style={{ fontSize: '24px', cursor: 'pointer' }} />
+          <HighlightOutlined style={{ fontSize: "24px", cursor: "pointer" }} />
         </Popover>
       </Col>
     </Row>
   );
 
   const renderBgColorOptions = () => (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
-      {['red', 'white', 'black', 'yellow'].map((color) => (
+    <div style={{ display: "flex", flexDirection: "row" }}>
+      {["red", "white", "black", "yellow"].map((color) => (
         <div
           key={color}
           onClick={() => setBgColor(color)}
           style={{
             backgroundColor: color,
-            width: '20px',
-            height: '20px',
-            margin: '5px',
-            borderRadius: '50%',
-            cursor: 'pointer',
+            width: "20px",
+            height: "20px",
+            margin: "5px",
+            borderRadius: "50%",
+            cursor: "pointer",
           }}
         />
       ))}
@@ -603,18 +602,18 @@ const DesignPage: React.FC<Props> = () => {
   );
 
   const renderTextColorOptions = () => (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
-      {['red', 'white', 'black', 'yellow'].map((color) => (
+    <div style={{ display: "flex", flexDirection: "row" }}>
+      {["red", "white", "black", "yellow"].map((color) => (
         <div
           key={color}
           onClick={() => setTextColor(color)}
           style={{
             backgroundColor: color,
-            width: '20px',
-            height: '20px',
-            margin: '5px',
-            borderRadius: '50%',
-            cursor: 'pointer',
+            width: "20px",
+            height: "20px",
+            margin: "5px",
+            borderRadius: "50%",
+            cursor: "pointer",
           }}
         />
       ))}
@@ -628,9 +627,9 @@ const DesignPage: React.FC<Props> = () => {
         <Input
           placeholder="Enter text"
           onPressEnter={(e) => {
-            console.log('Text entered:', e.currentTarget.value);
+            console.log("Text entered:", e.currentTarget.value);
             handleTextSubmit(e.currentTarget.value);
-            e.currentTarget.value = ''; // 清空输入框
+            e.currentTarget.value = ""; // 清空输入框
             setOpenText(false); // 关闭Popover
           }}
         />
@@ -646,26 +645,26 @@ const DesignPage: React.FC<Props> = () => {
 
   // Custom title component
   const renderPopoverTitle = () => (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div style={{ display: "flex", alignItems: "center" }}>
       <span style={{ marginRight: 10 }}>choose music</span>
       <PauseCircleOutlined
-        style={{ fontSize: '24px', cursor: 'pointer' }}
+        style={{ fontSize: "24px", cursor: "pointer" }}
         onClick={pauseMusic}
       />
     </div>
   );
 
   const uploadImg = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
     input.onchange = (event: any) => {
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
           const imgSrc = e.target?.result as string;
-          handleStickerClick(imgSrc, 'sticker');
+          handleStickerClick(imgSrc, "sticker");
         };
         reader.readAsDataURL(file);
       }
@@ -675,10 +674,10 @@ const DesignPage: React.FC<Props> = () => {
 
   const renderPopoverStickerTitle = () => {
     return (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: "flex", alignItems: "center" }}>
         <span style={{ marginRight: 10 }}>choose sticker</span>
         <UploadOutlined
-          style={{ fontSize: '24px', cursor: 'pointer' }}
+          style={{ fontSize: "24px", cursor: "pointer" }}
           onClick={uploadImg}
         />
       </div>
@@ -688,13 +687,13 @@ const DesignPage: React.FC<Props> = () => {
   const pauseMusic = () => {
     if (currentAudio) {
       currentAudio.pause();
-      console.log('Pausing current audio:', currentAudio.src);
+      console.log("Pausing current audio:", currentAudio.src);
       setCurrentAudio(null);
     }
   };
 
   const renderMusicContent = () => (
-    <div style={{ width: 300, height: 300, overflowY: 'scroll' }}>
+    <div style={{ width: 300, height: 300, overflowY: "scroll" }}>
       {musicData.map((music, index) => (
         <Card
           key={index}
@@ -707,18 +706,18 @@ const DesignPage: React.FC<Props> = () => {
               <img
                 alt="music cover"
                 src={music.image}
-                style={{ width: '100%' }}
+                style={{ width: "100%" }}
               />
             </Col>
             <Col span={16}>
               <Card.Meta
                 title={
-                  <div style={{ fontSize: '18px', marginBottom: '0px' }}>
+                  <div style={{ fontSize: "18px", marginBottom: "0px" }}>
                     {music.title}
                   </div>
                 }
                 description={
-                  <div style={{ fontSize: '15px', margin: 0 }}>
+                  <div style={{ fontSize: "15px", margin: 0 }}>
                     {music.artist}
                   </div>
                 }
@@ -732,12 +731,12 @@ const DesignPage: React.FC<Props> = () => {
 
   const renderPopoverFilterTitle = () => {
     return (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: "flex", alignItems: "center" }}>
         <span style={{ marginRight: 10 }}>choose caption</span>
         <Switch
-          checkedChildren={<span style={{ fontWeight: 'bold' }}>Use AI</span>}
+          checkedChildren={<span style={{ fontWeight: "bold" }}>Use AI</span>}
           unCheckedChildren={
-            <span style={{ fontWeight: 'bold' }}>Disable</span>
+            <span style={{ fontWeight: "bold" }}>Disable</span>
           }
           defaultChecked
         />
@@ -747,17 +746,17 @@ const DesignPage: React.FC<Props> = () => {
 
   const renderFilterContent = () => {
     return (
-      <div style={{ width: 200, height: 130, padding: '10px' }}>
+      <div style={{ width: 200, height: 130, padding: "10px" }}>
         <Input.TextArea
           defaultValue="Write your caption and tags here..."
           onChange={(e) => setInputValue(e.target.value)}
-          style={{ width: '100%', height: '80px', overflowY: 'scroll' }}
+          style={{ width: "100%", height: "80px", overflowY: "scroll" }}
         />
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginTop: '10px',
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "10px",
           }}
         >
           <Button type="primary" onClick={handleSubmit}>
@@ -772,7 +771,7 @@ const DesignPage: React.FC<Props> = () => {
     <div
       className="z-101 absolute top-0 h-screen w-screen grid place-items-center"
       onClick={handleClick}
-      style={{ position: 'relative' }}
+      style={{ position: "relative" }}
     >
       <div className="w-375 h-667 relative top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">
         <div className="z-20 bg-[#240F14] opacity-50 rounded-t-[25px] sticky top-0 left-0 w-full h-12 flex justify-around items-center">
