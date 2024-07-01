@@ -1,36 +1,53 @@
-# TikTok UI Clone
-The TikTok UI Clone is a web application developed to replicate the user interface of the TikTok app. It is built using React.js, CSS, and JSX, and allows users to browse and view TikTok-style videos in a familiar and interactive interface.
+<h1 align="center">Eventpage Design Platform</h1>
 
-![Opera Snapshot_2024-02-08_205956_tik-tok-ui-clone-shemmee vercel app](https://github.com/s-shemmee/TikTok-UI-Clone/assets/56132945/353e9840-edc3-40fa-9e36-ec66b113738e)
+## **Introduction**
 
-# Features
-- Browse and view TikTok-style videos.
-- Smooth and responsive video playback.
-- User-friendly interface with intuitive navigation.
-- Infinite scrolling for seamless video discovery.
-- Like, comment, and share videos.
-- Follow users and explore personalized content.
+This project developed an EventPage design platform that streamlines the entire process from creation to publication. Integrating ChatGPT and MidJourney enables efficient image generation and smart copywriting, significantly lowering design barriers. Users can add interactive elements like text, stickers, and buttons to enhance live stream engagement and conversion rates. The platform is designed to optimize the TikTok live streaming experience, making event page creation quick and easy.
 
-# Technologies & Tools Used
-- React.js
-- CSS
-- JSX
-- VS Code
+## **Technologies Use**
 
-# Installation and Usage
-To use this TikTok UI Clone, follow these steps:
+1. **Frontend**: React, Typescript, JavaScript, Tailwind css
+2. **UI Toolkit**: Ant Design
+3. **Backend**: Flask
+4. **AI Integration**: ChatGPT API, Midjourney API
+5. **Hosting**: Firebase
 
-- Clone the repository or download the source code.
-- Open the project in your preferred code editor.
-- Run `npm install` to install the necessary dependencies.
-- Run `npm start` to start the development server.
-- Open your browser and navigate to `http://localhost:3000` to access the app.
+## **Core Features**
 
-# Demo
-A live demo of the TikTok UI Clone is available at [LINK TO LIVE DEMO](https://tik-tok-ui-clone-shemmee.vercel.app).
+1. **GeneratePage**
 
-# Credits
+- **Functionality**: Users can choose between creation and examples. In creation, they fill out a form describing their event poster idea, select a style (real or anime), and choose a size (1:1 or 16:9). They can also view and apply example event pages for reference and further modification.
+
+2. **ChatPage**
+
+- **Functionality**: After submitting the form, users enter the chat page to interact with the MidJourney AI bot. The bot generates descriptions and image examples based on the user's input. Users can modify prompts or regenerate images before selecting and moving to the next step.
+
+3. **DesignPage**
+
+- **Functionality**: Provides a toolbar for editing the event page, allowing users to add text, components, music, and copywriting. Users can edit button titles and links for interactive elements like live subscriptions and coupon collections. Once editing is complete, they can publish directly to their TikTok video page.
+
+## Technical Highlights
+
+1. **Precise Image Generation**: Integrating MidJourney API and ChatGPT API to enable precise text-to-prompt-to-image generation. ChatGPT converts user descriptions into professional prompts for MidJourney, which then generates the images. It also supports image-to-image functionality for detailed modifications.
+
+2. **Interactive Component Manipulation**: Utilizing React-RND for interactive component manipulation, allowing users to freely drag, resize, and scale elements on the DesignPage.
+
+3. **Advanced Interactive Behaviors**: Enabling users to define interactive behaviors by customizing button titles and links, as well as adding advanced interactions such as generating QR codes, triggering pop-ups for live stream subscriptions, and displaying coupon messages, providing ideas for future interactive features.
+
+4. **Smart Copywriting**: Leveraging ChatGPT API to refine user drafts using prompt engineering, the smart copywriting feature generates TikTok-style content and adds relevant tags to enhance video engagement.
+
+## Links
+
+- ([Figma](https://www.figma.com/design/K4paycUTmDi1UPivG5Y3qi/tiktok-evenpage-design-platform?node-id=0-1&t=I4h6lhU1aygq2q2R-1))
+- ([Devpost](https://drive.google.com/file/d/1a72KiaWNZy_RF3DWihqkiE9QrL39gGF1/view?usp=sharing))
+- ([Demo Video](https://drive.google.com/file/d/12pQbA4ywGYH6YanbJhsRlm3OlnadnIaQ/view?usp=sharing))
+
+## Contributors
+
+- [Xinyi Gao](https://www.linkedin.com/in/xinyi-gao-cn/): Product Design, UI/UX Design, Front-end Development
+- [Viet Doan](https://www.linkedin.com/in/viet-doan-vqd/): UI/UX Design, Front-end Development
+- [Li Cui](https://www.linkedin.com/in/li-cui-73809027b): AI Integration, Backend Development
+
+## Credits
+
 The TikTok UI Clone was created by [s-shemmee](https://github.com/s-shemmee).
-
-# License
-This project is licensed under the MIT license.
