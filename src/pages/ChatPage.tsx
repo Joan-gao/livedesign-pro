@@ -101,12 +101,13 @@ const ChatPage: React.FC<Props> = () => {
 
   // Regenerate based on previous prompt
   const handleRege = async () => {
-    // Check if inputValue, model, and aspectRatio are populated
-
+    // Check if prompt, model, and aspectRatio are populated
+    console.log(previewData);
     try {
       const response = await axios.post(
         "http://127.0.0.1:5000/re-generate",
-        { message: inputValue },
+        { message: previewData.prompt },
+
         {
           headers: {
             "Content-Type": "application/json",
@@ -114,12 +115,13 @@ const ChatPage: React.FC<Props> = () => {
           },
         }
       );
-
+      console.log(response.data);
       if (response.data.response.images) {
         previewData.img1 = response.data.response.images[0];
         previewData.img2 = response.data.response.images[1];
         previewData.img3 = response.data.response.images[2];
         previewData.img4 = response.data.response.images[3];
+
         // Update the auxiliary state to force the component to re-render
         setForceRender((prev) => prev + 1);
       }
