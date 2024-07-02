@@ -9,16 +9,16 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # 内存缓存，用于记录已经访问过的IP地址
-visited_ips = set()
+# visited_ips = set()
 
 
-@app.before_request
-def limit_remote_addr():
-    client_ip = request.remote_addr
-    if client_ip in visited_ips:
-        return jsonify({"error": "This IP has already called the API."}), 403
-    else:
-        visited_ips.add(client_ip)
+# @app.before_request
+# def limit_remote_addr():
+#     client_ip = request.remote_addr
+#     if client_ip in visited_ips:
+#         return jsonify({"error": "This IP has already called the API."}), 403
+#     else:
+#         visited_ips.add(client_ip)
 
 
 @app.route('/', methods=['POST'])
@@ -32,8 +32,8 @@ def generate():
     prompt = request.json.get('message')
     print(prompt)
     if prompt is not None:
-        response = dellGenerate(prompt, optimize=True)
-    # response = midjourneyGenerate(prompt)
+        response = dellGenerate(prompt)
+        # response = midjourneyGenerate(prompt)
     else:
         response['error'] = 'Invalid Input,please check your  prompt'
     return jsonify({'response': response})
@@ -57,6 +57,8 @@ def edit():
     prompt = request.json.get("prompt")
     if imageUrl is not None and prompt is not None:
         response = dellEdit(imageUrl, prompt)
+        # response = midjourneyGenerate(
+        #     prompt, optimize=True, edit=True, img=imageUrl)
 
     else:
         response['error'] = 'Invalid Input,please check your image and prompt'
@@ -71,14 +73,15 @@ def regenerate():
     prompt = request.json.get('message')
     print(prompt)
     if prompt is not None:
-        # response = dellGenerate(prompt, optimize=False)
+        response = dellGenerate(prompt)
 
-        #  response = midjourneyGenerate(prompt)
-        response["images"] = ["https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",
-                              "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",
-                              "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",
-                              "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"]
+        # response = midjourneyGenerate(prompt)
+        # response["images"] = ["https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",
+        #                       "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",
+        #                       "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",
+        #                       "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"]
 
     else:
         response['error'] = 'Invalid Input,please check your  prompt'
+
     return jsonify({'response': response})

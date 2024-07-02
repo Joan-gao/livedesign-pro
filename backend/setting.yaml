@@ -1,21 +1,17 @@
-COMMON:
-  &common
+COMMON: &common
   SECRET_KEY: insecure
   DEBUG: False
   OPENAI_API_KEY: sk-proj-I5ecGfJ4HEBN1VfbntIPT3BlbkFJFaqS5iZpWtEWwynN3CnH
-  MIDJOURNEY_KEY: 664a1e87-8c48-48cb-8cfe-da5dd2ac6630
+  MIDJOURNEY_KEY: #######################
 
-DEVELOPMENT:
-  &development
+DEVELOPMENT: &development
   <<: *common
   DEBUG: True
 
-STAGING:
-  &staging
+STAGING: &staging
   <<: *common
   SECRET_KEY: sortasecure
 
-PRODUCTION:
-  &production
+PRODUCTION: &production
   <<: *common
   SECRET_KEY: mdd1##$$%^!DSA#FDSF
