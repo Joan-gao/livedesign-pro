@@ -1,0 +1,5 @@
+Flask
+openai
+flask-cors
+requests
+pyyaml
