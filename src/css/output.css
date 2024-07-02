@@ -608,6 +608,10 @@ html {
   bottom: 1.25rem;
 }
 
+.bottom-\[2\%\] {
+  bottom: 2%;
+}
+
 .left-0 {
   left: 0px;
 }
@@ -622,6 +626,10 @@ html {
 
 .right-2 {
   right: 0.5rem;
+}
+
+.right-\[34\%\] {
+  right: 34%;
 }
 
 .right-\[6px\] {

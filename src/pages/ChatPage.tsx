@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import "../css/scrollbar.css"
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faTimes , faCircleUp } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {}
 
@@ -20,6 +20,7 @@ const ChatPage: React.FC<Props> = () => {
   const handleEdit = (imageId: string) => {
     const imgElement = document.getElementById(imageId) as HTMLImageElement;
     const selectDesign = document.getElementById('selectDesign');
+    const EditBTN = document.getElementById('EditBTN');
 
     if (selectDesign) {
       selectDesign.style.opacity = '1';
@@ -31,18 +32,34 @@ const ChatPage: React.FC<Props> = () => {
       setPreviewImage(imgElement.src);
       setIsPreviewVisible(true);
     }
+
+    if (EditBTN) {
+      EditBTN.style.display = 'block';
+      EditBTN.style.right = '34%';
+    }
   };
 
+  const handleApplyEdit = () => {
+    if(previewImage) {
+      return; //NEED TO EDIT TO GENERATE THE SELECTED IMAGE
+    }    
+  }
+  
   // Closing Preview and Disabling 'Select' Button
   const handleClosePreview = () => {
     setIsPreviewVisible(false);
     setPreviewImage(null);
     const selectDesign = document.getElementById('selectDesign');
+    const EditBTN = document.getElementById('EditBTN');
+
 
     if (selectDesign) {
       selectDesign.style.opacity = '0.6';
       selectDesign.style.cursor = 'default';
       selectDesign.setAttribute('aria-disabled', 'true');
+    }
+    if (EditBTN) {
+      EditBTN.style.right = '4%';
     }
   };
 
@@ -175,7 +192,7 @@ const ChatPage: React.FC<Props> = () => {
                 Regenerate
               </button>
             </div>
-            <div className="flex flex-row w-4/5 gap-3 items-center">
+            <div className="relative flex flex-row w-4/5 gap-3 items-center">
               {/* User Prompt box */}
               <textarea
                 id="userPrompt"
@@ -186,6 +203,14 @@ const ChatPage: React.FC<Props> = () => {
                   setInputValue(e.target.value)
                 }
               />
+              <button
+                id="EditBTN"
+                className='absolute right-[4%] bottom-[2%] z-20'
+                onClick={handleApplyEdit}
+              >
+                <FontAwesomeIcon icon={faCircleUp} className="text-base text-white cursor-pointer"/>
+              </button>
+
 
               {/* Preview of Selected Image */}
               {isPreviewVisible && (
