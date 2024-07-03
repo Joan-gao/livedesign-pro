@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../css/scrollbar.css";
 
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faTimes , faCircleUp } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { NotificationArgsProps, notification } from "antd";
 
@@ -31,7 +32,8 @@ const ChatPage: React.FC<Props> = () => {
   // Show Image Preview and Enable 'Select' Button
   const handleEdit = async (imageId: string) => {
     const imgElement = document.getElementById(imageId) as HTMLImageElement;
-    const selectDesign = document.getElementById("selectDesign");
+    const selectDesign = document.getElementById('selectDesign');
+    const EditBTN = document.getElementById('EditBTN');
 
     if (selectDesign) {
       selectDesign.style.opacity = "1";
@@ -84,13 +86,25 @@ const ChatPage: React.FC<Props> = () => {
         }
       }
     }
+
+    if (EditBTN) {
+      EditBTN.style.display = 'block';
+      EditBTN.style.right = '34%';
+    }
   };
 
+  const handleApplyEdit = () => {
+    if(previewImage) {
+      return; //NEED TO EDIT TO GENERATE THE SELECTED IMAGE
+    }    
+  }
+  
   // Closing Preview and Disabling 'Select' Button
   const handleClosePreview = () => {
     setIsPreviewVisible(false);
     setPreviewImage(null);
-    const selectDesign = document.getElementById("selectDesign");
+    const selectDesign = document.getElementById('selectDesign');
+    const EditBTN = document.getElementById('EditBTN');
 
     if (selectDesign) {
       selectDesign.style.opacity = "0.6";
@@ -127,6 +141,9 @@ const ChatPage: React.FC<Props> = () => {
       }
     } catch (error) {
       console.error("Error sending message:", error);
+    }
+    if (EditBTN) {
+      EditBTN.style.right = '4%';
     }
   };
 
@@ -239,60 +256,60 @@ const ChatPage: React.FC<Props> = () => {
           </div>
         </div>
 
-        {/* User Interaction Section */}
-        <div className="bg-[#240F14] items-center flex flex-col w-full gap-3 z-20 py-3 m-0">
-          <div className="flex flex-row w-4/5 gap-3">
-            {/* Select and Regenerate Buttons */}
-            <button
-              id="selectDesign"
-              onClick={handleSelectDesign}
-              className="bg-[#FC2B55] text-white text-center w-1/2 border-none rounded-md py-1.5 px-6 opacity-60 cursor-default"
-              aria-disabled="true"
-            >
-              Select
-            </button>
+          {/* User Interaction Section */}
+          <div className="bg-[#240F14] items-center flex flex-col w-full gap-3 z-20 py-3 m-0">
+            <div className="flex flex-row w-4/5 gap-3">
+              {/* Select and Regenerate Buttons */}
+              <button
+                id="selectDesign"
+                onClick={handleSelectDesign}
+                className="bg-[#FC2B55] text-white text-center w-1/2 border-none rounded-md py-1.5 px-6 opacity-60 cursor-default"
+                aria-disabled="true"
+              >
+                Select
+              </button>
 
-            <button
-              className="bg-[#4A2129] text-white text-center w-1/2 border-none rounded-md py-1.5 px-6"
-              onClick={handleRege}
-            >
-              Regenerate
-            </button>
-          </div>
-          <div className="flex flex-row w-4/5 gap-3 items-center">
-            {/* User Prompt box */}
-            <textarea
-              id="userPrompt"
-              className="text-white text-sm text-left bg-[#4A2129] border-none rounded-md w-full h-full min-h-24 py-1.5 px-3"
-              placeholder="Enter your text here"
-              value={inputValue}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                setInputValue(e.target.value)
-              }
-              onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-                if (e.key === "Enter") {
-                  handleEditImage();
+              <button className="bg-[#4A2129] text-white text-center w-1/2 border-none rounded-md py-1.5 px-6">
+                Regenerate
+              </button>
+            </div>
+            <div className="relative flex flex-row w-4/5 gap-3 items-center">
+              {/* User Prompt box */}
+              <textarea
+                id="userPrompt"
+                className="text-white text-sm text-left bg-[#4A2129] border-none rounded-md w-full h-full min-h-24 py-1.5 px-3"
+                placeholder="Enter your text here"
+                value={inputValue}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setInputValue(e.target.value)
                 }
-              }}
-              disabled={!isPreviewVisible}
-            />
+              />
+              <button
+                id="EditBTN"
+                className='absolute right-[4%] bottom-[2%] z-20'
+                onClick={handleApplyEdit}
+              >
+                <FontAwesomeIcon icon={faCircleUp} className="text-base text-white cursor-pointer"/>
+              </button>
 
-            {/* Preview of Selected Image */}
-            {isPreviewVisible && (
-              <div className="w-2/5 h-2/5 flex items-center justify-center bg-opacity-75">
-                <div className="flex relative rounded-lg">
-                  <button
-                    className="absolute top-[-6px] right-[6px] text-gray-500 z-20 bg-white rounded-sm rotate-90"
-                    onClick={handleClosePreview}
-                  >
-                    <FontAwesomeIcon icon={faTimes} />
-                  </button>
-                  <img
-                    id="previewImage"
-                    src={previewImage!}
-                    alt="Preview"
-                    className="max-w-full max-h-full rounded-md z-10"
-                  />
+
+              {/* Preview of Selected Image */}
+              {isPreviewVisible && (
+                <div className="w-2/5 h-2/5 flex items-center justify-center bg-opacity-75">
+                  <div className="flex relative rounded-lg">
+                    <button
+                      className="absolute top-[-6px] right-[6px] text-gray-500 z-20 bg-white rounded-sm rotate-90"
+                      onClick={handleClosePreview}
+                    >
+                      <FontAwesomeIcon icon={faTimes} />
+                    </button>
+                    <img
+                      id="previewImage"
+                      src={previewImage!}
+                      alt="Preview"
+                      className="max-w-full max-h-full rounded-md z-10"
+                    />
+                  </div>
                 </div>
               </div>
             )}
