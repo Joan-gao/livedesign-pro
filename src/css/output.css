@@ -600,6 +600,16 @@ html {
   position: sticky;
 }
 
+.inset-x-1\/2 {
+  left: 50%;
+  right: 50%;
+}
+
+.inset-y-1\/2 {
+  top: 50%;
+  bottom: 50%;
+}
+
 .bottom-2 {
   bottom: 0.5rem;
 }
@@ -656,6 +666,10 @@ html {
   z-index: 20;
 }
 
+.z-50 {
+  z-index: 50;
+}
+
 .m-0 {
   margin: 0px;
 }
@@ -675,6 +689,10 @@ html {
 
 .mt-3\.5 {
   margin-top: 0.875rem;
+}
+
+.block {
+  display: block;
 }
 
 .inline {
@@ -984,6 +1002,11 @@ html {
   background-color: rgb(252 43 85 / var(--tw-bg-opacity));
 }
 
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+
 .bg-transparent {
   background-color: transparent;
 }
@@ -1103,6 +1126,10 @@ html {
 
 .underline {
   text-decoration-line: underline;
+}
+
+.opacity-100 {
+  opacity: 1;
 }
 
 .opacity-50 {

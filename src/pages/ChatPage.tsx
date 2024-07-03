@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../css/scrollbar.css";
 
@@ -6,7 +6,13 @@ import "../css/scrollbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faTimes , faCircleUp } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { NotificationArgsProps, notification } from "antd";
+import { NotificationArgsProps, notification , Alert, Flex, Spin } from "antd";
+
+const contentStyle: React.CSSProperties = {
+  padding: 50,
+  background: 'rgba(0, 0, 0, 0.05)',
+  borderRadius: 4,
+};
 
 interface Props {}
 type NotificationPlacement = NotificationArgsProps["placement"];
@@ -16,6 +22,8 @@ const ChatPage: React.FC<Props> = () => {
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [imgId, setImgId] = useState<string | null>(null);
+  const loadingRef = useRef<HTMLDivElement>(null);
+
   // 辅助状态，用来强制组件重新渲染
   const [, setForceRender] = useState(0);
   const location = useLocation();
@@ -34,33 +42,48 @@ const ChatPage: React.FC<Props> = () => {
     const imgElement = document.getElementById(imageId) as HTMLImageElement;
     const selectDesign = document.getElementById('selectDesign');
     const EditBTN = document.getElementById('EditBTN');
+    const RegenerateBTN = document.getElementById('RegenerateBTN');
 
-      if (selectDesign) {
-        selectDesign.style.opacity = "1";
-        selectDesign.style.cursor = "pointer";
-        selectDesign.setAttribute("aria-disabled", "false");
-      }
+    if (selectDesign) {
+      selectDesign.style.opacity = "1";
+      selectDesign.style.cursor = "pointer";
+      selectDesign.setAttribute("aria-disabled", "false");
+    }
 
-      if (imgElement) {
-        setPreviewImage(imgElement.src);
-        setIsPreviewVisible(true);
-        setImgId(imageId);
-      }
+    if (imgElement) {
+      setPreviewImage(imgElement.src);
+      setIsPreviewVisible(true);
+      setImgId(imageId);
+    }
+    
+    if (RegenerateBTN) {
+      RegenerateBTN.style.opacity = "0.6";
+      RegenerateBTN.style.cursor = "default";
+      RegenerateBTN.setAttribute("aria-disabled", "true");
+    }
 
-      if (EditBTN) {
-        EditBTN.style.right = '34%';
-        EditBTN.style.opacity = "1";
-        EditBTN.style.cursor = "pointer";
-        EditBTN.setAttribute("aria-disabled", "false");
+    if (EditBTN) {
+      EditBTN.style.right = '34%';
+      EditBTN.style.opacity = "1";
+      EditBTN.style.cursor = "pointer";
+      EditBTN.setAttribute("aria-disabled", "false");
     }
   };
 
   // Edit Image based the new prompt entered by user
   const handleApplyEdit = async () => {
-    const EditBTN = document.getElementById('EditBTN');
-
+    const loading = document.getElementById('loading');
+    
     if (!isPreviewVisible) {
       return;
+    }
+
+    if (loading) {
+      loading.style.display = "block";
+    }
+
+    if (loadingRef.current) {
+      loadingRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     if (!inputValue || inputValue.trim() === "") {
@@ -99,6 +122,10 @@ const ChatPage: React.FC<Props> = () => {
         }
       }
     }
+
+    if (loading) {
+      loading.style.display = "none";
+    }
   };
 
   
@@ -108,6 +135,8 @@ const ChatPage: React.FC<Props> = () => {
     setPreviewImage(null);
     const selectDesign = document.getElementById('selectDesign');
     const EditBTN = document.getElementById('EditBTN');
+    const RegenerateBTN = document.getElementById('RegenerateBTN');
+
 
     if (selectDesign) {
       selectDesign.style.opacity = "0.6";
@@ -121,11 +150,30 @@ const ChatPage: React.FC<Props> = () => {
       EditBTN.style.cursor = "default"
       EditBTN.setAttribute("aria-disabled", "true");
     }
+
+    if(RegenerateBTN) {
+      RegenerateBTN.style.opacity = "1";
+      RegenerateBTN.style.cursor = "pointer"
+      RegenerateBTN.setAttribute("aria-disabled", "false");
+    }
   };
 
   // Regenerate based on previous prompt
   const handleRege = async () => {
+    const loading = document.getElementById('loading');
     const EditBTN = document.getElementById('EditBTN');
+
+    if (isPreviewVisible) {
+      return;
+    }
+    
+    if (loading) {
+      loading.style.display = "block";
+    }
+
+    if (loadingRef.current) {
+      loadingRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
     // Check if prompt, model, and aspectRatio are populated
     console.log(previewData);
@@ -157,6 +205,10 @@ const ChatPage: React.FC<Props> = () => {
     if (EditBTN) {
       EditBTN.style.right = '4%';
     }
+
+    if (loading) {
+      loading.style.display = "none";
+    }
   };
 
   // Bring Selected Images to the Final Design Page
@@ -168,6 +220,16 @@ const ChatPage: React.FC<Props> = () => {
 
   return (
     <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
+      <div id="loading" ref={loadingRef} className="hidden absolute top-0 w-full h-full bg-black opacity-50 z-50">
+        <Flex gap="small" vertical>
+          <Flex gap="small z">
+            <div className="absolute inset-x-1/2 inset-y-1/2 z-50">
+              <Spin tip="Loading"  size="large">
+              </Spin>
+              </div>
+            </Flex>
+          </Flex>
+        </div>
       <div
         id="custom-scrollbar"
         className="w-375 h-667 max-h-full relative top-0 flex flex-col gap-3 place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10 overflow-x-hidden overflow-scroll"
@@ -282,8 +344,11 @@ const ChatPage: React.FC<Props> = () => {
               </button>
 
               <button 
+                id="RegenerateBTN"
                 onClick={handleRege}
-                className="bg-[#4A2129] text-white text-center w-1/2 border-none rounded-md py-1.5 px-6">
+                className="bg-[#4A2129] text-white text-center w-1/2 border-none rounded-md py-1.5 px-6 opacity-100 cursor-pointer"
+                aria-disabled="false"
+              >
                 Regenerate
               </button>
             </div>
