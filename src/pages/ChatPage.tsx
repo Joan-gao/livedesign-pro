@@ -1,36 +1,90 @@
-import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import "../css/scrollbar.css"
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import "../css/scrollbar.css";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faTimes , faCircleUp } from '@fortawesome/free-solid-svg-icons';
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faTimes , faCircleUp } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { NotificationArgsProps, notification } from "antd";
 
 interface Props {}
-
+type NotificationPlacement = NotificationArgsProps["placement"];
 const ChatPage: React.FC<Props> = () => {
-  const [inputValue, setInputValue] = useState('');
+  const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState("");
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-
-  const navigate = useNavigate();
+  const [imgId, setImgId] = useState<string | null>(null);
+  // 辅助状态，用来强制组件重新渲染
+  const [, setForceRender] = useState(0);
   const location = useLocation();
   const previewData = location.state?.data;
+  const [api, contextHolder] = notification.useNotification();
+  const openNotification = (placement: NotificationPlacement) => {
+    api.info({
+      message: `Notification`,
+      description: "Please Enter Prompt before Generating",
+      placement,
+    });
+  };
 
   // Show Image Preview and Enable 'Select' Button
-  const handleEdit = (imageId: string) => {
+  const handleEdit = async (imageId: string) => {
     const imgElement = document.getElementById(imageId) as HTMLImageElement;
     const selectDesign = document.getElementById('selectDesign');
     const EditBTN = document.getElementById('EditBTN');
 
     if (selectDesign) {
-      selectDesign.style.opacity = '1';
-      selectDesign.style.cursor = 'pointer';
-      selectDesign.setAttribute('aria-disabled', 'false');
+      selectDesign.style.opacity = "1";
+      selectDesign.style.cursor = "pointer";
+      selectDesign.setAttribute("aria-disabled", "false");
     }
 
     if (imgElement) {
       setPreviewImage(imgElement.src);
       setIsPreviewVisible(true);
+      setImgId(imageId);
+    }
+  };
+
+  // Edit Image based the new prompt entered by user
+  const handleEditImage = async () => {
+    if (!inputValue || inputValue.trim() === "") {
+      openNotification("top");
+    } else {
+      if (previewImage) {
+        try {
+          const response = await axios.post(
+            "http://127.0.0.1:5000/edit",
+            { prompt: inputValue, imageUrl: previewImage },
+
+            {
+              headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+              },
+            }
+          );
+
+          if (response.data.response.images) {
+            if (imgId === "Design1") {
+              previewData.img1 = response.data.response.images;
+            } else if (imgId === "Design2") {
+              previewData.img2 = response.data.response.images;
+            } else if (imgId === "Design3") {
+              previewData.img3 = response.data.response.images;
+            } else {
+              previewData.img4 = response.data.response.images;
+            }
+          }
+          previewData.prompt = inputValue;
+          setInputValue("");
+          setIsPreviewVisible(false);
+        } catch (error) {
+          console.error("Error sending message:", error);
+        }
+      }
     }
 
     if (EditBTN) {
@@ -52,11 +106,41 @@ const ChatPage: React.FC<Props> = () => {
     const selectDesign = document.getElementById('selectDesign');
     const EditBTN = document.getElementById('EditBTN');
 
-
     if (selectDesign) {
-      selectDesign.style.opacity = '0.6';
-      selectDesign.style.cursor = 'default';
-      selectDesign.setAttribute('aria-disabled', 'true');
+      selectDesign.style.opacity = "0.6";
+      selectDesign.style.cursor = "default";
+      selectDesign.setAttribute("aria-disabled", "true");
+    }
+  };
+
+  // Regenerate based on previous prompt
+  const handleRege = async () => {
+    // Check if prompt, model, and aspectRatio are populated
+    console.log(previewData);
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:5000/re-generate",
+        { message: previewData.prompt },
+
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      );
+      console.log(response.data);
+      if (response.data.response.images) {
+        previewData.img1 = response.data.response.images[0];
+        previewData.img2 = response.data.response.images[1];
+        previewData.img3 = response.data.response.images[2];
+        previewData.img4 = response.data.response.images[3];
+
+        // Update the auxiliary state to force the component to re-render
+        setForceRender((prev) => prev + 1);
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
     }
     if (EditBTN) {
       EditBTN.style.right = '4%';
@@ -66,14 +150,17 @@ const ChatPage: React.FC<Props> = () => {
   // Bring Selected Images to the Final Design Page
   const handleSelectDesign = () => {
     if (previewImage) {
-      navigate('/DesignPage', { state: { image: previewImage } });
+      navigate("/DesignPage", { state: { image: previewImage } });
     }
   };
 
   return (
     <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
-      <div id='custom-scrollbar' className="w-375 h-667 max-h-full relative top-0 flex flex-col gap-3 place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10 overflow-x-hidden overflow-scroll">
-      {/* Navigation to previous page and Page Title */}
+      <div
+        id="custom-scrollbar"
+        className="w-375 h-667 max-h-full relative top-0 flex flex-col gap-3 place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10 overflow-x-hidden overflow-scroll"
+      >
+        {/* Navigation to previous page and Page Title */}
         <div className=" w-4/5 h-[48px] flex items-center gap">
           <div className="relative top-0 left-0 h-[48px] flex items-center z-10 z-10">
             <Link to="/GenerationPage">
@@ -109,7 +196,7 @@ const ChatPage: React.FC<Props> = () => {
                 />
                 <button
                   className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
-                  onClick={() => handleEdit('Design1')}
+                  onClick={() => handleEdit("Design1")}
                 >
                   Edit
                 </button>
@@ -126,7 +213,7 @@ const ChatPage: React.FC<Props> = () => {
                 />
                 <button
                   className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
-                  onClick={() => handleEdit('Design2')}
+                  onClick={() => handleEdit("Design2")}
                 >
                   Edit
                 </button>
@@ -143,7 +230,7 @@ const ChatPage: React.FC<Props> = () => {
                 />
                 <button
                   className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
-                  onClick={() => handleEdit('Design3')}
+                  onClick={() => handleEdit("Design3")}
                 >
                   Edit
                 </button>
@@ -160,20 +247,14 @@ const ChatPage: React.FC<Props> = () => {
                 />
                 <button
                   className="absolute bottom-2 right-2 z-10 text-white text-base bg-[#FC2B55] border-none rounded-md py-1.5 px-5"
-                  onClick={() => handleEdit('Design4')}
+                  onClick={() => handleEdit("Design4")}
                 >
                   Edit
                 </button>
               </div>
             )}
-
           </div>
         </div>
-
-
-
-
-
 
           {/* User Interaction Section */}
           <div className="bg-[#240F14] items-center flex flex-col w-full gap-3 z-20 py-3 m-0">
@@ -230,17 +311,10 @@ const ChatPage: React.FC<Props> = () => {
                     />
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
-
-
-
-
-
-
-
-
+        </div>
       </div>
     </div>
   );
