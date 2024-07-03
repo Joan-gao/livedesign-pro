@@ -59,7 +59,7 @@ def promptOptimizeForImage(prompt):
 
 
 def promptOptimizeForCaption(prompt):
-    prefix_reqiurement = 'Please create a TikTok-style video caption and tags based on the  description that I provide，please only return the prompt content, I do not need any other content cause this prompt will be used directly '
+    prefix_reqiurement = 'Please create a TikTok-style video caption and tags based on the  description that I provide， make the caption shorter and only one sentence which includes 2 emojis and please make only 3 tags as well, please only return the prompt content, I do not need any other content cause this prompt will be used directly '
 
     final_prompt = prefix_reqiurement+prompt
 
