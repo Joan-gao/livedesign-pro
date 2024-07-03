@@ -46,10 +46,17 @@ const ChatPage: React.FC<Props> = () => {
       setIsPreviewVisible(true);
       setImgId(imageId);
     }
+
+    if (EditBTN) {
+      EditBTN.style.display = 'block';
+      EditBTN.style.right = '34%';
+    }
   };
 
   // Edit Image based the new prompt entered by user
   const handleEditImage = async () => {
+    const EditBTN = document.getElementById('EditBTN');
+
     if (!inputValue || inputValue.trim() === "") {
       openNotification("top");
     } else {
@@ -111,10 +118,16 @@ const ChatPage: React.FC<Props> = () => {
       selectDesign.style.cursor = "default";
       selectDesign.setAttribute("aria-disabled", "true");
     }
+
+    if(EditBTN) {
+      EditBTN.style.right = "4%";
+    }
   };
 
   // Regenerate based on previous prompt
   const handleRege = async () => {
+    const EditBTN = document.getElementById('EditBTN');
+
     // Check if prompt, model, and aspectRatio are populated
     console.log(previewData);
     try {
@@ -311,7 +324,6 @@ const ChatPage: React.FC<Props> = () => {
                     />
                   </div>
                 </div>
-              </div>
             )}
           </div>
         </div>
