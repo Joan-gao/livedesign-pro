@@ -36,6 +36,55 @@ This project developed an EventPage design platform that streamlines the entire 
 
 4. **Smart Copywriting**: Leveraging ChatGPT API to refine user drafts using prompt engineering, the smart copywriting feature generates TikTok-style content and adds relevant tags to enhance video engagement.
 
+## How to Run
+
+1. **Frontend**
+
+- Install dependencies
+
+```bash
+npm install
+```
+
+- Start the frontend server
+
+```bash
+npm run start
+```
+
+2. **Backend**
+
+- Navigate to the backend directory
+
+```bash
+cd backend
+```
+
+- Create a virtual environment
+
+```bash
+python3 -m venv .venv
+```
+
+- Activate the virtual environment
+
+```bash
+.venv\Scripts\activate  # Windows
+source .venv/bin/activate  # macOS和Linux
+```
+
+- Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+- Run the Flask application
+
+```bash
+flask --app ChatPage run
+```
+
 ## Links
 
 - ([Figma](https://www.figma.com/design/K4paycUTmDi1UPivG5Y3qi/tiktok-evenpage-design-platform?node-id=0-1&t=I4h6lhU1aygq2q2R-1))
@@ -47,7 +96,6 @@ This project developed an EventPage design platform that streamlines the entire 
 - **Xinyi Gao** [[Linkedin](https://www.linkedin.com/in/xinyi-gao-cn/)][[GitHub](https://github.com/Joan-gao)]: Product Design, UI/UX Design, Front-end Development
 - **Viet Doan** [[Linkedin](https://www.linkedin.com/in/viet-doan-vqd/)][[GitHub](https://github.com/viet-doan)]: UI/UX Design, Front-end Development
 - **Li Cui** [[Linkedin](https://www.linkedin.com/in/li-cui-73809027b)][[GitHub](https://github.com/amandaliberaann)]: AI Integration, Backend Development
-
 
 ## Credits
 
