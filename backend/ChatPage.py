@@ -32,8 +32,8 @@ def generate():
     prompt = request.json.get('message')
     print(prompt)
     if prompt is not None:
-        response = dellGenerate(prompt, optimize=True)
-    # response = midjourneyGenerate(prompt)
+        response = dellGenerate(prompt)
+        # response = midjourneyGenerate(prompt)
     else:
         response['error'] = 'Invalid Input,please check your  prompt'
     return jsonify({'response': response})
@@ -57,6 +57,8 @@ def edit():
     prompt = request.json.get("prompt")
     if imageUrl is not None and prompt is not None:
         response = dellEdit(imageUrl, prompt)
+        # response = midjourneyGenerate(
+        #     prompt, optimize=True, edit=True, img=imageUrl)
 
     else:
         response['error'] = 'Invalid Input,please check your image and prompt'
@@ -71,14 +73,15 @@ def regenerate():
     prompt = request.json.get('message')
     print(prompt)
     if prompt is not None:
-        # response = dellGenerate(prompt, optimize=False)
+        response = dellGenerate(prompt)
 
-        #  response = midjourneyGenerate(prompt)
-        response["images"] = ["https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",
-                              "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",
-                              "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",
-                              "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"]
+        # response = midjourneyGenerate(prompt)
+        # response["images"] = ["https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",
+        #                       "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",
+        #                       "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",
+        #                       "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"]
 
     else:
         response['error'] = 'Invalid Input,please check your  prompt'
+
     return jsonify({'response': response})

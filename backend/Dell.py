@@ -1,4 +1,5 @@
 
+import time
 from flask import Flask
 from openai import OpenAI
 import yaml
@@ -75,12 +76,11 @@ def promptOptimizeForCaption(prompt):
     return message
 
 
-def dellGenerate(prompt, optimize=False):
-
-    if optimize:
-        message = promptOptimizeForImage(prompt)
-        prompt = message
-        images = []
+def dellGenerate(prompt):
+    time.sleep(60)
+    message = promptOptimizeForImage(prompt)
+    prompt = message
+    images = []
 
     try:
 
@@ -105,27 +105,27 @@ def dellGenerate(prompt, optimize=False):
 
 
 def dellEdit(imageUrl, prompt):
-    default_img = "https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/5lVaoQAxDn9e55u7qNF5.jpg"
-    # ssl._create_default_https_context = ssl._create_unverified_context
-    # urllib.request.urlretrieve(imageUrl, "edited-image.png")
-    # input_image_path = "edited-image.png"
-    # image = Image.open(input_image_path)
-    # rgba_image = image.convert("RGBA")
-    # output_image_path = "output_rgba.png"
-    # rgba_image.save(output_image_path)
+    time.sleep(60)
+    # default_img = "https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/5lVaoQAxDn9e55u7qNF5.jpg"
+    ssl._create_default_https_context = ssl._create_unverified_context
+    urllib.request.urlretrieve(imageUrl, "edited-image.png")
+    input_image_path = "edited-image.png"
+    image = Image.open(input_image_path)
+    rgba_image = image.convert("RGBA")
+    output_image_path = "output_rgba.png"
+    rgba_image.save(output_image_path)
 
-    # client = OpenAI(api_key=openapi_key)
     try:
 
-        # imageResponse = client.images.edit(
-        #     model="dall-e-2",
-        #     image=open(output_image_path, "rb"),
-        #     prompt=prompt,
-        #     n=1,
-        #     size="256x256"
-        # )
-        response["images"] = default_img
-        # response["images"] = imageResponse.data[0].url
+        imageResponse = client.images.edit(
+            model="dall-e-2",
+            image=open(output_image_path, "rb"),
+            prompt=prompt,
+            n=1,
+            size="256x256"
+        )
+        # response["images"] = default_img
+        response["images"] = imageResponse.data[0].url
     except:
         response["error"] = "Generation failed"
     finally:

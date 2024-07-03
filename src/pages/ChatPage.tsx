@@ -133,7 +133,7 @@ const ChatPage: React.FC<Props> = () => {
     try {
       const response = await axios.post(
         "http://127.0.0.1:5000/re-generate",
-        { message: previewData.prompt },
+        { message: previewData },
 
         {
           headers: {
@@ -142,7 +142,7 @@ const ChatPage: React.FC<Props> = () => {
           },
         }
       );
-      console.log(response.data);
+
       if (response.data.response.images) {
         previewData.img1 = response.data.response.images[0];
         previewData.img2 = response.data.response.images[1];
