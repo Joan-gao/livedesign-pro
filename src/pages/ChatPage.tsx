@@ -220,16 +220,18 @@ const ChatPage: React.FC<Props> = () => {
 
   return (
     <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
-      <div id="loading" ref={loadingRef} className="hidden absolute top-0 w-full h-full bg-black opacity-50 z-50">
+      <div id="loading" ref={loadingRef} className="hidden absolute top-0 w-full h-full bg-black opacity-80 z-50">
         <Flex gap="small" vertical>
           <Flex gap="small z">
             <div className="absolute inset-x-1/2 inset-y-1/2 z-50">
               <Spin tip="Loading"  size="large">
               </Spin>
-              </div>
-            </Flex>
+            </div>
           </Flex>
-        </div>
+        </Flex>
+        <h1 className="absolute flex w-full m-auto text-white items-center justify-center inset-y-2/3 z-60">AI is generating images <br /> please wait a moment</h1>
+      </div>
+      
       <div
         id="custom-scrollbar"
         className="w-375 h-667 max-h-full relative top-0 flex flex-col gap-3 place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10 overflow-x-hidden overflow-scroll"
