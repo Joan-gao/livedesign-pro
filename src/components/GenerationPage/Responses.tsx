@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Image } from "antd";
 
 interface ExampleProps {
   data: {
@@ -27,10 +28,10 @@ const Response: React.FC<ExampleProps> = ({ data }) => {
         <p className="text-white text-xs">{data.prompt}</p>
 
         <div className='grid grid-cols-2 grid-rows-2 gap-2'>
-          <img src={data.img1} alt="Image 1" />
-          <img src={data.img2} alt="Image 2" />
-          <img src={data.img3} alt="Image 3" />
-          <img src={data.img4} alt="Image 4" />
+          <Image src={data.img1} alt="Image 1" />
+          <Image src={data.img2} alt="Image 2" />
+          <Image src={data.img3} alt="Image 3" />
+          <Image src={data.img4} alt="Image 4" />
         </div>
 
         <button

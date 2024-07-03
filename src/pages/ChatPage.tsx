@@ -6,7 +6,7 @@ import "../css/scrollbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faTimes , faCircleUp } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { NotificationArgsProps, notification , Alert, Flex, Spin } from "antd";
+import { NotificationArgsProps, notification , Image, Flex, Spin } from "antd";
 
 const contentStyle: React.CSSProperties = {
   padding: 50,
@@ -261,10 +261,15 @@ const ChatPage: React.FC<Props> = () => {
           {/* Ai Design Output (4 designs) */}
           <div className="grid grid-cols-2 gap-3 mt-3.5">
             {previewData && previewData.img1 && (
-              <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
+              <div className="flex flex-col h-fit relative overflow-hidden">
+                <Image
+                  className="w-full h-full overflow-hidden"
+                  src={previewData.img1}
+                  alt="Generated Design"
+                />
                 <img
                   id="Design1"
-                  className="w-full h-full overflow-hidden"
+                  className="hidden"
                   src={previewData.img1}
                   alt="Generated Design"
                 />
@@ -278,10 +283,15 @@ const ChatPage: React.FC<Props> = () => {
             )}
 
             {previewData && previewData.img2 && (
-              <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
+              <div className="flex flex-col h-fit relative overflow-hidden">
+                <Image
+                  className="w-full h-full overflow-hidden"
+                  src={previewData.img2}
+                  alt="Generated Design"
+                />
                 <img
                   id="Design2"
-                  className="w-full h-full overflow-hidden"
+                  className="hidden"
                   src={previewData.img2}
                   alt="Generated Design"
                 />
@@ -295,10 +305,15 @@ const ChatPage: React.FC<Props> = () => {
             )}
 
             {previewData && previewData.img3 && (
-              <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
+              <div className="flex flex-col h-fit relative overflow-hidden">
+                <Image
+                  className="w-full h-full overflow-hidden"
+                  src={previewData.img3}
+                  alt="Generated Design"
+                />
                 <img
                   id="Design3"
-                  className="w-full h-full overflow-hidden"
+                  className="hidden"
                   src={previewData.img3}
                   alt="Generated Design"
                 />
@@ -312,10 +327,15 @@ const ChatPage: React.FC<Props> = () => {
             )}
 
             {previewData && previewData.img4 && (
-              <div className="relative bg-[#4A2129] rounded-xl overflow-hidden">
+              <div className="flex flex-col h-fit relative overflow-hidden">
+                <Image
+                  className="w-full h-full overflow-hidden"
+                  src={previewData.img4}
+                  alt="Generated Design"
+                />
                 <img
                   id="Design4"
-                  className="w-full h-full overflow-hidden"
+                  className="hidden"
                   src={previewData.img4}
                   alt="Generated Design"
                 />
@@ -327,6 +347,7 @@ const ChatPage: React.FC<Props> = () => {
                 </button>
               </div>
             )}
+
           </div>
         </div>
 
