@@ -44,9 +44,10 @@ This project developed an EventPage design platform that streamlines the entire 
 
 ## Contributors
 
-- [Xinyi Gao](https://www.linkedin.com/in/xinyi-gao-cn/): Product Design, UI/UX Design, Front-end Development
-- [Viet Doan](https://www.linkedin.com/in/viet-doan-vqd/): UI/UX Design, Front-end Development
-- [Li Cui](https://www.linkedin.com/in/li-cui-73809027b): AI Integration, Backend Development
+- **Xinyi Gao** [[Linkedin](https://www.linkedin.com/in/xinyi-gao-cn/)][[GitHub](https://github.com/Joan-gao)]: Product Design, UI/UX Design, Front-end Development
+- **Viet Doan** [[Linkedin](https://www.linkedin.com/in/viet-doan-vqd/)][[GitHub](https://github.com/viet-doan)]: UI/UX Design, Front-end Development
+- **Li Cui** [[Linkedin](https://www.linkedin.com/in/li-cui-73809027b)][[GitHub](https://github.com/amandaliberaann)]: AI Integration, Backend Development
+
 
 ## Credits
 
