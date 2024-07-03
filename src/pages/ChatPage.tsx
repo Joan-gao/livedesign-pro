@@ -35,27 +35,33 @@ const ChatPage: React.FC<Props> = () => {
     const selectDesign = document.getElementById('selectDesign');
     const EditBTN = document.getElementById('EditBTN');
 
-    if (selectDesign) {
-      selectDesign.style.opacity = "1";
-      selectDesign.style.cursor = "pointer";
-      selectDesign.setAttribute("aria-disabled", "false");
-    }
+      if (selectDesign) {
+        selectDesign.style.opacity = "1";
+        selectDesign.style.cursor = "pointer";
+        selectDesign.setAttribute("aria-disabled", "false");
+      }
 
-    if (imgElement) {
-      setPreviewImage(imgElement.src);
-      setIsPreviewVisible(true);
-      setImgId(imageId);
-    }
+      if (imgElement) {
+        setPreviewImage(imgElement.src);
+        setIsPreviewVisible(true);
+        setImgId(imageId);
+      }
 
-    if (EditBTN) {
-      EditBTN.style.display = 'block';
-      EditBTN.style.right = '34%';
+      if (EditBTN) {
+        EditBTN.style.right = '34%';
+        EditBTN.style.opacity = "1";
+        EditBTN.style.cursor = "pointer";
+        EditBTN.setAttribute("aria-disabled", "false");
     }
   };
 
   // Edit Image based the new prompt entered by user
-  const handleEditImage = async () => {
+  const handleApplyEdit = async () => {
     const EditBTN = document.getElementById('EditBTN');
+
+    if (!isPreviewVisible) {
+      return;
+    }
 
     if (!inputValue || inputValue.trim() === "") {
       openNotification("top");
@@ -93,18 +99,8 @@ const ChatPage: React.FC<Props> = () => {
         }
       }
     }
-
-    if (EditBTN) {
-      EditBTN.style.display = 'block';
-      EditBTN.style.right = '34%';
-    }
   };
 
-  const handleApplyEdit = () => {
-    if(previewImage) {
-      return; //NEED TO EDIT TO GENERATE THE SELECTED IMAGE
-    }    
-  }
   
   // Closing Preview and Disabling 'Select' Button
   const handleClosePreview = () => {
@@ -121,6 +117,9 @@ const ChatPage: React.FC<Props> = () => {
 
     if(EditBTN) {
       EditBTN.style.right = "4%";
+      EditBTN.style.opacity = "0.6";
+      EditBTN.style.cursor = "default"
+      EditBTN.setAttribute("aria-disabled", "true");
     }
   };
 
@@ -282,7 +281,9 @@ const ChatPage: React.FC<Props> = () => {
                 Select
               </button>
 
-              <button className="bg-[#4A2129] text-white text-center w-1/2 border-none rounded-md py-1.5 px-6">
+              <button 
+                onClick={handleRege}
+                className="bg-[#4A2129] text-white text-center w-1/2 border-none rounded-md py-1.5 px-6">
                 Regenerate
               </button>
             </div>
@@ -299,14 +300,15 @@ const ChatPage: React.FC<Props> = () => {
               />
               <button
                 id="EditBTN"
-                className='absolute right-[4%] bottom-[2%] z-20'
+                className='absolute right-[4%] bottom-[2%] z-20 cursor-default opacity-60'
                 onClick={handleApplyEdit}
+                aria-disabled="true"
               >
-                <FontAwesomeIcon icon={faCircleUp} className="text-base text-white cursor-pointer"/>
+                <FontAwesomeIcon icon={faCircleUp} className="text-base text-white"/>
               </button>
 
 
-              {/* Preview of Selected Image */}
+              {/* Preview of Sele cted Image */}
               {isPreviewVisible && (
                 <div className="w-2/5 h-2/5 flex items-center justify-center bg-opacity-75">
                   <div className="flex relative rounded-lg">
