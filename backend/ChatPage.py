@@ -29,6 +29,7 @@ def index():
 
 @app.route("/generate", methods=['POST'])
 def generate():
+    response = {}
     prompt = request.json.get('message')
     print(prompt)
     if prompt is not None:
@@ -41,9 +42,11 @@ def generate():
 
 @app.route("/optimize/caption", methods=['POST'])
 def generateCaption():
+    response = {}
     description = request.json.get('des')
     print(description)
     if description is not None:
+
         response = promptOptimizeForCaption(description)
 
     else:
@@ -53,6 +56,7 @@ def generateCaption():
 
 @app.route("/edit", methods=['POST'])
 def edit():
+    response = {}
     imageUrl = request.json.get("imageUrl")
     prompt = request.json.get("prompt")
     if imageUrl is not None and prompt is not None:
@@ -70,6 +74,7 @@ def edit():
 
 @app.route("/re-generate", methods=['POST'])
 def regenerate():
+    response = {}
     prompt = request.json.get('message')
     print(prompt)
     if prompt is not None:

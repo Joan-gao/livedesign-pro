@@ -59,6 +59,7 @@ import song4 from "../components/songs/mp3/les_champs_elysees_helene_segara.mp3"
 import song5 from "../components/songs/mp3/Unstoppable_Sia.mp3";
 
 import "./CustomPopover.css";
+import axios from "axios";
 
 interface Props {}
 
@@ -265,10 +266,33 @@ const DesignPage: React.FC<Props> = () => {
     setOpenSticker(false);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log("Input Value:", inputValue);
-    setCaption(inputValue);
-    console.log("Caption set:", inputValue);
+    if (inputValue && inputValue.trim() !== "") {
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:5000/optimize/caption",
+          { des: inputValue },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
+        );
+        console.log(response.data.response);
+
+        if (response.data.response) {
+          setCaption(response.data.response);
+        }
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
+    } else {
+      console.log(
+        "Can't optimize caption, because there is no caption content"
+      );
+    }
   };
 
   const handleOpenChangeSticker = (newOpen: boolean) => {
