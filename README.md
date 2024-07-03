@@ -70,7 +70,7 @@ python3 -m venv .venv
 
 ```bash
 .venv\Scripts\activate  # Windows
-source .venv/bin/activate  # macOS和Linux
+source .venv/bin/activate  # macOS/Linux
 ```
 
 - Install dependencies
