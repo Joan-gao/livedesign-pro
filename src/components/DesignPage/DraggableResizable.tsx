@@ -10,6 +10,7 @@ import {
   notification,
   QRCode,
   Space,
+  message,
 } from 'antd';
 import { TinyColor } from '@ctrl/tinycolor';
 import type { MenuProps } from 'antd';
@@ -118,6 +119,16 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
   const [textLink, setTextLink] = React.useState(
     'https://www.tiktok.com/explore'
   );
+  const [messageApi, messageHolder] = message.useMessage();
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(textLink).then(() => {
+      messageApi.open({
+        type: 'success',
+        content: 'Copy Successfully!',
+      });
+    });
+  };
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -147,7 +158,7 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
             description:
               'You have successfully subscribed to the live stream. Stay tuned for updates!',
             placement: 'top',
-            });
+          });
         } else if (advanced === 'couponMessage') {
           console.log('Showing coupon notification');
           // 显示couponMessage通知的逻辑
@@ -357,22 +368,27 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
         footer={[]}
         width={300}
       >
-        <Space direction="vertical" align="center">
-          <QRCode
-            errorLevel="H"
-            value="https://www.tiktok.com/explore"
-            icon={tiktokIcon}
-          />
-          <Space.Compact style={{ width: '100%' }}>
-            <Input
-              placeholder="-"
-              maxLength={60}
-              value={textLink}
-              onChange={(e) => setTextLink(e.target.value)}
+        <>
+        {messageHolder}
+          <Space direction="vertical" align="center">
+            <QRCode
+              errorLevel="H"
+              value="https://www.tiktok.com/explore"
+              icon={tiktokIcon}
             />
-            <Button type="primary">Copy</Button>
-          </Space.Compact>
-        </Space>
+            <Space.Compact style={{ width: '100%' }}>
+              <Input
+                placeholder="-"
+                maxLength={60}
+                value={textLink}
+                onChange={(e) => setTextLink(e.target.value)}
+              />
+              <Button type="primary" onClick={handleCopy}>
+                Copy
+              </Button>
+            </Space.Compact>
+          </Space>
+        </>
       </Modal>
       ;
     </>
