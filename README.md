@@ -10,7 +10,7 @@ This project developed an EventPage design platform that streamlines the entire 
 2. **UI Toolkit**: Ant Design
 3. **Backend**: Flask
 4. **AI Integration**: ChatGPT API, Midjourney API
-5. **Hosting**: Firebase
+5. **Hosting**: Firebase, Heroku
 
 ## **Core Features**
 
