@@ -3,7 +3,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../css/scrollbar.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faCircleUp,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { NotificationArgsProps, notification } from "antd";
 
@@ -47,7 +51,7 @@ const ChatPage: React.FC<Props> = () => {
   };
 
   // Edit Image based the new prompt entered by user
-  const handleEditImage = async () => {
+  const handleApplyEdit = async () => {
     if (!inputValue || inputValue.trim() === "") {
       openNotification("top");
     } else {
@@ -85,22 +89,30 @@ const ChatPage: React.FC<Props> = () => {
       }
     }
   };
-
   // Closing Preview and Disabling 'Select' Button
   const handleClosePreview = () => {
     setIsPreviewVisible(false);
     setPreviewImage(null);
     const selectDesign = document.getElementById("selectDesign");
+    const EditBTN = document.getElementById("EditBTN");
 
     if (selectDesign) {
       selectDesign.style.opacity = "0.6";
       selectDesign.style.cursor = "default";
       selectDesign.setAttribute("aria-disabled", "true");
     }
+
+    if (EditBTN) {
+      EditBTN.style.right = "4%";
+      EditBTN.style.opacity = "0.6";
+      EditBTN.style.cursor = "default";
+      EditBTN.setAttribute("aria-disabled", "true");
+    }
   };
 
   // Regenerate based on previous prompt
   const handleRege = async () => {
+    const EditBTN = document.getElementById("EditBTN");
     // Check if prompt, model, and aspectRatio are populated
     console.log(previewData);
     try {
@@ -127,6 +139,9 @@ const ChatPage: React.FC<Props> = () => {
       }
     } catch (error) {
       console.error("Error sending message:", error);
+    }
+    if (EditBTN) {
+      EditBTN.style.right = "4%";
     }
   };
 
@@ -259,7 +274,7 @@ const ChatPage: React.FC<Props> = () => {
               Regenerate
             </button>
           </div>
-          <div className="flex flex-row w-4/5 gap-3 items-center">
+          <div className="relative flex flex-row w-4/5 gap-3 items-center">
             {/* User Prompt box */}
             <textarea
               id="userPrompt"
@@ -269,13 +284,18 @@ const ChatPage: React.FC<Props> = () => {
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                 setInputValue(e.target.value)
               }
-              onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-                if (e.key === "Enter") {
-                  handleEditImage();
-                }
-              }}
               disabled={!isPreviewVisible}
             />
+            <button
+              id="EditBTN"
+              className="absolute right-[4%] bottom-[2%] z-20 cursor-default opacity-60"
+              onClick={handleApplyEdit}
+            >
+              <FontAwesomeIcon
+                icon={faCircleUp}
+                className="text-base text-white cursor-pointer"
+              />
+            </button>
 
             {/* Preview of Selected Image */}
             {isPreviewVisible && (
