@@ -4,3 +4,4 @@ flask-cors
 requests
 pyyaml
 Pillow
+gunicorn
