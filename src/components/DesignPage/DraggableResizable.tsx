@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Rnd } from 'react-rnd';
 import {
   Button,
@@ -13,8 +13,11 @@ import {
 } from 'antd';
 import { TinyColor } from '@ctrl/tinycolor';
 import type { MenuProps } from 'antd';
-import type { NotificationArgsProps } from 'antd';
 import tiktokIcon from '../stickers/pics/tiktok.svg';
+
+import type { NotificationArgsProps } from 'antd';
+
+type NotificationPlacement = NotificationArgsProps['placement'];
 
 interface DraggableResizableProps {
   id: number;
@@ -86,7 +89,6 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
   };
 
   type MenuItem = Required<MenuProps>['items'][number];
-  type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
   const items: MenuItem[] = [
     {
@@ -105,10 +107,6 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
       ],
     },
   ];
-
-  type NotificationPlacement = NotificationArgsProps['placement'];
-
-  const Context = React.createContext({ name: 'Default' });
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -148,7 +146,8 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
             message: 'Live Stream Subscribed!',
             description:
               'You have successfully subscribed to the live stream. Stay tuned for updates!',
-          });
+            placement: 'top',
+            });
         } else if (advanced === 'couponMessage') {
           console.log('Showing coupon notification');
           // 显示couponMessage通知的逻辑
@@ -156,6 +155,7 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
             message: 'Coupon Received!',
             description:
               'You have successfully received a coupon. Enjoy your discount!',
+            placement: 'top',
           });
         } else if (advanced === 'generateQRCode') {
           console.log('Showing QR code');

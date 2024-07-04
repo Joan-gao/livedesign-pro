@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useRef} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -8,8 +8,7 @@ import "../css/main.css";
 import "../css/scrollbar.css";
 import axios from "axios";
 
-import { Button, notification, Space } from "antd";
-import type { NotificationArgsProps } from "antd";
+import { Button, Space , NotificationArgsProps, notification , Alert, Flex, Spin  } from "antd";
 
 type NotificationPlacement = NotificationArgsProps["placement"];
 
@@ -27,6 +26,7 @@ const GenerationPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("1");
   const [inputValue, setInputValue] = useState<string>("");
   const navigate = useNavigate();
+  const loadingRef = useRef<HTMLDivElement>(null);
 
   const [api, contextHolder] = notification.useNotification();
   const openNotification = (placement: NotificationPlacement) => {
@@ -57,6 +57,16 @@ const GenerationPage: React.FC = () => {
   };
 
   const handleGenerate = async () => {
+    const loading = document.getElementById('loading');
+
+    if (loading) {
+      loading.style.display = "block";
+    }
+
+    if (loadingRef.current) {
+      loadingRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
     // Check if inputValue, model, and aspectRatio are populated
     if (!inputValue || !data.model || !data.aspectRatio) {
       openNotification("top");
@@ -91,10 +101,26 @@ const GenerationPage: React.FC = () => {
         console.error("Error sending message:", error);
       }
     }
+
+    if (loading) {
+      loading.style.display = "none";
+    }
   };
 
   return (
     <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
+      <div id="loading" ref={loadingRef} className="hidden absolute top-0 w-full h-full bg-black opacity-80 z-50">
+        <Flex gap="small" vertical>
+          <Flex gap="small z">
+            <div className="absolute inset-x-1/2 inset-y-1/2 z-50">
+              <Spin tip="Loading"  size="large">
+              </Spin>
+            </div>
+          </Flex>
+        </Flex>
+        <h1 className="absolute flex w-full m-auto text-white items-center justify-center inset-y-2/3 z-60">AI is generating images <br /> please wait a moment</h1>
+      </div>
+
       <div
         id="custom-scrollbar"
         className="w-375 h-667 max-h-full relative top-0 flex flex-col gap-3 place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10 overflow-x-hidden overflow-scroll"
