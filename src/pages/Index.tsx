@@ -90,7 +90,6 @@ const Context = React.createContext({ name: "Default" });
 const Index: React.FC = () => {
   const [videos, setVideos] = useState<Video[]>([]);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-
   const location = useLocation();
   const imageData = location.state?.image;
   const audio = location.state?.audio;

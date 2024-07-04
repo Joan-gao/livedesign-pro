@@ -2,7 +2,7 @@ COMMON: &common
   SECRET_KEY: insecure
   DEBUG: False
   OPENAI_API_KEY: sk-proj-I5ecGfJ4HEBN1VfbntIPT3BlbkFJFaqS5iZpWtEWwynN3CnH
-  MIDJOURNEY_KEY: #######################
+  MIDJOURNEY_KEY: 664a1e87-8c48-48cb-8cfe-da5dd2ac6630
 
 DEVELOPMENT: &development
   <<: *common

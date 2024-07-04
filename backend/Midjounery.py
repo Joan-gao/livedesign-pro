@@ -88,7 +88,13 @@ def fetchImages(task_id, fetch_url):
 def midjourneyGenerate(prompt,  edit=False, img=None):
 
     message = promptOptimizeForImage(prompt)
-    prompt = message
+
+    if edit and img is not None:
+        promot = img+" "+message
+
+    else:
+
+        prompt = message
 
     if edit and img:
         prompt = img+" "+prompt
