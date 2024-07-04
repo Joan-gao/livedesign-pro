@@ -111,11 +111,12 @@ const Index: React.FC = () => {
     const handleIntersection = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         const videoElement = entry.target as HTMLVideoElement;
-        if (entry.isIntersecting) {
-          videoElement.play();
-        } else {
-          videoElement.pause();
-        }
+        // if (entry.isIntersecting) {
+        //   videoElement.play();
+        // } else {
+        //   videoElement.pause();
+        // }
+        videoElement.pause()
       });
     };
 
