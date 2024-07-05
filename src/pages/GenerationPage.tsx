@@ -44,7 +44,14 @@ const GenerationPage: React.FC = () => {
       placement,
     });
   };
-
+  const limitNotification = (placement: NotificationPlacement) => {
+    api.info({
+      message: `Notification`,
+      description:
+        "Your Ip has already reached the maximum image generation limits",
+      placement,
+    });
+  };
   // Initialize data object with default values
   const [data, setData] = useState<ExampleProps>({
     prompt: "",
@@ -81,7 +88,7 @@ const GenerationPage: React.FC = () => {
     } else {
       try {
         const response = await axios.post(
-          "http://127.0.0.1:5000/generate",
+          "https://tiktok-hackathon-app-6b6d56fcd0c7.herokuapp.com/generate",
           { message: data },
           {
             headers: {
@@ -114,6 +121,7 @@ const GenerationPage: React.FC = () => {
         navigate("/ChatPage", { state: { data } });
       } catch (error) {
         console.error("Error sending message:", error);
+        limitNotification("top");
       }
     }
 
