@@ -1,4 +1,4 @@
-
+from flask import request, abort
 import requests
 import json
 from flask import Flask
@@ -33,6 +33,24 @@ imageine_url = "https://api.apiframe.pro/imagine"
 fetch_url = "https://api.apiframe.pro/fetch"
 variation_url = "https://api.apiframe.pro/variations"
 response = {}
+# 用字典存储每个 IP 的调用次数
+ip_counts = {}
+
+
+def limit_calls(limit=2):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            client_ip = request.remote_addr  # 获取客户端 IP 地址
+            if client_ip in ip_counts:
+                if ip_counts[client_ip] >= limit:
+                    abort(429)  # 如果这个 IP 的调用次数已达或超过限制，则返回 429 Too Many Requests
+            else:
+                ip_counts[client_ip] = 0  # 初始化计数
+            ip_counts[client_ip] += 1  # 增加调用次数
+            return func(*args, **kwargs)
+        wrapper.__name__ = func.__name__
+        return wrapper
+    return decorator
 
 
 def promptOptimizeForImage(prompt):
@@ -85,6 +103,7 @@ def fetchImages(task_id, fetch_url):
     return imgResults
 
 
+@limit_calls(limit=2)
 def midjourneyGenerate(prompt,  edit=False, img=None, ratio=None):
 
     aspectRitio = ""
