@@ -1143,6 +1143,10 @@ html {
   color: rgb(204 143 153 / var(--tw-text-opacity));
 }
 
+.text-\[rgba\(0\2c 0\2c 0\2c 0\.6\)\] {
+  color: rgba(0,0,0,0.6);
+}
+
 .text-gray-500 {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
@@ -1159,6 +1163,10 @@ html {
 
 .opacity-100 {
   opacity: 1;
+}
+
+.opacity-20 {
+  opacity: 0.2;
 }
 
 .opacity-50 {
