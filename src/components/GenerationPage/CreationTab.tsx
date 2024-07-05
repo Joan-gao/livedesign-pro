@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ExampleProps } from "../../pages/GenerationPage";
-// import "axios" from axios;
+import "../../css/scrollbar.css"
 
 interface Props {
   inputValue: string;
@@ -59,7 +59,7 @@ const CreationTab: React.FC<Props> = ({
   }, [inputValue, setInputValue, setData]);
 
   return (
-    <div className="relative w-375 left-[12px] top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">
+    <div className="relative w-375 top-0 flex flex-col place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10">
       <div className="flex flex-col w-[90%] mx-auto gap-4">
         {/* Ai Text Responses */}
         <p className="text-[#CC8F99]">Descriptions</p>
@@ -67,7 +67,7 @@ const CreationTab: React.FC<Props> = ({
           {/* User Prompt box */}
           <textarea
             id="userPrompt"
-            className="text-white text-sm text-left bg-[#4A2129] border-none rounded-md w-full h-24 py-1.5 px-3 resize-none"
+            className="text-white text-sm text-left bg-[#4A2129] border-none rounded-md w-full h-24 py-1.5 px-3 resize-none overflow-scroll overflow-x-hidden mini-scrollbar"
             placeholder="Enter your text here"
             value={inputValue}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>

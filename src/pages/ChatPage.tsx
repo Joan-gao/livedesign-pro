@@ -14,6 +14,12 @@ const contentStyle: React.CSSProperties = {
   borderRadius: 4,
 };
 
+const SendIcon = ({ className }: { className?: string }) => (
+  <svg className={className} version="1.1" viewBox="0 0 2048 2048" width="1280" height="1280" xmlns="http://www.w3.org/2000/svg">
+    <path transform="translate(1911)" d="m0 0h33l22 6 15 6 14 8 10 8 10 9 11 13 9 16 5 11 5 15 3 13v30l-5 20-18 57-16 50-10 31-17 52-11 35-10 31-17 52-16 50-22 68-11 35-10 31-17 52-16 50-22 68-11 35-10 31-17 52-16 50-22 68-11 35-10 31-17 52-16 50-22 68-11 35-10 31-17 52-16 50-22 68-11 35-10 31-17 52-16 50-22 68-11 35-10 31-17 52-16 50-13 40-10 21-10 14-12 13-13 10-16 9-15 6-13 4-10 2h-30l-25-7-16-7-12-7-11-9-14-14-9-13-9-17-7-20-186-558-13-38-14-43-19-57 1-6 11-15 13-19 13-18 11-16 98-140 13-19 8-11 9-13 14-20 12-17 13-19 10-14 16-23 12-17 16-23 84-120 16-23 12-17 28-40 32-46 12-17 13-19-7 4-15 11-12 8-23 16-19 13-17 12-16 11-20 14-19 13-17 12-23 16-19 13-17 12-16 11-23 16-16 11-17 12-16 11-23 16-16 11-20 14-16 11-20 14-16 11-20 14-46 32-19 13-17 12-19 13-17 12-19 13-17 12-16 11-20 14-19 13-13 9-7 5-11-3-699-233-16-7-16-10-13-12-8-8-11-16-8-16-6-19-2-9v-35l7-24 9-19 9-13 11-12 7-7 16-11 16-8 36-12 69-22 49-16 50-16 35-11 33-11 171-55 32-10 33-11 171-55 32-10 33-11 171-55 32-10 33-11 171-55 32-10 33-11 171-55 32-10 36-12 112-36 177-57 50-16 26-8z" fill="#FEFEFE"/>
+  </svg>
+);
+
 interface Props {}
 type NotificationPlacement = NotificationArgsProps["placement"];
 const ChatPage: React.FC<Props> = () => {
@@ -379,7 +385,7 @@ const ChatPage: React.FC<Props> = () => {
               {/* User Prompt box */}
               <textarea
                 id="userPrompt"
-                className="text-white text-sm text-left bg-[#4A2129] border-none rounded-md w-full h-full min-h-24 py-1.5 px-3"
+                className="text-white text-sm text-left bg-[#4A2129] border-none rounded-md w-full h-full min-h-24 py-1.5 pl-2 pr-8 resize-none overflow-scroll overflow-x-hidden mini-scrollbar"
                 placeholder="Enter your text here"
                 value={inputValue}
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
@@ -392,7 +398,7 @@ const ChatPage: React.FC<Props> = () => {
                 onClick={handleApplyEdit}
                 aria-disabled="true"
               >
-                <FontAwesomeIcon icon={faCircleUp} className="text-base text-white"/>
+                <SendIcon className="w-4 h-4 mb-2"/>
               </button>
 
 
