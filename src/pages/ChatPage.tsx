@@ -429,7 +429,6 @@ const ChatPage: React.FC<Props> = () => {
                   />
                 </div>
               </div>
-            </div>
             )}
           </div>
         </div>
