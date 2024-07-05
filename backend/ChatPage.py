@@ -59,10 +59,11 @@ def edit():
     response = {}
     imageUrl = request.json.get("imageUrl")
     prompt = request.json.get("prompt")
+    ratio = request.json.get("ratio")
     if imageUrl is not None and prompt is not None:
         # response = dellEdit(imageUrl, prompt)
         response = midjourneyGenerate(
-            prompt, optimize=True, edit=True, img=imageUrl)
+            prompt,  edit=True, img=imageUrl, ratio=ratio)
 
     else:
         response['error'] = 'Invalid Input,please check your image and prompt'
