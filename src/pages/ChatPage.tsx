@@ -220,6 +220,8 @@ const ChatPage: React.FC<Props> = () => {
     if (loading) {
       loading.style.display = "none";
     }
+
+    handleClosePreview();
   };
 
   // Bring Selected Images to the Final Design Page

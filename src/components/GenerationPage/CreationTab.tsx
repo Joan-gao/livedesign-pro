@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { ExampleProps } from "../../pages/GenerationPage";
 import "../../css/scrollbar.css"
+import AnimatedModel from '../../Assets/animated-model.jpg';
+import RealisticModel from '../../Assets/realistic-model.jpg';
 
 interface Props {
   inputValue: string;
@@ -21,13 +23,11 @@ const CreationTab: React.FC<Props> = ({
   const models = [
     {
       name: "Animated",
-      imgSrc:
-        "https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/5lVaoQAxDn9e55u7qNF5.jpg",
+      imgSrc: AnimatedModel,
     },
     {
       name: "Realistic",
-      imgSrc:
-        "https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/oXqKXlvxZSqV9ivfWZ21.jpg",
+      imgSrc: RealisticModel,
     },
   ];
 
