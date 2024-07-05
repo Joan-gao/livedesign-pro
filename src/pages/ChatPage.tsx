@@ -1,16 +1,19 @@
-import React, { useState , useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../css/scrollbar.css";
 
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faTimes , faCircleUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faTimes,
+  faCircleUp,
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { NotificationArgsProps, notification , Image, Flex, Spin } from "antd";
+import { NotificationArgsProps, notification, Image, Flex, Spin } from "antd";
 
 const contentStyle: React.CSSProperties = {
   padding: 50,
-  background: 'rgba(0, 0, 0, 0.05)',
+  background: "rgba(0, 0, 0, 0.05)",
   borderRadius: 4,
 };
 
@@ -40,9 +43,9 @@ const ChatPage: React.FC<Props> = () => {
   // Show Image Preview and Enable 'Select' Button
   const handleEdit = async (imageId: string) => {
     const imgElement = document.getElementById(imageId) as HTMLImageElement;
-    const selectDesign = document.getElementById('selectDesign');
-    const EditBTN = document.getElementById('EditBTN');
-    const RegenerateBTN = document.getElementById('RegenerateBTN');
+    const selectDesign = document.getElementById("selectDesign");
+    const EditBTN = document.getElementById("EditBTN");
+    const RegenerateBTN = document.getElementById("RegenerateBTN");
 
     if (selectDesign) {
       selectDesign.style.opacity = "1";
@@ -55,7 +58,7 @@ const ChatPage: React.FC<Props> = () => {
       setIsPreviewVisible(true);
       setImgId(imageId);
     }
-    
+
     if (RegenerateBTN) {
       RegenerateBTN.style.opacity = "0.6";
       RegenerateBTN.style.cursor = "default";
@@ -63,7 +66,7 @@ const ChatPage: React.FC<Props> = () => {
     }
 
     if (EditBTN) {
-      EditBTN.style.right = '34%';
+      EditBTN.style.right = "34%";
       EditBTN.style.opacity = "1";
       EditBTN.style.cursor = "pointer";
       EditBTN.setAttribute("aria-disabled", "false");
@@ -72,8 +75,8 @@ const ChatPage: React.FC<Props> = () => {
 
   // Edit Image based the new prompt entered by user
   const handleApplyEdit = async () => {
-    const loading = document.getElementById('loading');
-    
+    const loading = document.getElementById("loading");
+
     if (!isPreviewVisible) {
       return;
     }
@@ -83,7 +86,7 @@ const ChatPage: React.FC<Props> = () => {
     }
 
     if (loadingRef.current) {
-      loadingRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      loadingRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     if (!inputValue || inputValue.trim() === "") {
@@ -93,7 +96,11 @@ const ChatPage: React.FC<Props> = () => {
         try {
           const response = await axios.post(
             "http://127.0.0.1:5000/edit",
-            { prompt: inputValue, imageUrl: previewImage },
+            {
+              prompt: inputValue,
+              imageUrl: previewImage,
+              ratio: previewData.aspectRatio,
+            },
 
             {
               headers: {
@@ -128,15 +135,13 @@ const ChatPage: React.FC<Props> = () => {
     }
   };
 
-  
   // Closing Preview and Disabling 'Select' Button
   const handleClosePreview = () => {
     setIsPreviewVisible(false);
     setPreviewImage(null);
-    const selectDesign = document.getElementById('selectDesign');
-    const EditBTN = document.getElementById('EditBTN');
-    const RegenerateBTN = document.getElementById('RegenerateBTN');
-
+    const selectDesign = document.getElementById("selectDesign");
+    const EditBTN = document.getElementById("EditBTN");
+    const RegenerateBTN = document.getElementById("RegenerateBTN");
 
     if (selectDesign) {
       selectDesign.style.opacity = "0.6";
@@ -144,35 +149,35 @@ const ChatPage: React.FC<Props> = () => {
       selectDesign.setAttribute("aria-disabled", "true");
     }
 
-    if(EditBTN) {
+    if (EditBTN) {
       EditBTN.style.right = "4%";
       EditBTN.style.opacity = "0.6";
-      EditBTN.style.cursor = "default"
+      EditBTN.style.cursor = "default";
       EditBTN.setAttribute("aria-disabled", "true");
     }
 
-    if(RegenerateBTN) {
+    if (RegenerateBTN) {
       RegenerateBTN.style.opacity = "1";
-      RegenerateBTN.style.cursor = "pointer"
+      RegenerateBTN.style.cursor = "pointer";
       RegenerateBTN.setAttribute("aria-disabled", "false");
     }
   };
 
   // Regenerate based on previous prompt
   const handleRege = async () => {
-    const loading = document.getElementById('loading');
-    const EditBTN = document.getElementById('EditBTN');
+    const loading = document.getElementById("loading");
+    const EditBTN = document.getElementById("EditBTN");
 
     if (isPreviewVisible) {
       return;
     }
-    
+
     if (loading) {
       loading.style.display = "block";
     }
 
     if (loadingRef.current) {
-      loadingRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      loadingRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     // Check if prompt, model, and aspectRatio are populated
@@ -203,7 +208,7 @@ const ChatPage: React.FC<Props> = () => {
       console.error("Error sending message:", error);
     }
     if (EditBTN) {
-      EditBTN.style.right = '4%';
+      EditBTN.style.right = "4%";
     }
 
     if (loading) {
@@ -220,18 +225,23 @@ const ChatPage: React.FC<Props> = () => {
 
   return (
     <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
-      <div id="loading" ref={loadingRef} className="hidden absolute top-0 w-full h-full bg-black opacity-80 z-50">
+      <div
+        id="loading"
+        ref={loadingRef}
+        className="hidden absolute top-0 w-full h-full bg-black opacity-80 z-50"
+      >
         <Flex gap="small" vertical>
           <Flex gap="small z">
             <div className="absolute inset-x-1/2 inset-y-1/2 z-50">
-              <Spin tip="Loading"  size="large">
-              </Spin>
+              <Spin tip="Loading" size="large"></Spin>
             </div>
           </Flex>
         </Flex>
-        <h1 className="absolute flex w-full m-auto text-white items-center justify-center inset-y-2/3 z-60">AI is generating images <br /> please wait a moment</h1>
+        <h1 className="absolute flex w-full m-auto text-white items-center justify-center inset-y-2/3 z-60">
+          AI is generating images <br /> please wait a moment
+        </h1>
       </div>
-      
+
       <div
         id="custom-scrollbar"
         className="w-375 h-667 max-h-full relative top-0 flex flex-col gap-3 place-items-center bg-[#240F14] rounded-25 snap-mandatory snap-y z-10 overflow-x-hidden overflow-scroll"
@@ -349,71 +359,72 @@ const ChatPage: React.FC<Props> = () => {
                 </button>
               </div>
             )}
-
           </div>
         </div>
 
-          {/* User Interaction Section */}
-          <div className="bg-[#240F14] items-center flex flex-col w-full gap-3 z-20 py-3 m-0">
-            <div className="flex flex-row w-4/5 gap-3">
-              {/* Select and Regenerate Buttons */}
-              <button
-                id="selectDesign"
-                onClick={handleSelectDesign}
-                className="bg-[#FC2B55] text-white text-center w-1/2 border-none rounded-md py-1.5 px-6 opacity-60 cursor-default"
-                aria-disabled="true"
-              >
-                Select
-              </button>
+        {/* User Interaction Section */}
+        <div className="bg-[#240F14] items-center flex flex-col w-full gap-3 z-20 py-3 m-0">
+          <div className="flex flex-row w-4/5 gap-3">
+            {/* Select and Regenerate Buttons */}
+            <button
+              id="selectDesign"
+              onClick={handleSelectDesign}
+              className="bg-[#FC2B55] text-white text-center w-1/2 border-none rounded-md py-1.5 px-6 opacity-60 cursor-default"
+              aria-disabled="true"
+            >
+              Select
+            </button>
 
-              <button 
-                id="RegenerateBTN"
-                onClick={handleRege}
-                className="bg-[#4A2129] text-white text-center w-1/2 border-none rounded-md py-1.5 px-6 opacity-100 cursor-pointer"
-                aria-disabled="false"
-              >
-                Regenerate
-              </button>
-            </div>
-            <div className="relative flex flex-row w-4/5 gap-3 items-center">
-              {/* User Prompt box */}
-              <textarea
-                id="userPrompt"
-                className="text-white text-sm text-left bg-[#4A2129] border-none rounded-md w-full h-full min-h-24 py-1.5 px-3"
-                placeholder="Enter your text here"
-                value={inputValue}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                  setInputValue(e.target.value)
-                }
+            <button
+              id="RegenerateBTN"
+              onClick={handleRege}
+              className="bg-[#4A2129] text-white text-center w-1/2 border-none rounded-md py-1.5 px-6 opacity-100 cursor-pointer"
+              aria-disabled="false"
+            >
+              Regenerate
+            </button>
+          </div>
+          <div className="relative flex flex-row w-4/5 gap-3 items-center">
+            {/* User Prompt box */}
+            <textarea
+              id="userPrompt"
+              className="text-white text-sm text-left bg-[#4A2129] border-none rounded-md w-full h-full min-h-24 py-1.5 px-3"
+              placeholder="Enter your text here"
+              value={inputValue}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setInputValue(e.target.value)
+              }
+            />
+            <button
+              id="EditBTN"
+              className="absolute right-[4%] bottom-[2%] z-20 cursor-default opacity-60"
+              onClick={handleApplyEdit}
+              aria-disabled="true"
+            >
+              <FontAwesomeIcon
+                icon={faCircleUp}
+                className="text-base text-white"
               />
-              <button
-                id="EditBTN"
-                className='absolute right-[4%] bottom-[2%] z-20 cursor-default opacity-60'
-                onClick={handleApplyEdit}
-                aria-disabled="true"
-              >
-                <FontAwesomeIcon icon={faCircleUp} className="text-base text-white"/>
-              </button>
+            </button>
 
-
-              {/* Preview of Sele cted Image */}
-              {isPreviewVisible && (
-                <div className="w-2/5 h-2/5 flex items-center justify-center bg-opacity-75">
-                  <div className="flex relative rounded-lg">
-                    <button
-                      className="absolute top-[-6px] right-[6px] text-gray-500 z-20 bg-white rounded-sm rotate-90"
-                      onClick={handleClosePreview}
-                    >
-                      <FontAwesomeIcon icon={faTimes} />
-                    </button>
-                    <img
-                      id="previewImage"
-                      src={previewImage!}
-                      alt="Preview"
-                      className="max-w-full max-h-full rounded-md z-10"
-                    />
-                  </div>
+            {/* Preview of Sele cted Image */}
+            {isPreviewVisible && (
+              <div className="w-2/5 h-2/5 flex items-center justify-center bg-opacity-75">
+                <div className="flex relative rounded-lg">
+                  <button
+                    className="absolute top-[-6px] right-[6px] text-gray-500 z-20 bg-white rounded-sm rotate-90"
+                    onClick={handleClosePreview}
+                  >
+                    <FontAwesomeIcon icon={faTimes} />
+                  </button>
+                  <img
+                    id="previewImage"
+                    src={previewImage!}
+                    alt="Preview"
+                    className="max-w-full max-h-full rounded-md z-10"
+                  />
                 </div>
+              </div>
             )}
           </div>
         </div>
