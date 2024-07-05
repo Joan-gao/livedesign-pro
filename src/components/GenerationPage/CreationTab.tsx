@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { ExampleProps } from "../../pages/GenerationPage";
+import React, { useEffect, useState } from 'react';
+import { ExampleProps } from '../../pages/GenerationPage';
 // import "axios" from axios;
 
 interface Props {
@@ -20,14 +20,14 @@ const CreationTab: React.FC<Props> = ({
   // const navigate = useNavigate();
   const models = [
     {
-      name: "Animated",
+      name: 'Animated',
       imgSrc:
-        "https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/5lVaoQAxDn9e55u7qNF5.jpg",
+        'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/5lVaoQAxDn9e55u7qNF5.jpg',
     },
     {
-      name: "Realistic",
+      name: 'Realistic',
       imgSrc:
-        "https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/oXqKXlvxZSqV9ivfWZ21.jpg",
+        'https://anai-9atmfta1xwyli1hklmwd-assets.s3.ap-southeast-2.amazonaws.com/oXqKXlvxZSqV9ivfWZ21.jpg',
     },
   ];
 
@@ -83,8 +83,8 @@ const CreationTab: React.FC<Props> = ({
               key={index}
               className={`flex flex-col items-center cursor-pointer border-2 ${
                 selectedModel === model.name
-                  ? "border-[#4A2129] border-[4px] rounded-md"
-                  : "border-transparent"
+                  ? 'border-[#4A2129] border-[4px] rounded-md'
+                  : 'border-transparent'
               }`}
               onClick={() => handleModelSelect(model.name)}
             >
@@ -102,25 +102,25 @@ const CreationTab: React.FC<Props> = ({
         <div className="flex flex-row items-center gap-4">
           <button
             className={`rounded-md w-[100px] h-[100px] flex flex-col items-center justify-center border-4 ${
-              selectedAspectRatio === "1:1"
-                ? "border-[#4A2129] bg-[#4A2129]"
-                : "border-[#4A2129] bg-transparent"
+              selectedAspectRatio === '1:1'
+                ? 'border-[#4A2129] bg-[#4A2129]'
+                : 'border-[#4A2129] bg-transparent'
             }`}
-            onClick={() => handleAspectRatioSelect("1:1")}
+            onClick={() => handleAspectRatioSelect('1:1')}
           >
             <div className="border-2 border-white border-solid w-[40px] h-[40px]"></div>
             <p className="text-white">1:1</p>
           </button>
           <button
             className={`rounded-md w-[100px] h-[100px] flex flex-col items-center justify-center border-4 ${
-              selectedAspectRatio === "9:16"
-                ? "border-[#4A2129] bg-[#4A2129]"
-                : "border-[#4A2129] bg-transparent"
+              selectedAspectRatio === '2:3'
+                ? 'border-[#4A2129] bg-[#4A2129]'
+                : 'border-[#4A2129] bg-transparent'
             }`}
-            onClick={() => handleAspectRatioSelect("9:16")}
+            onClick={() => handleAspectRatioSelect('2:3')}
           >
             <div className="border-2 border-white border-solid w-[32px] h-[64px]"></div>
-            <p className="text-white">9:16</p>
+            <p className="text-white">2:3</p>
           </button>
         </div>
       </div>
