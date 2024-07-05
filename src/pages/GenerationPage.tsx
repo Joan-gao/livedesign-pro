@@ -1,4 +1,4 @@
-import React, { useState , useRef} from "react";
+import React, { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -8,7 +8,15 @@ import "../css/main.css";
 import "../css/scrollbar.css";
 import axios from "axios";
 
-import { Button, Space , NotificationArgsProps, notification , Alert, Flex, Spin  } from "antd";
+import {
+  Button,
+  Space,
+  NotificationArgsProps,
+  notification,
+  Alert,
+  Flex,
+  Spin,
+} from "antd";
 
 type NotificationPlacement = NotificationArgsProps["placement"];
 
@@ -57,14 +65,14 @@ const GenerationPage: React.FC = () => {
   };
 
   const handleGenerate = async () => {
-    const loading = document.getElementById('loading');
+    const loading = document.getElementById("loading");
 
     if (loading) {
       loading.style.display = "block";
     }
 
     if (loadingRef.current) {
-      loadingRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      loadingRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     // Check if inputValue, model, and aspectRatio are populated
@@ -93,8 +101,15 @@ const GenerationPage: React.FC = () => {
         }
         console.log("test");
         console.log(data.prompt); // Check if data.prompt is correctly set
-        //Set images
-
+        // //Set images
+        // data.img1 =
+        //   "https://cdn.apiframe.pro/images/592383153187211210559832-1.png";
+        // data.img2 =
+        //   "https://cdn.apiframe.pro/images/592383153187211210559832-1.png";
+        // data.img3 =
+        //   "https://cdn.apiframe.pro/images/592383153187211210559832-1.png";
+        // data.img4 =
+        //   "https://cdn.apiframe.pro/images/592383153187211210559832-1.png";
         // Navigate to ChatPage with updated data
         navigate("/ChatPage", { state: { data } });
       } catch (error) {
@@ -109,16 +124,21 @@ const GenerationPage: React.FC = () => {
 
   return (
     <div className="z-101 absolute top-0 h-screen w-screen grid place-items-center">
-      <div id="loading" ref={loadingRef} className="hidden absolute top-0 w-full h-full bg-black opacity-80 z-50">
+      <div
+        id="loading"
+        ref={loadingRef}
+        className="hidden absolute top-0 w-full h-full bg-black opacity-80 z-50"
+      >
         <Flex gap="small" vertical>
           <Flex gap="small z">
             <div className="absolute inset-x-1/2 inset-y-1/2 z-50">
-              <Spin tip="Loading"  size="large">
-              </Spin>
+              <Spin tip="Loading" size="large"></Spin>
             </div>
           </Flex>
         </Flex>
-        <h1 className="absolute flex w-full m-auto text-white items-center justify-center inset-y-2/3 z-60">AI is generating images <br /> please wait a moment</h1>
+        <h1 className="absolute flex w-full m-auto text-white items-center justify-center inset-y-2/3 z-60">
+          AI is generating images <br /> please wait a moment
+        </h1>
       </div>
 
       <div
@@ -144,7 +164,7 @@ const GenerationPage: React.FC = () => {
         <div className="flex flex-row gap-6 self-center w-fit h-fit px-6 py-2 bg-[#4A2129] rounded-md">
           <button
             onClick={handleSwitchToTab1}
-            className={`${activeTab === '1' ? 'text-white' : 'text-[#240F14]'}`}
+            className={`${activeTab === "1" ? "text-white" : "text-[#240F14]"}`}
           >
             Creation
           </button>

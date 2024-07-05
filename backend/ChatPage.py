@@ -33,8 +33,8 @@ def generate():
     prompt = request.json.get('message')
     print(prompt)
     if prompt is not None:
-        response = dellGenerate(prompt)
-        # response = midjourneyGenerate(prompt)
+        # response = dellGenerate(prompt)
+        response = midjourneyGenerate(prompt)
     else:
         response['error'] = 'Invalid Input,please check your  prompt'
     return jsonify({'response': response})
@@ -59,10 +59,11 @@ def edit():
     response = {}
     imageUrl = request.json.get("imageUrl")
     prompt = request.json.get("prompt")
+    ratio = request.json.get("ratio")
     if imageUrl is not None and prompt is not None:
-        response = dellEdit(imageUrl, prompt)
-        # response = midjourneyGenerate(
-        #     prompt, optimize=True, edit=True, img=imageUrl)
+        # response = dellEdit(imageUrl, prompt)
+        response = midjourneyGenerate(
+            prompt,  edit=True, img=imageUrl, ratio=ratio)
 
     else:
         response['error'] = 'Invalid Input,please check your image and prompt'
@@ -78,9 +79,9 @@ def regenerate():
     prompt = request.json.get('message')
     print(prompt)
     if prompt is not None:
-        response = dellGenerate(prompt)
+        # response = dellGenerate(prompt)
 
-        # response = midjourneyGenerate(prompt)
+        response = midjourneyGenerate(prompt)
         # response["images"] = ["https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",
         #                       "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",
         #                       "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg",

@@ -2,15 +2,15 @@
 
 ## **Introduction**
 
-This project developed an EventPage design platform that streamlines the entire process from creation to publication. Integrating ChatGPT and Dalle2 enables efficient image generation and smart copywriting, significantly lowering design barriers. Users can add interactive elements like text, stickers, and buttons to enhance live stream engagement and conversion rates. The platform is designed to optimize the TikTok live streaming experience, making event page creation quick and easy.
+This project developed an EventPage design platform that streamlines the entire process from creation to publication. Integrating ChatGPT and Midjourney enables efficient image generation and smart copywriting, significantly lowering design barriers. Users can add interactive elements like text, stickers, and buttons to enhance live stream engagement and conversion rates. The platform is designed to optimize the TikTok live streaming experience, making event page creation quick and easy.
 
 ## **Technologies Use**
 
 1. **Frontend**: React, Typescript, JavaScript, Tailwind css
 2. **UI Toolkit**: Ant Design
 3. **Backend**: Flask
-4. **AI Integration**: ChatGPT API, Dalle2 API
-5. **Hosting**: Firebase
+4. **AI Integration**: ChatGPT API, Midjourney API
+5. **Hosting**: Firebase, Heroku
 
 ## **Core Features**
 
@@ -20,7 +20,7 @@ This project developed an EventPage design platform that streamlines the entire 
 
 2. **ChatPage**
 
-- **Functionality**: After submitting the form, users enter the chat page to interact with the Dalle2 AI bot. The bot generates descriptions and image examples based on the user's input. Users can modify prompts or regenerate images before selecting and moving to the next step.
+- **Functionality**: After submitting the form, users enter the chat page to interact with the Midjourney AI bot. The bot generates descriptions and image examples based on the user's input. Users can modify prompts or regenerate images before selecting and moving to the next step.
 
 3. **DesignPage**
 
@@ -28,7 +28,7 @@ This project developed an EventPage design platform that streamlines the entire 
 
 ## Technical Highlights
 
-1. **Precise Image Generation**: Integrating Dalle2 API and ChatGPT API to enable precise text-to-prompt-to-image generation. ChatGPT converts user descriptions into professional prompts for Dalle2, which then generates the images. It also supports image-to-image functionality for detailed modifications.
+1. **Precise Image Generation**: Integrating Midjourney API and ChatGPT API to enable precise text-to-prompt-to-image generation. ChatGPT converts user descriptions into professional prompts for Midjourney, which then generates the images. It also supports image-to-image functionality for detailed modifications.
 
 2. **Interactive Component Manipulation**: Utilizing React-RND for interactive component manipulation, allowing users to freely drag, resize, and scale elements on the DesignPage.
 

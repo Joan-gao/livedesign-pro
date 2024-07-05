@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Rnd } from 'react-rnd';
 import {
   Button,
@@ -10,11 +10,15 @@ import {
   notification,
   QRCode,
   Space,
+  message,
 } from 'antd';
 import { TinyColor } from '@ctrl/tinycolor';
 import type { MenuProps } from 'antd';
-import type { NotificationArgsProps } from 'antd';
 import tiktokIcon from '../stickers/pics/tiktok.svg';
+
+import type { NotificationArgsProps } from 'antd';
+
+type NotificationPlacement = NotificationArgsProps['placement'];
 
 interface DraggableResizableProps {
   id: number;
@@ -86,7 +90,6 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
   };
 
   type MenuItem = Required<MenuProps>['items'][number];
-  type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
   const items: MenuItem[] = [
     {
@@ -106,10 +109,6 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
     },
   ];
 
-  type NotificationPlacement = NotificationArgsProps['placement'];
-
-  const Context = React.createContext({ name: 'Default' });
-
   const [api, contextHolder] = notification.useNotification();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -120,6 +119,16 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
   const [textLink, setTextLink] = React.useState(
     'https://www.tiktok.com/explore'
   );
+  const [messageApi, messageHolder] = message.useMessage();
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(textLink).then(() => {
+      messageApi.open({
+        type: 'success',
+        content: 'Copy Successfully!',
+      });
+    });
+  };
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -148,6 +157,7 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
             message: 'Live Stream Subscribed!',
             description:
               'You have successfully subscribed to the live stream. Stay tuned for updates!',
+            placement: 'top',
           });
         } else if (advanced === 'couponMessage') {
           console.log('Showing coupon notification');
@@ -156,6 +166,7 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
             message: 'Coupon Received!',
             description:
               'You have successfully received a coupon. Enjoy your discount!',
+            placement: 'top',
           });
         } else if (advanced === 'generateQRCode') {
           console.log('Showing QR code');
@@ -357,22 +368,27 @@ const DraggableResizable: React.FC<DraggableResizableProps> = ({
         footer={[]}
         width={300}
       >
-        <Space direction="vertical" align="center">
-          <QRCode
-            errorLevel="H"
-            value="https://www.tiktok.com/explore"
-            icon={tiktokIcon}
-          />
-          <Space.Compact style={{ width: '100%' }}>
-            <Input
-              placeholder="-"
-              maxLength={60}
-              value={textLink}
-              onChange={(e) => setTextLink(e.target.value)}
+        <>
+        {messageHolder}
+          <Space direction="vertical" align="center">
+            <QRCode
+              errorLevel="H"
+              value="https://www.tiktok.com/explore"
+              icon={tiktokIcon}
             />
-            <Button type="primary">Copy</Button>
-          </Space.Compact>
-        </Space>
+            <Space.Compact style={{ width: '100%' }}>
+              <Input
+                placeholder="-"
+                maxLength={60}
+                value={textLink}
+                onChange={(e) => setTextLink(e.target.value)}
+              />
+              <Button type="primary" onClick={handleCopy}>
+                Copy
+              </Button>
+            </Space.Compact>
+          </Space>
+        </>
       </Modal>
       ;
     </>
