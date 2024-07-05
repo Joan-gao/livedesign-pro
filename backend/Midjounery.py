@@ -87,21 +87,18 @@ def fetchImages(task_id, fetch_url):
 
 def midjourneyGenerate(prompt,  edit=False, img=None):
 
+    aspectRitio = prompt['aspectRatio']
+
     message = promptOptimizeForImage(prompt)
 
-    if edit and img is not None:
-        promot = img+" "+message
-
-    else:
-
-        prompt = message
-
     if edit and img:
-        prompt = img+" "+prompt
+        prompt = img+" "+message
+    else:
+        prompt = message
 
     payload = json.dumps({
         "prompt": prompt,
-        "aspect_ratio": "3:2",
+        "aspect_ratio": aspectRitio,
         "process_mode": "fast",
         "webhook_url": "http://127.0.0.1:5000",
     })
@@ -124,7 +121,7 @@ def midjourneyGenerate(prompt,  edit=False, img=None):
         imgResults = fetchImages(task_id, fetch_url)
         if 'images' in imgResults:
 
-            response["images"] = imgResults['images']
+            response["images"] = imgResults['images'][0]
 
         else:
             response["error"] = imgResults['error']
