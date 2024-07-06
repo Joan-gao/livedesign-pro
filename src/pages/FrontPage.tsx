@@ -90,7 +90,7 @@ const FrontPage: React.FC<Props> = () => {
 
           </div>
           <div className='bg-[#4A2129] px-3 py-3 opacity-80'>
-            <p className='text-[rgba(0,0,0,1)] text-left'>
+            <p className='text-white text-left'>
               <strong>Important Notes:</strong> <br></br>
               Due to the high pricing of the Mid Journey API, we have limited each IP addresses to only 2 times generation of images for the trialling of the app feature.
             </p>
