@@ -1,5 +1,5 @@
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, abort
 from flask_cors import CORS
 from Midjounery import *
 from Dell import *
@@ -7,18 +7,6 @@ from Dell import *
 app = Flask(__name__)
 
 CORS(app, resources={r"/*": {"origins": "*"}})
-
-# 内存缓存，用于记录已经访问过的IP地址
-# visited_ips = set()
-
-
-# @app.before_request
-# def limit_remote_addr():
-#     client_ip = request.remote_addr
-#     if client_ip in visited_ips:
-#         return jsonify({"error": "This IP has already called the API."}), 403
-#     else:
-#         visited_ips.add(client_ip)
 
 
 @app.route('/', methods=['POST'])
