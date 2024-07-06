@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 /backend/.venv
+/backend/setting.yaml
 /backend/__pycache__
 
 
