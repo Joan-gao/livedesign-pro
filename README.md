@@ -89,7 +89,7 @@ flask --app ChatPage run
 
 - ([Figma](https://www.figma.com/design/K4paycUTmDi1UPivG5Y3qi/tiktok-evenpage-design-platform?node-id=0-1&t=I4h6lhU1aygq2q2R-1))
 - ([Devpost](https://drive.google.com/file/d/1a72KiaWNZy_RF3DWihqkiE9QrL39gGF1/view?usp=sharing))
-- ([Demo Video]([https://drive.google.com/file/d/12pQbA4ywGYH6YanbJhsRlm3OlnadnIaQ/view?usp=sharing](https://youtu.be/8D57UD3cWfo?si=WrQiKbauZwoGsmPx)))
+- ([Demo Video](https://drive.google.com/file/d/12pQbA4ywGYH6YanbJhsRlm3OlnadnIaQ/view?usp=sharing](https://youtu.be/8D57UD3cWfo?si=WrQiKbauZwoGsmPx))
 
 ## Contributors
 
