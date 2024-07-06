@@ -211,7 +211,6 @@ const ChatPage: React.FC<Props> = () => {
     try {
       const response = await axios.post(
         "https://tiktok-hackathon-app-6b6d56fcd0c7.herokuapp.com/generate",
-        // "http://127.0.0.1:5000/generate",
         { message: previewData },
 
         {

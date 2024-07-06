@@ -14,6 +14,9 @@ def index():
     user_message = request.json.get('message')
     return jsonify({'response': user_message})
 
+@app.route('/api/your-endpoint', methods=['GET'])
+def your_endpoint():
+    return jsonify({'message': 'Hello from Flask!'})
 
 @app.route("/generate", methods=['POST'])
 def generate():

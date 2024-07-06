@@ -6,6 +6,7 @@
 .pnp.js
 /backend/.venv
 /backend/__pycache__
+/.firebase
 
 
 # testing
