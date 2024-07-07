@@ -1,4 +1,4 @@
-<h1 align="center">Eventpage Design Platform</h1>
+<h1 align="center">LiveDesign Pro</h1>
 
 ## **Introduction**
 
