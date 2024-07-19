@@ -14,6 +14,7 @@
     "@types/react-dom": "^18.3.0",
     "antd": "^5.19.0",
     "axios": "^1.7.2",
+    "cross-env": "^7.0.3",
     "fabric": "^5.3.0",
     "flask": "^0.2.10",
     "konva": "^9.3.11",
@@ -32,9 +33,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "cross-env NODE_ENV=development react-scripts start",
+    "build": "cross-env NODE_ENV=production react-scripts build",
+    "test": "cross-env NODE_ENV=test react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

@@ -7,6 +7,7 @@
 /backend/.venv
 /backend/setting.yaml
 /backend/__pycache__
+/.firebase
 
 
 # testing
