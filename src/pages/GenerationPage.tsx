@@ -70,7 +70,32 @@ const GenerationPage: React.FC = () => {
   const handleSwitchToTab2 = () => {
     setActiveTab("2");
   };
+  //轮询机制
+  const checkImageStatus = async (task_id: string) => {
+    try {
+      const response = await axios.get(
+        `https://tiktok-hackathon-app-6b6d56fcd0c7.herokuapp.com/check-image-status/${task_id}`
+        //`http://127.0.0.1:5000/check-image-status/${task_id}`
+      );
+      const fetchData = response.data;
+      console.log(fetchData);
 
+      if (fetchData.status === "completed") {
+        const images = fetchData.images;
+        data.img1 = images[0];
+        data.img2 = images[1];
+        data.img3 = images[2];
+        data.img4 = images[3];
+
+        navigate("/ChatPage", { state: { data } });
+      } else {
+        await new Promise((resolve) => setTimeout(resolve, 30000)); // 每隔30秒检查一次
+        await checkImageStatus(task_id); // 递归调用
+      }
+    } catch (error) {
+      console.error("Error fetching image status:", error);
+    }
+  };
   const handleGenerate = async () => {
     const loading = document.getElementById("loading");
 
@@ -88,8 +113,8 @@ const GenerationPage: React.FC = () => {
     } else {
       try {
         const response = await axios.post(
-          "https://tiktok-hackathon-app-6b6d56fcd0c7.herokuapp.com/generate",
-          // "http://127.0.0.1:5000/generate",
+          "https://tiktok-hackathon-app-6b6d56fcd0c7.herokuapp.com/generate/modify",
+          //"http://127.0.0.1:5000/generate/modify",
           { message: data },
           {
             headers: {
@@ -98,28 +123,12 @@ const GenerationPage: React.FC = () => {
             },
           }
         );
-        console.log(response.data.response.images);
+        console.log(response.data);
 
-        if (response.data.response.images) {
-          const images = response.data.response.images;
-          data.img1 = images[0];
-          data.img2 = images[1];
-          data.img3 = images[2];
-          data.img4 = images[3];
+        if (response.data.status === "pending") {
+          const task_id = response.data.task_id;
+          await checkImageStatus(task_id);
         }
-        console.log("test");
-        console.log(data.prompt); // Check if data.prompt is correctly set
-        // //Set images
-        // data.img1 =
-        //   "https://cdn.apiframe.pro/images/592383153187211210559832-1.png";
-        // data.img2 =
-        //   "https://cdn.apiframe.pro/images/592383153187211210559832-1.png";
-        // data.img3 =
-        //   "https://cdn.apiframe.pro/images/592383153187211210559832-1.png";
-        // data.img4 =
-        //   "https://cdn.apiframe.pro/images/592383153187211210559832-1.png";
-        // Navigate to ChatPage with updated data
-        navigate("/ChatPage", { state: { data } });
       } catch (error) {
         console.error("Error sending message:", error);
         limitNotification("top");

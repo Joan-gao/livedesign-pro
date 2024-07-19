@@ -134,21 +134,12 @@ const ChatPage: React.FC<Props> = () => {
               },
             }
           );
+          console.log(response.data);
 
-          if (response.data.response.images) {
-            if (imgId === "Design1") {
-              previewData.img1 = response.data.response.images;
-            } else if (imgId === "Design2") {
-              previewData.img2 = response.data.response.images;
-            } else if (imgId === "Design3") {
-              previewData.img3 = response.data.response.images;
-            } else {
-              previewData.img4 = response.data.response.images;
-            }
+          if (response.data.status === "pending") {
+            const task_id = response.data.task_id;
+            await checkImageStatusEdit(task_id);
           }
-          previewData.prompt = inputValue;
-          setInputValue("");
-          setIsPreviewVisible(false);
         } catch (error) {
           console.error("Error sending message:", error);
           limitNotification("top");
@@ -188,7 +179,66 @@ const ChatPage: React.FC<Props> = () => {
       RegenerateBTN.setAttribute("aria-disabled", "false");
     }
   };
+  const checkImageStatus = async (task_id: string) => {
+    try {
+      const response = await axios.get(
+        `https://tiktok-hackathon-app-6b6d56fcd0c7.herokuapp.com/check-image-status/${task_id}`
+        // `http://127.0.0.1:5000/check-image-status/${task_id}`
+      );
+      const fetchData = response.data;
+      console.log(fetchData);
 
+      if (fetchData.status === "completed") {
+        const images = fetchData.images;
+        previewData.img1 = images[0];
+        previewData.img2 = images[1];
+        previewData.img3 = images[2];
+        previewData.img4 = images[3];
+
+        setForceRender((prev) => prev + 1);
+      } else {
+        // 继续轮询
+        await new Promise((resolve) => setTimeout(resolve, 30000)); // 每隔30秒检查一次
+        await checkImageStatus(task_id); // 递归调用/ 每隔30秒检查一次
+      }
+    } catch (error) {
+      console.error("Error fetching image status:", error);
+    }
+  };
+  const checkImageStatusEdit = async (task_id: string) => {
+    try {
+      const response = await axios.get(
+        `https://tiktok-hackathon-app-6b6d56fcd0c7.herokuapp.com/check-image-status/${task_id}`
+        // `http://127.0.0.1:5000/check-image-status/${task_id}`
+      );
+      const fetchData = response.data;
+      console.log(fetchData);
+
+      if (fetchData.status === "completed") {
+        const images = fetchData.images;
+        console.log("ImageId", imgId);
+        if (imgId === "Design1") {
+          previewData.img1 = images[0];
+        } else if (imgId === "Design2") {
+          previewData.img2 = images[0];
+        } else if (imgId === "Design3") {
+          previewData.img3 = images[0];
+        } else {
+          previewData.img4 = images[0];
+        }
+
+        previewData.prompt = inputValue;
+        setInputValue("");
+        setIsPreviewVisible(false);
+      } else {
+        // 继续轮询
+        await new Promise((resolve) => setTimeout(resolve, 30000)); // 每隔30秒检查一次
+        await checkImageStatusEdit(task_id); // 递归调用 // 每隔50秒检查一次
+      }
+    } catch (error) {
+      console.error("Error fetching image status:", error);
+    }
+  };
   // Regenerate based on previous prompt
   const handleRege = async () => {
     const loading = document.getElementById("loading");
@@ -210,7 +260,7 @@ const ChatPage: React.FC<Props> = () => {
     console.log(previewData);
     try {
       const response = await axios.post(
-        "https://tiktok-hackathon-app-6b6d56fcd0c7.herokuapp.com/generate",
+        "https://tiktok-hackathon-app-6b6d56fcd0c7.herokuapp.com/generate/modify",
         { message: previewData },
 
         {
@@ -220,15 +270,11 @@ const ChatPage: React.FC<Props> = () => {
           },
         }
       );
+      console.log(response.data);
 
-      if (response.data.response.images) {
-        previewData.img1 = response.data.response.images[0];
-        previewData.img2 = response.data.response.images[1];
-        previewData.img3 = response.data.response.images[2];
-        previewData.img4 = response.data.response.images[3];
-
-        // Update the auxiliary state to force the component to re-render
-        setForceRender((prev) => prev + 1);
+      if (response.data.status === "pending") {
+        const task_id = response.data.task_id;
+        await checkImageStatus(task_id);
       }
     } catch (error) {
       console.error("Error sending message:", error);
